@@ -11,7 +11,7 @@ import { filterSkills } from "./stack/utils";
 import { usePortfolio } from "@/contexts/portfolio-context";
 
 export default function StackSection() {
-  const { profile: profileData, skills: allSkills, loading } = usePortfolio();
+  const { profile: profileData, skills: allSkills } = usePortfolio();
 
   // Get skills config from profile
   const skillsConfig = profileData.skills || {};
