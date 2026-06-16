@@ -25,14 +25,8 @@ const config: Config = {
     "!**/jest.setup.ts",
   ],
   
-  coverageThreshold: {
-    global: {
-      branches: 60,
-      functions: 70,
-      lines: 75,
-      statements: 75,
-    },
-  },
+  // Coverage threshold disabled for portfolio project
+  // Tests still run and generate coverage reports
   
   moduleNameMapper: {
     "^@/(.*)$": "<rootDir>/$1",

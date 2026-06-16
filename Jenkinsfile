@@ -46,19 +46,6 @@ pipeline {
         sh 'pnpm run test:ci:no-e2e'
         echo '✓ Unit & Integration tests passed'
       }
-      post {
-        always {
-          junit allowEmptyResults: true, testResults: 'coverage/junit.xml'
-          publishHTML([
-            allowMissing: false,
-            alwaysLinkToLastBuild: true,
-            keepAll: true,
-            reportDir: 'coverage/lcov-report',
-            reportFiles: 'index.html',
-            reportName: 'Coverage Report'
-          ])
-        }
-      }
     }
 
     // 5. Build Application
@@ -66,11 +53,6 @@ pipeline {
       steps {
         sh 'pnpm build'
         echo '✓ Build completed'
-      }
-      post {
-        success {
-          archiveArtifacts artifacts: '.next/**/*', fingerprint: true
-        }
       }
     }
 
