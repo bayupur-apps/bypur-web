@@ -3,7 +3,7 @@ import { Button } from "@/components/ui/button";
 import type { Profile } from "@/lib/types";
 
 interface CTAButtonsProps {
-  cta?: Profile["about"]["cta"];
+  cta?: NonNullable<Profile["about"]>["cta"];
   resumeUrl?: string;
 }
 
