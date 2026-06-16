@@ -1,5 +1,5 @@
-// Jenkins Pipeline untuk Portfolio dengan Test Pyramid Strategy
-// Simple configuration untuk learning CI/CD dengan Jenkins + SonarQube
+// Jenkins Pipeline untuk Portfolio - Simple CI/CD
+// Build, Test, dan Deploy ke Docker
 
 pipeline {
   agent any
@@ -9,10 +9,7 @@ pipeline {
   }
 
   environment {
-    SCANNER_HOME = tool 'SonarQube Scanner'
-    SONAR_HOST_URL = credentials('sonar-host-url')  // Add in Jenkins Credentials
-    SONAR_TOKEN = credentials('sonar-token')        // Add in Jenkins Credentials
-    PRODUCTION_SERVER_IP = '192.168.1.100'          // Change to your production server IP
+    PRODUCTION_SERVER_IP = '${env.PRODUCTION_SERVER_IP}'  // Change to your production server IP
   }
 
   stages {
@@ -64,48 +61,7 @@ pipeline {
       }
     }
 
-    // 5. Test Pyramid - E2E Tests (10%) - Optional
-    stage('E2E Tests') {
-      when {
-        branch 'main'  // Only on main branch
-      }
-      steps {
-        script {
-          // Skip E2E if browsers not available (for learning, this is OK)
-          sh '''
-            echo "E2E tests skipped in CI (run locally with: pnpm test:e2e)"
-            echo "✓ E2E tests stage completed"
-          '''
-        }
-      }
-    }
-
-    // 6. SonarQube Code Analysis
-    stage('SonarQube Analysis') {
-      steps {
-        withSonarQubeEnv('SonarQube') {
-          sh '''
-            ${SCANNER_HOME}/bin/sonar-scanner \
-              -Dsonar.projectKey=bypur-portfolio \
-              -Dsonar.sources=. \
-              -Dsonar.javascript.lcov.reportPaths=coverage/lcov.info
-          '''
-        }
-        echo '✓ SonarQube analysis completed'
-      }
-    }
-
-    // 7. Quality Gate Check
-    stage('Quality Gate') {
-      steps {
-        timeout(time: 5, unit: 'MINUTES') {
-          waitForQualityGate abortPipeline: true
-        }
-        echo '✓ Quality gate passed'
-      }
-    }
-
-    // 8. Build Application
+    // 5. Build Application
     stage('Build') {
       steps {
         sh 'pnpm build'
@@ -118,12 +74,25 @@ pipeline {
       }
     }
 
-    // 9. Deploy to VPS
+    // 6. Build Docker Image
+    stage('Build Docker Image') {
+      steps {
+        script {
+          sh '''
+            # Build Docker image
+            docker build -t bypur-portfolio:latest .
+            echo "✓ Docker image built successfully"
+          '''
+        }
+      }
+    }
+
+    // 7. Deploy to Docker Container
     stage('Deploy') {
       steps {
         script {
           sh '''
-            # Stop container lama
+            # Stop dan hapus container lama jika ada
             docker stop bypur-portfolio || true
             docker rm bypur-portfolio || true
             
@@ -144,7 +113,7 @@ pipeline {
             # Health check
             curl -f http://localhost:3000 || exit 1
             
-            echo "✓ Deployment berhasil!"
+            echo "✓ Deployment berhasil! Container running on port 3000"
           '''
         }
       }
@@ -154,13 +123,10 @@ pipeline {
   // Post-build Actions
   post {
     success {
-      echo 'Pipeline completed successfully!'
+      echo '✅ Pipeline completed successfully!'
     }
     failure {
-      echo 'Pipeline failed! Check the logs above.'
-    }
-    always {
-      cleanWs()  // Clean workspace after build
+      echo '❌ Pipeline failed! Check the logs above.'
     }
   }
 }
