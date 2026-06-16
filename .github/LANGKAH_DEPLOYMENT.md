@@ -410,32 +410,335 @@ Buka: `http://bypur.my.id` atau `http://VPS_IP`
 
 ## 🤖 Langkah 10: Setup GitHub Webhook (Auto-Trigger)
 
-Agar pipeline auto-trigger saat push ke GitHub.
+Webhook akan membuat pipeline otomatis trigger setiap kali ada push ke GitHub.
 
-### A. Konfigurasi di GitHub
+### A. Persiapan Jenkins
 
-**Repository → Settings → Webhooks → Add webhook**
+#### 1. Install GitHub Plugin
+
+**Manage Jenkins → Plugins → Available**
+
+Cari dan install:
+```
+✅ GitHub Plugin
+✅ GitHub Integration Plugin
+```
+
+Restart Jenkins setelah install.
+
+#### 2. Konfigurasi GitHub Server di Jenkins
+
+**Manage Jenkins → System → GitHub → Add GitHub Server**
 
 ```
-Payload URL: http://VPS_IP:9090/github-webhook/
-Content type: application/json
-Secret: (kosongkan)
-Which events? Just the push event
-Active: ✅ (centang)
+Name: GitHub
+API URL: https://api.github.com (default)
+Credentials: (buat baru di bawah)
+✅ Manage hooks (centang)
+```
+
+**Buat GitHub Credentials:**
+
+Klik **Add → Jenkins** untuk membuat credential baru:
+
+```
+Kind: Secret text
+Scope: Global
+Secret: [GitHub Personal Access Token]
+ID: github-webhook-token
+Description: GitHub Webhook Token
+```
+
+**Cara Generate GitHub Personal Access Token:**
+1. GitHub → Settings → Developer settings → Personal access tokens → Tokens (classic)
+2. **Generate new token (classic)**
+3. Pilih scope:
+   ```
+   ✅ repo (Full control of private repositories)
+   ✅ admin:repo_hook (Full control of repository hooks)
+   ```
+4. Generate token
+5. **COPY TOKEN** (hanya muncul sekali!)
+6. Paste di Jenkins credentials
+
+Save konfigurasi.
+
+### B. Konfigurasi Pipeline Job
+
+Edit job **bypur-web-pipeline**:
+
+**Configure → Build Triggers**
+
+Centang:
+```
+✅ GitHub hook trigger for GITScm polling
+```
+
+**HAPUS** trigger lama:
+```
+❌ Poll SCM (hapus centang jika ada)
+```
+
+**Save**.
+
+### C. Setup Webhook di GitHub Repository
+
+#### 1. Buka Repository Settings
+
+```
+https://github.com/bayupaths/bypur-web
+→ Settings
+→ Webhooks
+→ Add webhook
+```
+
+#### 2. Konfigurasi Webhook
+
+**Payload URL:**
+```
+http://IP_VPS_ANDA:9090/github-webhook/
+```
+
+⚠️ **PENTING:** 
+- Ganti `IP_VPS_ANDA` dengan IP VPS Anda
+- Pastikan port `9090` bisa diakses dari internet
+- Gunakan HTTP (bukan HTTPS) kecuali sudah setup SSL untuk Jenkins
+
+**Content type:**
+```
+application/json
+```
+
+**Secret:**
+```
+(kosongkan atau buat secret random jika mau lebih aman)
+```
+
+**Which events would you like to trigger this webhook?**
+```
+○ Just the push event (pilih ini)
+```
+
+**Active:**
+```
+✅ (centang)
 ```
 
 Klik **Add webhook**.
 
-### B. Test Webhook
+#### 3. Verifikasi Webhook
+
+Setelah save, GitHub akan test webhook otomatis.
+
+Cek di bagian **Recent Deliveries**:
+- ✅ **Status 200** = Webhook berhasil!
+- ❌ **Status 404/500** = Ada masalah, cek konfigurasi
+
+### D. Buka Firewall VPS untuk Jenkins (Jika Perlu)
+
+Jika webhook gagal (404/timeout), buka port Jenkins:
+
+#### Ubuntu/Debian (UFW):
+```bash
+# Cek status firewall
+sudo ufw status
+
+# Buka port Jenkins (9090)
+sudo ufw allow 9090/tcp
+
+# Reload firewall
+sudo ufw reload
+
+# Verifikasi
+sudo ufw status
+```
+
+#### CentOS/RHEL (firewalld):
+```bash
+# Buka port Jenkins
+sudo firewall-cmd --permanent --add-port=9090/tcp
+sudo firewall-cmd --reload
+
+# Verifikasi
+sudo firewall-cmd --list-ports
+```
+
+#### Test dari Luar VPS:
+```bash
+# Dari komputer lokal, test akses Jenkins
+curl http://IP_VPS:9090/login
+
+# Jika dapat response, port sudah terbuka
+```
+
+### E. Test Webhook
+
+#### 1. Test Manual di GitHub
+
+**Repository → Settings → Webhooks → Edit webhook**
+
+Scroll ke bawah, klik **Recent Deliveries**
+
+Klik delivery terakhir, lalu klik **Redeliver**
+
+Cek Response:
+```json
+✅ Status: 200 OK
+Response body: (kosong atau success message)
+```
+
+#### 2. Test dengan Push Code
 
 ```bash
-# Push perubahan ke GitHub
-git add .
-git commit -m "test: webhook trigger"
+# Buat perubahan kecil
+echo "# Test webhook" >> README.md
+
+# Commit
+git add README.md
+git commit -m "test: trigger webhook from GitHub"
+
+# Push ke GitHub
 git push origin main
 
 # Cek Jenkins Dashboard
-# Pipeline harus otomatis trigger!
+# Build harus otomatis muncul!
+```
+
+#### 3. Monitor Jenkins
+
+Buka: `http://IP_VPS:9090`
+
+Lihat job **bypur-web-pipeline**:
+```
+✅ Build #X sedang running (triggered by GitHub push)
+✅ Console Output menunjukkan "Started by GitHub push"
+```
+
+### F. Troubleshooting Webhook
+
+#### Problem 1: Webhook Gagal (404)
+
+**Error di GitHub:** `We couldn't deliver this payload: Not Found`
+
+**Solusi:**
+```bash
+# 1. Cek Jenkins berjalan
+sudo systemctl status jenkins
+
+# 2. Cek port 9090 terbuka
+curl http://localhost:9090/login
+
+# 3. Pastikan URL webhook benar
+# http://IP_VPS:9090/github-webhook/
+#                      ^^^^^^^^^^^^^ harus ada /github-webhook/
+```
+
+#### Problem 2: Webhook Timeout
+
+**Error di GitHub:** `We couldn't deliver this payload: Connection timeout`
+
+**Solusi:**
+```bash
+# 1. Buka firewall (lihat langkah D)
+
+# 2. Cek Jenkins listening di semua interface
+sudo netstat -tulpn | grep 9090
+
+# Output harus: 0.0.0.0:9090
+# Jika 127.0.0.1:9090, edit jenkins.war startup:
+java -Xms256m -Xmx512m -jar jenkins.war --httpPort=9090 --httpListenAddress=0.0.0.0
+```
+
+#### Problem 3: Jenkins Tidak Trigger
+
+**Webhook sukses (200) tapi Jenkins tidak build**
+
+**Solusi:**
+```bash
+# 1. Cek Build Triggers di Jenkins job
+Configure → Build Triggers
+✅ GitHub hook trigger for GITScm polling (harus centang)
+
+# 2. Cek Repository URL sama
+Pipeline → SCM → Repository URL
+Harus sama dengan URL webhook di GitHub
+
+# 3. Cek Branch
+Branch Specifier: */main
+Push ke branch: main
+Harus sama!
+
+# 4. Restart Jenkins
+sudo systemctl restart jenkins
+```
+
+#### Problem 4: Jenkins 403 Forbidden
+
+**Error:** `Jenkins returned 403 Forbidden`
+
+**Solusi:**
+```bash
+# Disable CSRF protection untuk webhook (temporary)
+# Manage Jenkins → Security → CSRF Protection
+# Atau tambahkan GitHub server dengan credentials
+```
+
+### G. Setup Webhook untuk Multiple Branches
+
+Jika ingin trigger untuk branch lain (develop, staging, dll):
+
+**Edit Jenkinsfile:**
+```groovy
+pipeline {
+  agent any
+  
+  // Trigger untuk semua branch
+  triggers {
+    githubPush()
+  }
+  
+  tools {
+    nodejs 'NodeJS-20'
+  }
+  
+  stages {
+    stage('Checkout') {
+      steps {
+        checkout scm
+        echo "Building branch: ${env.BRANCH_NAME}"
+      }
+    }
+    // ... stages lainnya
+  }
+}
+```
+
+**Edit Pipeline Job di Jenkins:**
+```
+Branch Specifier: */main */develop
+(atau gunakan wildcard: */*)
+```
+
+### H. Notifikasi Webhook ke Slack/Email (Optional)
+
+Setelah webhook bekerja, tambahkan notifikasi:
+
+**Install Plugin:**
+- Slack Notification Plugin
+- Email Extension Plugin
+
+**Tambah di Jenkinsfile:**
+```groovy
+post {
+  success {
+    echo 'Build berhasil!'
+    // slackSend color: 'good', message: "Build #${env.BUILD_NUMBER} berhasil!"
+  }
+  failure {
+    echo 'Build gagal!'
+    // slackSend color: 'danger', message: "Build #${env.BUILD_NUMBER} gagal!"
+  }
+}
 ```
 
 ---
@@ -645,6 +948,32 @@ sudo systemctl restart nginx
 
 # 5. Cek Nginx logs
 sudo tail -f /var/log/nginx/error.log
+```
+
+### Problem 6: Jenkins Error - Tool Not Configured
+
+**Error:** `Tool type "nodejs" does not have an install of "NodeJS-20" configured`
+
+**Penyebab:** Nama tool di Jenkinsfile tidak sesuai dengan konfigurasi di Jenkins
+
+**Solusi:**
+```bash
+# 1. Cek nama tool di Jenkins
+# Jenkins → Manage Jenkins → Tools → NodeJS installations
+# Lihat nama yang sudah dikonfigurasi (contoh: "Node 20")
+
+# 2. Edit Jenkinsfile di repository
+# Ganti baris 7:
+tools {
+  nodejs 'Node 20'  # Harus SAMA PERSIS dengan nama di Jenkins
+}
+
+# 3. Commit dan push perubahan
+git add Jenkinsfile
+git commit -m "fix: sesuaikan nama nodejs tool"
+git push origin main
+
+# 4. Build ulang di Jenkins
 ```
 
 ---
