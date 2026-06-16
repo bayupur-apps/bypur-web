@@ -111,8 +111,8 @@ Object.defineProperty(window, "matchMedia", {
 });
 // Mock Response API for API route tests
 global.Response = {
-  json: (data: any) => ({
+  json: (data: unknown) => ({
     status: 200,
     json: async () => data,
   }),
-} as any;
+} as typeof Response;
