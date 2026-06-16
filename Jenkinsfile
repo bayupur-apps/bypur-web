@@ -120,46 +120,32 @@ pipeline {
 
     // 9. Deploy to VPS
     stage('Deploy') {
-      when {
-        branch 'main'
-      }
       steps {
         script {
-          withCredentials([sshUserPrivateKey(
-            credentialsId: 'vps-ssh-key',
-            keyFileVariable: 'SSH_KEY',
-            usernameVariable: 'SSH_USER'
-          )]) {
-            sh '''
-              # Create deployment package
-              tar -czf deploy.tar.gz .next public package.json pnpm-lock.yaml Dockerfile docker-compose.yml
-              
-              # Upload to VPS
-              scp -i $SSH_KEY -o StrictHostKeyChecking=no deploy.tar.gz ${SSH_USER}@${PRODUCTION_SERVER_IP}:/tmp/
-              
-              # Deploy on VPS
-              ssh -i $SSH_KEY -o StrictHostKeyChecking=no ${SSH_USER}@${PRODUCTION_SERVER_IP} << 'ENDSSH'
-                cd /var/www/bypur-portfolio
-                
-                # Backup current version
-                [ -d ".next" ] && tar -czf backup-$(date +%Y%m%d-%H%M%S).tar.gz .next public
-                
-                # Extract and deploy
-                tar -xzf /tmp/deploy.tar.gz
-                rm /tmp/deploy.tar.gz
-                
-                # Restart containers
-                docker-compose down
-                docker-compose up -d --build
-                docker image prune -af
-                
-                # Health check
-                sleep 5
-                docker-compose ps | grep -q "Up" && echo "Deployment successful" || exit 1
-ENDSSH
-            '''
-          }
-          echo '✓ Deployed to VPS'
+          sh '''
+            # Stop container lama
+            docker stop bypur-portfolio || true
+            docker rm bypur-portfolio || true
+            
+            # Jalankan container baru dengan MEMORY LIMIT
+            docker run -d \
+              --name bypur-portfolio \
+              --memory="512m" \
+              --cpus="0.5" \
+              --restart=unless-stopped \
+              -p 3000:3000 \
+              -e NODE_ENV=production \
+              -e NEXT_TELEMETRY_DISABLED=1 \
+              bypur-portfolio:latest
+            
+            # Tunggu container start
+            sleep 5
+            
+            # Health check
+            curl -f http://localhost:3000 || exit 1
+            
+            echo "✓ Deployment berhasil!"
+          '''
         }
       }
     }
