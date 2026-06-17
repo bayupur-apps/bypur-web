@@ -53,15 +53,8 @@ pipeline {
     stage('SonarQube Analysis') {
       steps {
         script {
-          // Gunakan withSonarQubeEnv jika sudah setup di Jenkins
-          // atau gunakan token dari credentials
           withCredentials([string(credentialsId: 'sonarqube-token', variable: 'SONAR_TOKEN')]) {
-            sh '''
-              pnpm exec sonar-scanner \
-                -Dsonar.token=${SONAR_TOKEN} \
-                -Dsonar.host.url=${SONAR_HOST_URL} \
-                -Dsonar.scanner.skip.certificate.verification=true
-            '''
+            sh 'pnpm exec sonar-scanner -Dsonar.token=${SONAR_TOKEN} -Dsonar.host.url=${SONAR_HOST_URL}'
           }
           echo 'SonarQube analysis completed'
         }
