@@ -1,3 +1,4 @@
 ignoredBuiltDependencies:
   - sharp
+  - sonar-scanner
   - unrs-resolver
