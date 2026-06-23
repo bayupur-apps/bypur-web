@@ -23,6 +23,7 @@
     "docker:down": "docker-compose down"
   },
   "dependencies": {
+    "@google/genai": "^2.9.0",
     "axios": "^1.18.0",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
