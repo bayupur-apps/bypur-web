@@ -1,6 +1,6 @@
 import { Server, Code2, Database, Container } from "lucide-react";
 import { FloatingBadge } from "@/components/ui/floating-badge";
-import { cn } from "@/lib/utils";
+import { cn } from "@/lib/helpers";
 import type { Profile } from "@/lib/types";
 
 // Icon mapping for highlights

@@ -1,5 +1,5 @@
-import { profile } from "@/lib/data/profile";
-import { SOCIAL_SVG_PATHS } from "@/lib/social-paths";
+import { profileDataDefault as profile } from "@/lib/data/profile.default";
+import { SOCIAL_SVG_PATHS } from "@/lib/config/constants";
 import { Mail, ArrowUpRight } from "lucide-react";
 
 const navLinks = [

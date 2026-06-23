@@ -1,5 +1,5 @@
 import { FadeUp } from "@/components/ui/motion";
-import { cn } from "@/lib/utils";
+import { cn } from "@/lib/helpers";
 import type { Experience } from "@/lib/types";
 
 interface DesktopTimelineProps {

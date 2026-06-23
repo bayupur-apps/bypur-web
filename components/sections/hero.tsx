@@ -13,13 +13,7 @@ export default function HeroSection() {
   const roles = mapRolesToIcons(profileData.roles);
   const tagline = profileData.tagline || "I craft scalable digital products.";
   const mobileStats = profileData.mobileStats || getDefaultMobileStats(profileData);
-  const techStackPreview = profileData.techStack?.slice(0, 5) || [
-    "Go",
-    "Laravel",
-    "Vue / Nuxt",
-    "PostgreSQL",
-    "REST API",
-  ];
+  const techStackPreview = profileData.techStack?.slice(0, 5) || [];
 
   if (loading) {
     return (

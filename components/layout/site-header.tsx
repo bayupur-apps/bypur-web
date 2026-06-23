@@ -1,10 +1,16 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { useTheme } from "next-themes";
-import { Moon, Sun, Menu, X, ArrowUpRight } from "lucide-react";
+import dynamic from "next/dynamic";
+import { Menu, X, ArrowUpRight } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
-import { cn } from "@/lib/utils";
+import { cn } from "@/lib/helpers";
+
+// Dynamic import to skip SSR for theme toggle (avoid hydration mismatch)
+const ThemeToggle = dynamic(
+  () => import("./theme-toggle").then((mod) => ({ default: mod.ThemeToggle })),
+  { ssr: false }
+);
 
 type NavLink = { label: string; href: string };
 
@@ -16,7 +22,6 @@ type Props = {
 };
 
 export default function SiteHeader({ navLinks, isMobileOpen, onToggleMobile, onCloseMobile }: Props) {
-  const { resolvedTheme, setTheme } = useTheme();
   const [scrolled, setScrolled] = useState(false);
   const [activeSection, setActiveSection] = useState("");
 
@@ -93,33 +98,8 @@ export default function SiteHeader({ navLinks, isMobileOpen, onToggleMobile, onC
 
         {/* Actions */}
         <div className="flex shrink-0 items-center gap-1.5 sm:gap-2">
-          {/* Theme toggle */}
-          <button
-            type="button"
-            onClick={() => setTheme(resolvedTheme === "dark" ? "light" : "dark")}
-            className="group relative flex h-9 w-9 items-center justify-center overflow-hidden rounded-full border border-border bg-bg-subtle/50 text-text-2 transition-all hover:border-accent/40 hover:bg-bg-subtle hover:text-text-1"
-            aria-label="Toggle theme"
-            suppressHydrationWarning
-          >
-            <Sun
-              size={16}
-              className={cn(
-                "absolute transition-all duration-500",
-                resolvedTheme === "dark"
-                  ? "-rotate-90 scale-0 opacity-0"
-                  : "rotate-0 scale-100 opacity-100"
-              )}
-            />
-            <Moon
-              size={16}
-              className={cn(
-                "absolute transition-all duration-500",
-                resolvedTheme === "dark"
-                  ? "rotate-0 scale-100 opacity-100"
-                  : "rotate-90 scale-0 opacity-0"
-              )}
-            />
-          </button>
+          {/* Theme toggle - dynamically imported to avoid hydration mismatch */}
+          <ThemeToggle />
 
           {/* CTA */}
           <a

@@ -1,10 +1,11 @@
 import { render, screen, waitFor } from "@testing-library/react";
 import HeroSection from "@/components/sections/hero";
 import { PortfolioProvider } from "@/contexts/portfolio-context";
+import * as portfolioApiModule from "@/lib/api/portfolio";
 import { ReactNode } from "react";
 
-// Mock fetch globally
-global.fetch = jest.fn();
+// Mock the portfolio API
+jest.mock("@/lib/api/portfolio");
 
 const mockProfile = {
   name: "Bayu Purnomo",
@@ -32,17 +33,12 @@ describe("HeroSection Component", () => {
     jest.clearAllMocks();
     
     // Mock successful API responses
-    (global.fetch as jest.Mock).mockImplementation((url: string) => {
-      if (url.includes("/api/profile")) {
-        return Promise.resolve({
-          ok: true,
-          json: () => Promise.resolve(mockProfile),
-        });
-      }
-      return Promise.resolve({
-        ok: true,
-        json: () => Promise.resolve([]),
-      });
+    (portfolioApiModule.portfolioApi.getAllPortfolioData as jest.Mock).mockResolvedValue({
+      profile: mockProfile,
+      services: [],
+      skills: [],
+      experiences: [],
+      projects: [],
     });
   });
 

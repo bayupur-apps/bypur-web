@@ -1,4 +1,4 @@
-import { getSkills } from "@/lib/portfolio-api";
+import { getSkills } from "@/lib/api/portfolio";
 
 export async function GET() {
   const data = await getSkills();
