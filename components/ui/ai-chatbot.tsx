@@ -1,22 +1,169 @@
-﻿'use client';
+﻿"use client";
 
-import { type ReactNode, type KeyboardEvent, useState, useRef, useEffect } from 'react';
-import { AIChatbotLauncher } from './ai-chatbot-launcher';
-import { AIChatbotWindow } from './ai-chatbot-window';
-import { Message } from './chat-types';
+import {
+  type ReactNode,
+  type KeyboardEvent,
+  useState,
+  useRef,
+  useEffect,
+} from "react";
+import { AIChatbotLauncher } from "./ai-chatbot-launcher";
+import { AIChatbotWindow } from "./ai-chatbot-window";
+import { Message } from "./chat-types";
 
 const WELCOME_MESSAGE: Message = {
-  id: 'welcome',
-  role: 'assistant',
+  id: "welcome",
+  role: "assistant",
   content:
     "👋 Hi! I'm Bayu's AI assistant. I can help answer questions about his experience, skills, and projects. What would you like to know?",
   timestamp: new Date(),
 };
 
+export function renderMessageContent(content: string) {
+  const nodes: ReactNode[] = [];
+  let lastIndex = 0;
+  let index = 0;
+
+  const pushText = (text: string) => {
+    if (text) {
+      nodes.push(text);
+    }
+  };
+
+  const pushElement = (element: ReactNode) => {
+    nodes.push(element);
+  };
+
+  const isWordBoundary = (char: string | undefined) => {
+    return char === undefined || !/[A-Za-z0-9_]/.test(char);
+  };
+
+  while (index < content.length) {
+    if (content.startsWith("**", index)) {
+      const end = content.indexOf("**", index + 2);
+      if (end !== -1) {
+        pushText(content.slice(lastIndex, index));
+        pushElement(
+          <strong key={index} className="font-semibold">
+            {content.slice(index + 2, end)}
+          </strong>,
+        );
+        index = end + 2;
+        lastIndex = index;
+        continue;
+      }
+    }
+
+    if (content[index] === "*") {
+      const end = content.indexOf("*", index + 1);
+      if (end !== -1) {
+        pushText(content.slice(lastIndex, index));
+        pushElement(
+          <em key={index} className="italic">
+            {content.slice(index + 1, end)}
+          </em>,
+        );
+        index = end + 1;
+        lastIndex = index;
+        continue;
+      }
+    }
+
+    if (content[index] === "`") {
+      const end = content.indexOf("`", index + 1);
+      if (end !== -1) {
+        pushText(content.slice(lastIndex, index));
+        pushElement(
+          <code
+            key={index}
+            className="rounded bg-muted px-1 py-[0.1rem] font-mono text-sm"
+          >
+            {content.slice(index + 1, end)}
+          </code>,
+        );
+        index = end + 1;
+        lastIndex = index;
+        continue;
+      }
+    }
+
+    if (content[index] === "[") {
+      const closeBracket = content.indexOf("]", index + 1);
+      const openParen =
+        closeBracket !== -1 ? content.indexOf("(", closeBracket + 1) : -1;
+      const closeParen =
+        openParen !== -1 ? content.indexOf(")", openParen + 1) : -1;
+
+      if (
+        closeBracket !== -1 &&
+        openParen === closeBracket + 1 &&
+        closeParen !== -1
+      ) {
+        const linkText = content.slice(index + 1, closeBracket);
+        const href = content.slice(openParen + 1, closeParen);
+        if (
+          href.startsWith("#") ||
+          href.startsWith("http://") ||
+          href.startsWith("https://")
+        ) {
+          pushText(content.slice(lastIndex, index));
+          pushElement(
+            <a
+              key={index}
+              href={href}
+              className="text-accent underline transition-colors hover:text-accent/80"
+            >
+              {linkText}
+            </a>,
+          );
+          index = closeParen + 1;
+          lastIndex = index;
+          continue;
+        }
+      }
+    }
+
+    if (content[index] === "#") {
+      const tagText =
+        content.startsWith("#contact", index) &&
+        isWordBoundary(content[index + 8])
+          ? "contact"
+          : content.startsWith("#projects", index) &&
+            isWordBoundary(content[index + 9])
+          ? "projects"
+          : null;
+
+      if (tagText) {
+        pushText(content.slice(lastIndex, index));
+        pushElement(
+          <a
+            key={index}
+            href={`#${tagText}`}
+            className="text-accent underline transition-colors hover:text-accent/80"
+          >
+            {`#${tagText}`}
+          </a>,
+        );
+        index += tagText.length + 1;
+        lastIndex = index;
+        continue;
+      }
+    }
+
+    index += 1;
+  }
+
+  pushText(content.slice(lastIndex));
+
+  return nodes.map((node, key) =>
+    typeof node === "string" ? <span key={key}>{node}</span> : node,
+  );
+}
+
 export function AIChatbot() {
   const [isOpen, setIsOpen] = useState(false);
   const [messages, setMessages] = useState<Message[]>([WELCOME_MESSAGE]);
-  const [input, setInput] = useState('');
+  const [input, setInput] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [hasNewMessage, setHasNewMessage] = useState(false);
   const [showScrollTop, setShowScrollTop] = useState(false);
@@ -24,7 +171,7 @@ export function AIChatbot() {
   const inputRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
-    messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
+    messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [messages]);
 
   useEffect(() => {
@@ -35,8 +182,8 @@ export function AIChatbot() {
 
   useEffect(() => {
     const handleScroll = () => setShowScrollTop(window.scrollY > 300);
-    window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
   const handleOpen = () => {
@@ -49,7 +196,7 @@ export function AIChatbot() {
   };
 
   const scrollToTop = () => {
-    window.scrollTo({ top: 0, behavior: 'smooth' });
+    window.scrollTo({ top: 0, behavior: "smooth" });
   };
 
   const handleSend = async () => {
@@ -57,19 +204,19 @@ export function AIChatbot() {
 
     const userMessage: Message = {
       id: Date.now().toString(),
-      role: 'user',
+      role: "user",
       content: input.trim(),
       timestamp: new Date(),
     };
 
     setMessages((prev) => [...prev, userMessage]);
-    setInput('');
+    setInput("");
     setIsLoading(true);
 
     try {
-      const response = await fetch('/api/chat', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+      const response = await fetch("/api/chat", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           messages: [...messages, userMessage].map((message) => ({
             role: message.role,
@@ -78,12 +225,12 @@ export function AIChatbot() {
         }),
       });
 
-      if (!response.ok) throw new Error('Failed to get response');
+      if (!response.ok) throw new Error("Failed to get response");
       const data = await response.json();
 
       const assistantMessage: Message = {
         id: (Date.now() + 1).toString(),
-        role: 'assistant',
+        role: "assistant",
         content: data.message,
         timestamp: new Date(),
       };
@@ -91,12 +238,12 @@ export function AIChatbot() {
       setMessages((prev) => [...prev, assistantMessage]);
       if (!isOpen) setHasNewMessage(true);
     } catch (error) {
-      console.error('Chat error:', error);
+      console.error("Chat error:", error);
       setMessages((prev) => [
         ...prev,
         {
           id: (Date.now() + 1).toString(),
-          role: 'assistant',
+          role: "assistant",
           content:
             "Sorry, I'm having trouble responding right now. Please try again later.",
           timestamp: new Date(),
@@ -107,74 +254,8 @@ export function AIChatbot() {
     }
   };
 
-  const renderMessageContent = (content: string) => {
-    const nodes: ReactNode[] = [];
-    const tokenRegex = /\[([^\]]+)\]\((#[^)]+|https?:\/\/[^)]+)\)|\*\*([^*]+)\*\*|\*([^*]+)\*|`([^`]+)`|#(contact|projects)\b/g;
-    let lastIndex = 0;
-    let match: RegExpExecArray | null;
-
-    while ((match = tokenRegex.exec(content)) !== null) {
-      if (match.index > lastIndex) {
-        nodes.push(content.slice(lastIndex, match.index));
-      }
-
-      if (match[1] && match[2]) {
-        nodes.push(
-          <a
-            key={`${match.index}-link`}
-            href={match[2]}
-            className="text-accent underline transition-colors hover:text-accent/80"
-          >
-            {match[1]}
-          </a>
-        );
-      } else if (match[3]) {
-        nodes.push(
-          <strong key={`${match.index}-bold`} className="font-semibold">
-            {match[3]}
-          </strong>
-        );
-      } else if (match[4]) {
-        nodes.push(
-          <em key={`${match.index}-italic`} className="italic">
-            {match[4]}
-          </em>
-        );
-      } else if (match[5]) {
-        nodes.push(
-          <code
-            key={`${match.index}-code`}
-            className="rounded bg-muted px-1 py-[0.1rem] font-mono text-sm"
-          >
-            {match[5]}
-          </code>
-        );
-      } else if (match[6]) {
-        nodes.push(
-          <a
-            key={`${match.index}-hash`}
-            href={`#${match[6]}`}
-            className="text-accent underline transition-colors hover:text-accent/80"
-          >
-            {`#${match[6]}`}
-          </a>
-        );
-      }
-
-      lastIndex = match.index + match[0].length;
-    }
-
-    if (lastIndex < content.length) {
-      nodes.push(content.slice(lastIndex));
-    }
-
-    return nodes.map((node, index) =>
-      typeof node === 'string' ? <span key={index}>{node}</span> : node
-    );
-  };
-
   const handleKeyPress = (event: KeyboardEvent<HTMLInputElement>) => {
-    if (event.key === 'Enter' && !event.shiftKey) {
+    if (event.key === "Enter" && !event.shiftKey) {
       event.preventDefault();
       handleSend();
     }
