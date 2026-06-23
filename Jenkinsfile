@@ -94,7 +94,7 @@ pipeline {
                 script: """
                   curl -s -u ${SONAR_TOKEN}: \
                     '${SONAR_HOST_URL}/api/qualitygates/project_status?projectKey=bypur-portfolio' \
-                    | grep -o '"status":"[^"]*"' | cut -d'"' -f4
+                    | grep -o '"status":"[^"]*"' | head -n 1 | cut -d'"' -f4
                 """,
                 returnStdout: true
               ).trim()
