@@ -1,5 +1,6 @@
 import { FadeUp } from "@/components/ui/motion";
 import * as Icons from "lucide-react";
+import type { LucideIcon } from "lucide-react";
 import type { Service } from "@/lib/types";
 
 interface ServicesListProps {
@@ -13,8 +14,8 @@ export function ServicesList({ services }: ServicesListProps) {
       style={{ gridAutoRows: "1fr" }}
     >
       {services.map((service, index) => {
-        const IconComponent = service.icon
-          ? (Icons as any)[service.icon] || Icons.Box
+        const IconComponent: LucideIcon = service.icon
+          ? ((Icons as Record<string, unknown>)[service.icon] as LucideIcon) || Icons.Box
           : Icons.Box;
 
         return (
