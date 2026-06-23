@@ -1,18 +1,14 @@
-"use client";
-
 import { FadeUp } from "@/components/ui/motion";
 import { SectionHeader } from "@/components/ui/section-header";
 import { SectionContainer } from "@/components/ui/section-container";
 import { NarrativeSection } from "./about/narrative-section";
 import { ServicesList } from "./about/services-list";
-import { getYearLabel } from "./about/utils";
 import { usePortfolio } from "@/contexts/portfolio-context";
 
 export default function AboutSection() {
   const { profile: profileData, services: servicesData, loading } = usePortfolio();
 
   // Derived data
-  const yearLabel = getYearLabel(profileData);
   const aboutLabel = profileData.about?.label || "About";
   const aboutTitle = profileData.about?.title || "A developer who cares about";
   const aboutTitleHighlight = profileData.about?.titleHighlight || "the full picture.";
@@ -30,22 +26,36 @@ export default function AboutSection() {
   return (
     <SectionContainer id="about" background="subtle">
       <FadeUp>
-        <SectionHeader
-          label={aboutLabel}
-          title={
-            <>
-              {aboutTitle}{" "}
-              <span className="text-accent">{aboutTitleHighlight}</span>
-            </>
-          }
-        />
+        <div className="mx-auto max-w-2xl text-center">
+          <SectionHeader
+            label={aboutLabel}
+            title={
+              <>
+                {aboutTitle}{" "}
+                <span className="text-accent">{aboutTitleHighlight}</span>
+              </>
+            }
+          />
+        </div>
       </FadeUp>
 
-      <div className="mx-auto mt-10 grid max-w-5xl gap-12 lg:grid-cols-[1.15fr_1fr] lg:gap-20">
-        {/* LEFT - Narrative */}
-        <NarrativeSection profileData={profileData} yearLabel={yearLabel} />
+      {/* Narrative - Centered */}
+      <div className="mx-auto mt-6 max-w-3xl">
+        <NarrativeSection profileData={profileData} />
+      </div>
 
-        {/* RIGHT - What I do */}
+      {/* Services - Card Grid below */}
+      <div className="mt-16 border-t border-border/40 pt-16">
+        <FadeUp>
+          <div className="mb-8 text-center">
+            <h3 className="text-2xl font-bold tracking-tight text-text-1 sm:text-3xl">
+              What I Do
+            </h3>
+            <p className="mt-2 text-sm text-text-3">
+              Services and expertise I offer
+            </p>
+          </div>
+        </FadeUp>
         <ServicesList services={servicesData} />
       </div>
     </SectionContainer>

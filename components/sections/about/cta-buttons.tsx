@@ -9,7 +9,7 @@ interface CTAButtonsProps {
 
 export function CTAButtons({ cta, resumeUrl }: CTAButtonsProps) {
   return (
-    <div className="mt-8 flex flex-wrap gap-3">
+    <div className="mt-8 flex flex-wrap justify-center gap-3">
       {cta?.primary && (
         <Button
           href={cta.primary.href}

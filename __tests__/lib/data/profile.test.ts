@@ -1,11 +1,11 @@
-import { profile } from "@/lib/data/profile";
+import { profileDataDefault as profile } from "@/lib/data/profile.default";
 import { Profile } from "@/lib/types";
 
 describe("Profile Data", () => {
   it("should have all required profile fields", () => {
     expect(profile).toBeDefined();
     expect(profile.name).toBe("Bayu Purnomo");
-    expect(profile.title).toBe("Backend & Systems Engineer");
+    expect(profile.title).toBe("Full Stack Developer");
     expect(profile.email).toBeTruthy();
     expect(profile.location).toBeTruthy();
   });

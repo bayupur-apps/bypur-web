@@ -1,11 +1,18 @@
 "use client";
 
-import { createContext, useContext, useState, useEffect, ReactNode } from "react";
-import { profile } from "@/lib/data/profile";
-import { services } from "@/lib/data/services";
-import { skills } from "@/lib/data/skills";
-import { experiences } from "@/lib/data/experiences";
-import { projects } from "@/lib/data/projects";
+import {
+  createContext,
+  useContext,
+  useState,
+  useEffect,
+  ReactNode,
+} from "react";
+import { portfolioApi } from "@/lib/api/portfolio";
+import { profileDataDefault } from "@/lib/data/profile.default";
+import { servicesDefault } from "@/lib/data/services.default";
+import { skillsDefault } from "@/lib/data/skills.default";
+import { experiencesDefault } from "@/lib/data/experiences.default";
+import { projectsDefault } from "@/lib/data/projects.default";
 import type { Profile, Service, Skill, Experience, Project } from "@/lib/types";
 
 interface PortfolioContextType {
@@ -15,76 +22,84 @@ interface PortfolioContextType {
   experiences: Experience[];
   projects: Project[];
   loading: boolean;
+  refetch: () => Promise<void>;
 }
 
-const PortfolioContext = createContext<PortfolioContextType | undefined>(undefined);
+const PortfolioContext = createContext<PortfolioContextType | undefined>(
+  undefined,
+);
 
 export function PortfolioProvider({ children }: { children: ReactNode }) {
-  const [profileData, setProfileData] = useState<Profile>(profile);
-  const [servicesData, setServicesData] = useState<Service[]>(services);
-  const [skillsData, setSkillsData] = useState<Skill[]>(skills);
-  const [experiencesData, setExperiencesData] = useState<Experience[]>(experiences);
-  const [projectsData, setProjectsData] = useState<Project[]>(projects);
+  const [profile, setProfile] = useState<Profile>(profileDataDefault);
+  const [services, setServices] = useState<Service[]>(servicesDefault);
+  const [skills, setSkills] = useState<Skill[]>(skillsDefault);
+  const [experiences, setExperiences] =
+    useState<Experience[]>(experiencesDefault);
+  const [projects, setProjects] = useState<Project[]>(projectsDefault);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
+    let cancelled = false;
+
     const fetchData = async () => {
       try {
-        setLoading(true);
-
-        // Fetch all data in parallel
-        const [profileRes, servicesRes, skillsRes, experiencesRes, projectsRes] = await Promise.all([
-          fetch("/api/profile"),
-          fetch("/api/services"),
-          fetch("/api/skills"),
-          fetch("/api/experiences"),
-          fetch("/api/projects"),
-        ]);
-
-        if (profileRes?.ok) {
-          const profileJson = await profileRes.json();
-          setProfileData(profileJson);
+        if (!cancelled) {
+          setLoading(true);
         }
 
-        if (servicesRes?.ok) {
-          const servicesJson = await servicesRes.json();
-          setServicesData(servicesJson);
-        }
+        // Use portfolioApi for unified fetching with automatic fallback
+        const data = await portfolioApi.getAllPortfolioData();
 
-        if (skillsRes?.ok) {
-          const skillsJson = await skillsRes.json();
-          setSkillsData(skillsJson);
-        }
-
-        if (experiencesRes?.ok) {
-          const experiencesJson = await experiencesRes.json();
-          setExperiencesData(experiencesJson);
-        }
-
-        if (projectsRes?.ok) {
-          const projectsJson = await projectsRes.json();
-          setProjectsData(projectsJson);
+        if (!cancelled) {
+          setProfile(data.profile);
+          setServices(data.services);
+          setSkills(data.skills);
+          setExperiences(data.experiences);
+          setProjects(data.projects);
         }
       } catch (error) {
         console.error("Failed to fetch portfolio data:", error);
-        // Fallback to static data
+        // Already using defaults from initial state
       } finally {
-        setLoading(false);
+        if (!cancelled) {
+          setLoading(false);
+        }
       }
     };
 
     fetchData();
+
+    return () => {
+      cancelled = true;
+    };
   }, []);
+
+  const refetch = async () => {
+    try {
+      setLoading(true);
+      const data = await portfolioApi.getAllPortfolioData();
+      setProfile(data.profile);
+      setServices(data.services);
+      setSkills(data.skills);
+      setExperiences(data.experiences);
+      setProjects(data.projects);
+    } catch (error) {
+      console.error("Failed to fetch portfolio data:", error);
+    } finally {
+      setLoading(false);
+    }
+  };
 
   return (
     <PortfolioContext.Provider
       value={{
-        profile: profileData,
-        services: servicesData,
-        skills: skillsData,
-        experiences: experiencesData,
-        projects: projectsData,
+        profile,
+        services,
+        skills,
+        experiences,
+        projects,
         loading,
+        refetch,
       }}
     >
       {children}

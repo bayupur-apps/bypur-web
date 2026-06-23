@@ -1,4 +1,4 @@
-import { cn } from "@/lib/utils";
+import { cn } from "@/lib/helpers";
 import type { MobileStat } from "@/lib/types";
 
 interface MobileStatsGridProps {

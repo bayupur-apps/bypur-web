@@ -6,8 +6,9 @@ const nextConfig: NextConfig = {
 
   // Image optimization
   images: {
-    remotePatterns: [],
-    unoptimized: false,
+    // Allow external images from any CDN via env variables
+    // Since CDN URLs are dynamic from env vars, disable optimization
+    unoptimized: true,
   },
 
   // Enable compression
