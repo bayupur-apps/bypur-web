@@ -3,6 +3,7 @@
 import {
   type ReactNode,
   type KeyboardEvent,
+  cloneElement,
   useState,
   useRef,
   useEffect,
@@ -23,14 +24,28 @@ export function renderMessageContent(content: string) {
   const nodes: ReactNode[] = [];
   let lastIndex = 0;
   let index = 0;
+  let nodeKey = 0;
 
   const pushText = (text: string) => {
     if (text) {
-      nodes.push(text);
+      nodes.push(
+        <span key={`text-${nodeKey++}`}>
+          {text}
+        </span>,
+      );
     }
   };
 
   const pushElement = (element: ReactNode) => {
+    if (element && typeof element === "object" && "key" in element) {
+      nodes.push(
+        cloneElement(element as React.ReactElement, {
+          key: `node-${nodeKey++}`,
+        }),
+      );
+      return;
+    }
+
     nodes.push(element);
   };
 
@@ -155,9 +170,7 @@ export function renderMessageContent(content: string) {
 
   pushText(content.slice(lastIndex));
 
-  return nodes.map((node, key) =>
-    typeof node === "string" ? <span key={key}>{node}</span> : node,
-  );
+  return nodes;
 }
 
 export function AIChatbot() {
@@ -171,7 +184,10 @@ export function AIChatbot() {
   const inputRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
-    messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
+    const element = messagesEndRef.current;
+    if (element && typeof element.scrollIntoView === "function") {
+      element.scrollIntoView({ behavior: "smooth" });
+    }
   }, [messages]);
 
   useEffect(() => {
