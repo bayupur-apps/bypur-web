@@ -9,8 +9,8 @@ pipeline {
   }
 
   environment {
-    PRODUCTION_SERVER_IP = '${env.PRODUCTION_SERVER_IP}'  // Change to your production server IP
-    SONAR_HOST_URL = '${env.SONAR_HOST_URL}'
+    PRODUCTION_SERVER_IP = "${env.PRODUCTION_SERVER_IP}"
+    SONAR_HOST_URL       = "${env.SONAR_HOST_URL}"
   }
 
   stages {
