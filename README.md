@@ -106,6 +106,8 @@ export const projects = [
 
 ## 🧪 Testing
 
+This project follows the testing pyramid approach: unit tests form the foundation, integration tests cover component and API behavior, and end-to-end tests validate full user flows.
+
 ```bash
 # Run tests
 pnpm test

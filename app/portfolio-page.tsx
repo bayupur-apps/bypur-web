@@ -6,6 +6,7 @@ import SiteFooter from "@/components/layout/site-footer";
 import HeroSection from "@/components/sections/hero";
 import AboutSection from "@/components/sections/about";
 import StackSection from "@/components/sections/stack";
+import CertificatesSection from "@/components/sections/certificates";
 import ExperienceSection from "@/components/sections/experience";
 import ProjectsSection from "@/components/sections/projects";
 import ContactSection from "@/components/sections/contact";
@@ -14,6 +15,7 @@ import { PortfolioProvider } from "@/contexts/portfolio-context";
 const navLinks = [
   { label: "About", href: "#about" },
   { label: "Skills", href: "#skills" },
+  { label: "Certificates", href: "#certificates" },
   { label: "Experience", href: "#experience" },
   { label: "Projects", href: "#projects" },
   { label: "Contact", href: "#contact" },
@@ -50,12 +52,13 @@ export default function PortfolioPage() {
           <HeroSection />
           <AboutSection />
           <StackSection />
+          <CertificatesSection />
           <ExperienceSection />
           <ProjectsSection />
           <ContactSection />
         </main>
 
-        <SiteFooter />
+        <SiteFooter navLinks={navLinks} />
       </div>
     </PortfolioProvider>
   );

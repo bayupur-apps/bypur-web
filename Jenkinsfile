@@ -25,22 +25,13 @@ pipeline {
     stage('Prepare Env') {
       steps {
         script {
-          withCredentials([string(credentialsId: 'gemini-api-key', variable: 'GEMINI_API_KEY')]) {
-            sh '''
-              cat > .env.production <<'EOF'
-                  NEXT_PUBLIC_API_URL=
-                  NEXT_PUBLIC_USE_BACKEND=false
-                  NEXT_PUBLIC_CDN_BASE=https://cdn.bypur.my.id
-                  GEMINI_API_KEY=${GEMINI_API_KEY}
-                  GEMINI_MODEL=gemini-3.1-flash-lite
-                  GEMINI_API_REVISION=2026-05-20
-                  NODE_ENV=production
-                  NEXT_TELEMETRY_DISABLED=1
-              EOF
-            '''
+          withCredentials([file(credentialsId: 'portfolio-fe-env', variable: 'ENV_SECRET')]) {
+            def secretContent = readFile(file: ENV_SECRET)
+            writeFile file: '.env', text: secretContent
+            writeFile file: '.env.production', text: secretContent
           }
         }
-        echo 'Production env file prepared'
+        echo 'Production env file prepared from secret file'
       }
     }
 
@@ -137,35 +128,29 @@ pipeline {
     stage('Deploy') {
       steps {
         script {
-          withCredentials([string(credentialsId: 'gemini-api-key', variable: 'GEMINI_API_KEY')]) {
-            sh '''
-              # Stop dan hapus container lama jika ada
-              docker stop bypur-portfolio || true
-              docker rm bypur-portfolio || true
-              
-              # Jalankan container baru dengan MEMORY LIMIT
-              docker run -d \
-                --name bypur-portfolio \
-                --memory="512m" \
-                --cpus="0.5" \
-                --restart=unless-stopped \
-                -p 3000:3000 \
-                -e NODE_ENV=production \
-                -e NEXT_TELEMETRY_DISABLED=1 \
-                -e GEMINI_API_KEY="${GEMINI_API_KEY}" \
-                -e GEMINI_MODEL="gemini-3.1-flash-lite" \
-                -e GEMINI_API_REVISION="2026-05-20" \
-                bypur-portfolio:latest
-              
-              # Tunggu container start
-              sleep 5
-              
-              # Health check
-              curl -f http://localhost:3000 || exit 1
-              
-              echo "Deployment berhasil! Container running on port 3000"
-            '''
-          }
+          sh '''
+            # Stop dan hapus container lama jika ada
+            docker stop bypur-portfolio || true
+            docker rm bypur-portfolio || true
+            
+            # Jalankan container baru dengan MEMORY LIMIT menggunakan --env-file
+            docker run -d \
+              --name bypur-portfolio \
+              --memory="512m" \
+              --cpus="0.5" \
+              --restart=unless-stopped \
+              -p 3000:3000 \
+              --env-file .env \
+              bypur-portfolio:latest
+            
+            # Tunggu container start
+            sleep 5
+            
+            # Health check
+            curl -f http://localhost:3000 || exit 1
+            
+            echo "Deployment berhasil! Container running on port 3000"
+          '''
         }
       }
     }

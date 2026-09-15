@@ -59,6 +59,7 @@
 /* ─── Base ─── */
 html {
   scroll-behavior: smooth;
+  overflow-x: hidden;
 }
 
 body {
@@ -68,6 +69,10 @@ body {
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  /* Safety net: a single overflowing element anywhere on the page (e.g. an
+     edge-to-edge scroll row) should never be able to shift the whole
+     viewport horizontally. */
+  overflow-x: hidden;
 }
 
 /* ─── Design Tokens: Light (Navy + Cyan palette) ─── */
