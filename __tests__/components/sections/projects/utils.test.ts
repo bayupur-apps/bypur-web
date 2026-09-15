@@ -7,13 +7,13 @@ describe("Projects Section Utils", () => {
     it("should extract unique tags from projects", () => {
       const projects: Project[] = [
         {
-          id: 1,
+          id: "1",
           title: "Project A",
           description: "Desc",
           techStack: ["React", "TypeScript"],
         },
         {
-          id: 2,
+          id: "2",
           title: "Project B",
           description: "Desc",
           techStack: ["Vue", "TypeScript"],
@@ -30,13 +30,13 @@ describe("Projects Section Utils", () => {
     it("should not duplicate tags", () => {
       const projects: Project[] = [
         {
-          id: 1,
+          id: "1",
           title: "Project A",
           description: "Desc",
           techStack: ["React", "TypeScript"],
         },
         {
-          id: 2,
+          id: "2",
           title: "Project B",
           description: "Desc",
           techStack: ["React", "TypeScript"],
@@ -54,7 +54,7 @@ describe("Projects Section Utils", () => {
     it("should limit to 6 tags plus 'All'", () => {
       const projects: Project[] = [
         {
-          id: 1,
+          id: "1",
           title: "Project A",
           description: "Desc",
           techStack: [
@@ -77,7 +77,7 @@ describe("Projects Section Utils", () => {
     it("should always include 'All' as first tag", () => {
       const projects: Project[] = [
         {
-          id: 1,
+          id: "1",
           title: "Project A",
           description: "Desc",
           techStack: ["React"],
@@ -96,7 +96,7 @@ describe("Projects Section Utils", () => {
     it("should return only 'All' for projects without tech stacks", () => {
       const projects: Project[] = [
         {
-          id: 1,
+          id: "1",
           title: "Project A",
           description: "Desc",
           techStack: [],

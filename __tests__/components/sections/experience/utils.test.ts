@@ -9,14 +9,14 @@ describe("Experience Section Utils", () => {
     it("should calculate years from earliest experience", () => {
       const experiences: Experience[] = [
         {
-          id: 1,
+          id: "1",
           company: "Company A",
           role: "Developer",
           period: "Jan 2020 - Present",
           description: ["Test"],
         },
         {
-          id: 2,
+          id: "2",
           company: "Company B",
           role: "Developer",
           period: "Jan 2018 - Dec 2019",
@@ -36,7 +36,7 @@ describe("Experience Section Utils", () => {
     it("should handle single experience", () => {
       const experiences: Experience[] = [
         {
-          id: 1,
+          id: "1",
           company: "Company A",
           role: "Developer",
           period: "Jan 2021 - Present",
@@ -51,7 +51,7 @@ describe("Experience Section Utils", () => {
     it("should extract year from various period formats", () => {
       const experiences: Experience[] = [
         {
-          id: 1,
+          id: "1",
           company: "Company A",
           role: "Developer",
           period: "2019 - 2020",
@@ -66,7 +66,7 @@ describe("Experience Section Utils", () => {
     it("should use current year if no year found in period", () => {
       const experiences: Experience[] = [
         {
-          id: 1,
+          id: "1",
           company: "Company A",
           role: "Developer",
           period: "Present",

@@ -12,18 +12,18 @@ describe("TypeScript Interfaces", () => {
   describe("Project Interface", () => {
     it("should accept valid project object", () => {
       const project: Project = {
-        id: 1,
+        id: "1",
         title: "Test Project",
         description: "A test project",
         techStack: ["React", "TypeScript"],
       };
       expect(project).toBeDefined();
-      expect(project.id).toBe(1);
+      expect(project.id).toBe("1");
     });
 
     it("should accept optional fields", () => {
       const project: Project = {
-        id: 1,
+        id: "1",
         title: "Test Project",
         description: "A test project",
         techStack: ["React"],
@@ -60,7 +60,7 @@ describe("TypeScript Interfaces", () => {
   describe("Experience Interface", () => {
     it("should accept valid experience object", () => {
       const experience: Experience = {
-        id: 1,
+        id: "1",
         company: "Test Company",
         role: "Developer",
         period: "2023 - Present",
@@ -72,17 +72,17 @@ describe("TypeScript Interfaces", () => {
 
     it("should accept optional fields", () => {
       const experience: Experience = {
-        id: 1,
+        id: "1",
         company: "Test Company",
         role: "Developer",
         period: "2023 - Present",
         location: "Remote",
-        type: "Full-time",
+        isCurrent: true,
         description: ["Built things"],
         techStack: ["React", "Node.js"],
       };
       expect(experience.location).toBe("Remote");
-      expect(experience.type).toBe("Full-time");
+      expect(experience.isCurrent).toBe(true);
     });
   });
 

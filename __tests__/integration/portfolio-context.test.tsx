@@ -10,30 +10,28 @@ jest.mock("@/lib/api/portfolio");
 describe("PortfolioContext Integration", () => {
   beforeEach(() => {
     jest.clearAllMocks();
+    (portfolioApiModule.portfolioApi.getAllPortfolioData as jest.Mock).mockResolvedValue({
+      profile: { name: "Bayu Purnomo" },
+      services: [],
+      skills: [],
+      experiences: [],
+      projects: [],
+    });
   });
 
   const wrapper = ({ children }: { children: ReactNode }) => (
     <PortfolioProvider>{children}</PortfolioProvider>
   );
 
-  it("should provide initial loading state", async () => {
-    // Suppress React act warning for initial state check
-    const consoleErrorSpy = jest.spyOn(console, "error").mockImplementation((msg) => {
-      if (!msg.toString().includes("act(")) {
-        console.warn(msg);
-      }
-    });
+  it("should provide default data immediately", async () => {
+    (portfolioApiModule.portfolioApi.getAllPortfolioData as jest.Mock).mockImplementation(
+      () => new Promise(() => {}),
+    );
 
     const { result } = renderHook(() => usePortfolio(), { wrapper });
 
-    expect(result.current.loading).toBe(true);
-
-    // Wait for loading to complete to avoid memory leaks
-    await waitFor(() => {
-      expect(result.current.loading).toBe(false);
-    });
-
-    consoleErrorSpy.mockRestore();
+    expect(result.current.loading).toBe(false);
+    expect(result.current.profile.name).toBe("Bayu Purnomo");
   });
 
   it("should fetch all data in parallel", async () => {
@@ -50,11 +48,10 @@ describe("PortfolioContext Integration", () => {
     const { result } = renderHook(() => usePortfolio(), { wrapper });
 
     await waitFor(() => {
-      expect(result.current.loading).toBe(false);
+      expect(result.current.profile.name).toBe("Test");
     });
 
     expect(portfolioApiModule.portfolioApi.getAllPortfolioData).toHaveBeenCalled();
-    expect(result.current.profile.name).toBe("Test");
     expect(result.current.services[0].title).toBe("Service 1");
     expect(result.current.skills[0].name).toBe("React");
   });
@@ -70,7 +67,7 @@ describe("PortfolioContext Integration", () => {
     const { result } = renderHook(() => usePortfolio(), { wrapper });
 
     await waitFor(() => {
-      expect(result.current.loading).toBe(false);
+      expect(portfolioApiModule.portfolioApi.getAllPortfolioData).toHaveBeenCalled();
     });
 
     // Should still have fallback static data
@@ -105,10 +102,9 @@ describe("PortfolioContext Integration", () => {
     const { result } = renderHook(() => usePortfolio(), { wrapper });
 
     await waitFor(() => {
-      expect(result.current.loading).toBe(false);
+      expect(result.current.profile.name).toBe("Bayu Purnomo Updated");
     });
 
-    expect(result.current.profile.name).toBe("Bayu Purnomo Updated");
     expect(result.current.profile.title).toBe("Senior Backend Engineer");
   });
 

@@ -71,7 +71,7 @@ describe("HeroSection Component", () => {
     render(<HeroSection />, { wrapper });
     
     await waitFor(() => {
-      expect(screen.getByText(/Building scalable systems/i)).toBeInTheDocument();
+      expect(screen.getAllByText(/Building scalable systems/i)[0]).toBeInTheDocument();
     });
   });
 
@@ -89,8 +89,11 @@ describe("HeroSection Component", () => {
     render(<HeroSection />, { wrapper });
     
     await waitFor(() => {
-      const image = screen.getByAltText("Bayu Purnomo");
-      expect(image).toBeInTheDocument();
+      // Rendered twice: compact mobile avatar + full desktop avatar
+      // (both exist in the DOM simultaneously; CSS breakpoints decide
+      // which one is visible).
+      const images = screen.getAllByAltText("Bayu Purnomo");
+      expect(images.length).toBeGreaterThan(0);
     });
   });
 
