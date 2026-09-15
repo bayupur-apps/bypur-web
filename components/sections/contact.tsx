@@ -29,21 +29,23 @@ export default function ContactSection() {
     {
       icon: "Phone",
       label: "Phone",
-      value: profileData.phone || "—",
+      value: profileData.phone || "-",
       href: profileData.phone ? `tel:${profileData.phone.replace(/\s|-/g, "")}` : "#",
       copyable: false,
     },
     {
       icon: "MapPin",
       label: "Location",
-      value: "Indonesia · UTC+7 · Replies in ~24h",
+      value: profileData.location
+        ? `${profileData.location} - Replies in ~24h`
+        : "Replies in ~24h",
       href: "#",
       copyable: false,
     },
   ];
 
   return (
-    <SectionContainer id="contact" background="gradient">
+    <SectionContainer id="contact" background="gradient" className="pb-16 sm:pb-20">
       <FadeUp>
         <SectionHeader
           label={label}
@@ -57,7 +59,7 @@ export default function ContactSection() {
         />
       </FadeUp>
 
-      <div className="mx-auto mt-10 grid max-w-6xl items-start gap-6 lg:grid-cols-[1fr_1.15fr] lg:gap-8">
+      <div className="mx-auto mt-8 grid max-w-6xl items-start gap-5 sm:mt-10 sm:gap-6 lg:grid-cols-[1fr_1.15fr] lg:gap-8">
         {/* LEFT - Contact info cards */}
         <ContactInfoList contactInfo={contactInfo} email={profileData.email} />
 

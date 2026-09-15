@@ -22,6 +22,11 @@ const renderTagline = (tagline: string, highlight?: string) => {
   );
 };
 
+const getMobileBio = (bio: string) => {
+  const sentences = bio.match(/[^.!?]+[.!?]+/g);
+  return sentences?.slice(0, 2).join(" ").trim() || bio;
+};
+
 interface ContentSectionProps {
   profileData: Profile;
   roles: { label: string; icon: typeof Server }[];
@@ -33,12 +38,14 @@ export function ContentSection({
   roles,
   tagline,
 }: ContentSectionProps) {
+  const mobileBio = getMobileBio(profileData.bio);
+
   return (
     <div className="flex flex-col gap-0 text-center lg:text-left">
       <FadeUp>
         {/* Headline */}
-        <h1 className="mb-4 text-4xl font-bold leading-[1.06] tracking-[-0.03em] text-text-1 sm:text-5xl lg:text-[3.25rem]">
-          Hi, I&apos;m {profileData.name.split(" ")[0]} —
+        <h1 className="mb-4 text-4xl font-bold leading-[1.06] text-text-1 sm:text-5xl lg:text-[3.25rem]">
+          Hi, I&apos;m {profileData.name.split(" ")[0]} -{" "}
           <span className="mt-1.5 block text-xl font-normal text-text-2 sm:text-2xl lg:text-3xl">
             {renderTagline(tagline, profileData.taglineHighlight)}
           </span>
@@ -48,11 +55,14 @@ export function ContentSection({
         <RotatingRole
           roles={roles}
           label={profileData.rolesLabel || "Currently working as"}
-          className="mb-5 self-center lg:self-start"
+          className="mb-6 self-center lg:self-start"
         />
 
         {/* Bio */}
-        <p className="mb-6 mx-auto max-w-lg text-sm leading-[1.8] text-text-2 sm:text-[15px] lg:mx-0">
+        <p className="mb-6 mx-auto max-w-lg text-sm leading-[1.75] text-text-2 sm:text-[15px] lg:hidden">
+          {mobileBio}
+        </p>
+        <p className="mb-6 mx-auto hidden max-w-lg text-[15px] leading-[1.8] text-text-2 lg:mx-0 lg:block">
           {profileData.bio}
         </p>
 

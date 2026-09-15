@@ -1,6 +1,3 @@
-// Stack section components and utilities
-export { PrimaryStack } from "./primary-stack";
-export { SupportingStack } from "./supporting-stack";
-export { FamiliarStack } from "./familiar-stack";
+// Stack section components
+export { SkillLogoGrid } from "./skill-logo-grid";
 export { CTABanner } from "./cta-banner";
-export { getIconComponent, filterSkills } from "./utils";

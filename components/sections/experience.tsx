@@ -13,7 +13,7 @@ import { usePortfolio } from "@/contexts/portfolio-context";
 
 export default function ExperienceSection() {
   const { profile: profileData, experiences } = usePortfolio();
-  const [selectedId, setSelectedId] = useState(experiences[0]?.id ?? 1);
+  const [selectedId, setSelectedId] = useState(experiences[0]?.id ?? "");
 
   const experienceConfig = profileData.experience || {};
   const label = experienceConfig.label || "Experience";
@@ -52,7 +52,7 @@ export default function ExperienceSection() {
           />
           <StatItem value={experiences.length} label={stats.positions || "Positions held"} />
           <StatItem
-            value={stats.highlight?.value || "↓40%"}
+            value={stats.highlight?.value || "-40%"}
             label={stats.highlight?.label || "API latency cut"}
             accent
           />

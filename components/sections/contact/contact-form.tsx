@@ -1,6 +1,7 @@
-import { useState } from "react";
-import { Send } from "lucide-react";
+import { useState, type FormEvent } from "react";
+import { Send, CheckCircle2, AlertCircle } from "lucide-react";
 import { FadeUp } from "@/components/ui/motion";
+import { submitContact } from "@/lib/api/portfolio";
 import type { ContactConfig } from "@/lib/types";
 
 interface ContactFormProps {
@@ -8,13 +9,18 @@ interface ContactFormProps {
   formConfig?: ContactConfig["form"];
 }
 
+type SubmitState = "idle" | "submitting" | "success" | "error";
+
 export function ContactForm({ email, formConfig }: ContactFormProps) {
   const [selectedType, setSelectedType] = useState<string>("Web app");
+  const [name, setName] = useState("");
+  const [senderEmail, setSenderEmail] = useState("");
   const [message, setMessage] = useState("");
+  const [status, setStatus] = useState<SubmitState>("idle");
   const MAX_MSG = 1000;
 
   const title = formConfig?.title || "Send me a message";
-  const subtitle = formConfig?.subtitle || "I'll get back to you within 1–2 working days.";
+  const subtitle = formConfig?.subtitle || "I'll get back to you within 1-2 working days.";
   const projectTypes = formConfig?.projectTypes || [
     "Web app",
     "Landing page",
@@ -23,29 +29,47 @@ export function ContactForm({ email, formConfig }: ContactFormProps) {
     "Other",
   ];
 
+  async function handleSubmit(e: FormEvent<HTMLFormElement>) {
+    e.preventDefault();
+    setStatus("submitting");
+
+    try {
+      await submitContact({
+        name,
+        email: senderEmail,
+        subject: selectedType,
+        message,
+      });
+      setStatus("success");
+      setName("");
+      setSenderEmail("");
+      setMessage("");
+    } catch {
+      setStatus("error");
+    }
+  }
+
   return (
     <FadeUp delay={0.1}>
       <form
-        action={`mailto:${email}`}
-        method="post"
-        encType="text/plain"
-        className="flex flex-col gap-4 rounded-xl border border-border bg-bg-card p-6 shadow-sm sm:p-7"
+        onSubmit={handleSubmit}
+        className="flex flex-col gap-4 rounded-2xl border border-border/80 bg-bg-card p-4.5 sm:p-7 shadow-xs"
       >
         <div>
-          <h3 className="text-[15px] font-semibold text-text-1">{title}</h3>
-          <p className="mt-1 text-[12px] text-text-2">{subtitle}</p>
+          <h3 className="text-sm sm:text-[15px] font-semibold text-text-1">{title}</h3>
+          <p className="mt-0.5 text-xs text-text-2">{subtitle}</p>
         </div>
 
-        <div className="h-px w-full bg-border" />
+        <div className="h-px w-full bg-border/70" />
 
         {/* Project type */}
         <fieldset className="flex flex-col gap-2">
-          <legend className="text-[10px] font-semibold uppercase tracking-wider text-text-3">
+          <legend className="text-[10px] font-semibold uppercase tracking-widest text-text-3">
             What&apos;s this about?
           </legend>
-          <div className="flex flex-wrap gap-1.5">
+          <div className="flex flex-wrap gap-1.5 sm:gap-2">
             {projectTypes.map((type) => (
-              <label key={type} className="cursor-pointer">
+              <label key={type} className="shrink-0 cursor-pointer">
                 <input
                   type="radio"
                   name="project_type"
@@ -54,7 +78,7 @@ export function ContactForm({ email, formConfig }: ContactFormProps) {
                   onChange={(e) => setSelectedType(e.target.value)}
                   className="peer sr-only"
                 />
-                <span className="inline-flex items-center rounded-full border border-border bg-bg-subtle px-3 py-1 text-[11px] font-medium text-text-2 transition-colors duration-150 hover:border-accent/30 hover:text-text-1 peer-checked:border-accent/50 peer-checked:bg-accent/8 peer-checked:text-accent">
+                <span className="inline-flex min-h-9 sm:min-h-10 items-center justify-center rounded-full border border-border/80 bg-bg-subtle px-3 py-1.5 sm:px-3.5 text-[11px] sm:text-xs font-medium text-text-2 transition-all duration-150 hover:border-accent/30 hover:text-text-1 peer-checked:border-accent/60 peer-checked:bg-accent/10 peer-checked:text-accent peer-checked:font-semibold shadow-xs">
                   {type}
                 </span>
               </label>
@@ -63,29 +87,33 @@ export function ContactForm({ email, formConfig }: ContactFormProps) {
         </fieldset>
 
         {/* Name + Email */}
-        <div className="grid gap-3 sm:grid-cols-2">
+        <div className="grid gap-3.5 sm:grid-cols-2">
           <label className="flex flex-col gap-1.5">
-            <span className="text-[10px] font-semibold uppercase tracking-wider text-text-3">
+            <span className="text-[10px] font-semibold uppercase tracking-widest text-text-3">
               Name
             </span>
             <input
               type="text"
               name="name"
               required
+              value={name}
+              onChange={(e) => setName(e.target.value)}
               placeholder="Your name"
-              className="rounded-md border border-border bg-bg-subtle px-3 py-2.5 text-[13px] text-text-1 outline-none transition placeholder:text-text-3 focus:border-accent focus:ring-2 focus:ring-accent/15"
+              className="rounded-lg border border-border/80 bg-bg-subtle/60 px-3.5 py-2.5 text-[13px] text-text-1 outline-none transition duration-150 placeholder:text-text-3/70 focus:border-accent focus:bg-bg-card focus:ring-2 focus:ring-accent/15"
             />
           </label>
           <label className="flex flex-col gap-1.5">
-            <span className="text-[10px] font-semibold uppercase tracking-wider text-text-3">
+            <span className="text-[10px] font-semibold uppercase tracking-widest text-text-3">
               Email
             </span>
             <input
               type="email"
               name="email"
               required
+              value={senderEmail}
+              onChange={(e) => setSenderEmail(e.target.value)}
               placeholder="you@example.com"
-              className="rounded-md border border-border bg-bg-subtle px-3 py-2.5 text-[13px] text-text-1 outline-none transition placeholder:text-text-3 focus:border-accent focus:ring-2 focus:ring-accent/15"
+              className="rounded-lg border border-border/80 bg-bg-subtle/60 px-3.5 py-2.5 text-[13px] text-text-1 outline-none transition duration-150 placeholder:text-text-3/70 focus:border-accent focus:bg-bg-card focus:ring-2 focus:ring-accent/15"
             />
           </label>
         </div>
@@ -93,7 +121,7 @@ export function ContactForm({ email, formConfig }: ContactFormProps) {
         {/* Message */}
         <label className="flex flex-col gap-1.5">
           <div className="flex items-center justify-between">
-            <span className="text-[10px] font-semibold uppercase tracking-wider text-text-3">
+            <span className="text-[10px] font-semibold uppercase tracking-widest text-text-3">
               Message
             </span>
             <span
@@ -107,23 +135,37 @@ export function ContactForm({ email, formConfig }: ContactFormProps) {
           <textarea
             name="message"
             required
-            rows={5}
+            rows={4}
             maxLength={MAX_MSG}
             placeholder="Tell me about your project..."
             value={message}
             onChange={(e) => setMessage(e.target.value)}
-            className="resize-none rounded-md border border-border bg-bg-subtle px-3 py-2.5 text-[13px] text-text-1 outline-none transition placeholder:text-text-3 focus:border-accent focus:ring-2 focus:ring-accent/15"
+            className="resize-none rounded-lg border border-border/80 bg-bg-subtle/60 px-3.5 py-2.5 text-[13px] text-text-1 outline-none transition duration-150 placeholder:text-text-3/70 focus:border-accent focus:bg-bg-card focus:ring-2 focus:ring-accent/15"
           />
         </label>
 
         {/* Submit */}
         <button
           type="submit"
-          className="group flex items-center justify-center gap-2 rounded-md bg-accent px-5 py-3 text-[13px] font-semibold text-accent-fg shadow-lg shadow-accent/25 transition-all hover:shadow-xl hover:shadow-accent/30"
+          disabled={status === "submitting"}
+          className="group flex w-full items-center justify-center gap-2 rounded-lg bg-accent px-5 py-3 text-[13px] font-semibold text-accent-fg shadow-md shadow-accent/20 transition-all duration-200 hover:bg-accent-hover hover:shadow-lg hover:shadow-accent/25 active:scale-[0.99] disabled:cursor-not-allowed disabled:opacity-60"
         >
-          <Send size={14} className="transition-transform group-hover:-translate-y-0.5 group-hover:translate-x-0.5" />
-          Send Message
+          <Send size={14} className="transition-transform duration-200 group-hover:-translate-y-0.5 group-hover:translate-x-0.5" />
+          {status === "submitting" ? "Sending..." : "Send Message"}
         </button>
+
+        {status === "success" && (
+          <p className="flex items-center gap-1.5 text-xs font-medium text-emerald-600 dark:text-emerald-400">
+            <CheckCircle2 size={14} />
+            Message sent — I&apos;ll get back to you soon.
+          </p>
+        )}
+        {status === "error" && (
+          <p className="flex items-center gap-1.5 text-xs font-medium text-red-500">
+            <AlertCircle size={14} />
+            Couldn&apos;t send right now — email me directly at {email} instead.
+          </p>
+        )}
       </form>
     </FadeUp>
   );

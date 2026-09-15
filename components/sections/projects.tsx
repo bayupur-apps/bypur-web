@@ -6,7 +6,7 @@ import { SectionHeader } from "@/components/ui/section-header";
 import { SectionContainer } from "@/components/ui/section-container";
 import { ProjectsFilter } from "./projects/projects-filter";
 import { ProjectCard } from "./projects/project-card";
-import { generateTags } from "./projects/utils";
+import { generateTags, sortByFeatured } from "./projects/utils";
 import { usePortfolio } from "@/contexts/portfolio-context";
 
 export default function ProjectsSection() {
@@ -22,7 +22,8 @@ export default function ProjectsSection() {
     "A few projects that capture how I think about product, architecture, and craft.";
 
   const tags = useMemo(() => generateTags(projects), [projects]);
-  const filtered = filter === "All" ? projects : projects.filter((p) => p.techStack.includes(filter));
+  const ordered = useMemo(() => sortByFeatured(projects), [projects]);
+  const filtered = filter === "All" ? ordered : ordered.filter((p) => p.techStack.includes(filter));
 
   return (
     <SectionContainer id="projects" background="subtle">

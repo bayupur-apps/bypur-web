@@ -7,20 +7,23 @@ interface NarrativeSectionProps {
 }
 
 export function NarrativeSection({ profileData }: NarrativeSectionProps) {
-  const about = profileData.about;
-
   return (
     <FadeUp delay={0.05}>
       <div className="flex flex-col text-center">
-        {/* Description */}
-        {about?.description && (
+        {/* Description - reuses the same backend-driven bio shown in Hero */}
+        {profileData.bio && (
           <p className="text-[15px] leading-relaxed text-text-3">
-            {about.description}
+            {profileData.bio}
           </p>
         )}
 
         {/* CTAs */}
-        <CTAButtons cta={about?.cta} resumeUrl={profileData.resumeUrl} />
+        <CTAButtons
+          cta={profileData.cta}
+          secondaryText={profileData.about?.cta?.secondary?.text}
+          resumeUrl={profileData.resumeUrl}
+          isCvVisible={profileData.isCvVisible}
+        />
       </div>
     </FadeUp>
   );

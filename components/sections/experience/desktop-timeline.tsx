@@ -4,8 +4,8 @@ import type { Experience } from "@/lib/types";
 
 interface DesktopTimelineProps {
   experiences: Experience[];
-  selectedId: number;
-  onSelect: (id: number) => void;
+  selectedId: string;
+  onSelect: (id: string) => void;
 }
 
 export function DesktopTimeline({ experiences, selectedId, onSelect }: DesktopTimelineProps) {
@@ -44,9 +44,17 @@ export function DesktopTimeline({ experiences, selectedId, onSelect }: DesktopTi
             )}
 
             <div>
-              <span className="block text-[10px] font-bold uppercase tracking-[0.14em] text-accent">
-                {exp.period}
-              </span>
+              <div className="flex items-center gap-1.5">
+                <span className="block text-[10px] font-bold uppercase tracking-[0.14em] text-accent">
+                  {exp.period}
+                </span>
+                {exp.isCurrent && (
+                  <span className="inline-flex items-center gap-1 rounded-full bg-emerald-500/10 px-1.5 py-0.5 text-[9px] font-bold uppercase tracking-wider text-emerald-500">
+                    <span className="h-1 w-1 animate-pulse rounded-full bg-emerald-500" />
+                    Now
+                  </span>
+                )}
+              </div>
               <span
                 className={cn(
                   "mt-1 block text-[14px] font-semibold leading-snug transition-colors",

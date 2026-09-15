@@ -3,11 +3,13 @@ import { Button } from "@/components/ui/button";
 import type { Profile } from "@/lib/types";
 
 interface CTAButtonsProps {
-  cta?: NonNullable<Profile["about"]>["cta"];
+  cta?: Profile["cta"];
+  secondaryText?: string;
   resumeUrl?: string;
+  isCvVisible?: boolean;
 }
 
-export function CTAButtons({ cta, resumeUrl }: CTAButtonsProps) {
+export function CTAButtons({ cta, secondaryText, resumeUrl, isCvVisible = true }: CTAButtonsProps) {
   return (
     <div className="mt-8 flex flex-wrap justify-center gap-3">
       {cta?.primary && (
@@ -20,14 +22,14 @@ export function CTAButtons({ cta, resumeUrl }: CTAButtonsProps) {
           {cta.primary.text}
         </Button>
       )}
-      {cta?.secondary && resumeUrl && (
+      {isCvVisible && secondaryText && resumeUrl && (
         <Button
           href={resumeUrl}
           variant="secondary"
           icon={Download}
           iconPosition="left"
         >
-          {cta.secondary.text}
+          {secondaryText}
         </Button>
       )}
     </div>

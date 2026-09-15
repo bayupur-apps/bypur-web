@@ -6,22 +6,12 @@ import { ServicesList } from "./about/services-list";
 import { usePortfolio } from "@/contexts/portfolio-context";
 
 export default function AboutSection() {
-  const { profile: profileData, services: servicesData, loading } = usePortfolio();
+  const { profile: profileData, services: servicesData } = usePortfolio();
 
   // Derived data
   const aboutLabel = profileData.about?.label || "About";
   const aboutTitle = profileData.about?.title || "A developer who cares about";
   const aboutTitleHighlight = profileData.about?.titleHighlight || "the full picture.";
-
-  if (loading) {
-    return (
-      <SectionContainer id="about" background="subtle">
-        <div className="flex items-center justify-center py-20">
-          <div className="h-8 w-8 animate-spin rounded-full border-2 border-accent border-t-transparent" />
-        </div>
-      </SectionContainer>
-    );
-  }
 
   return (
     <SectionContainer id="about" background="subtle">

@@ -11,11 +11,11 @@ export function ThemeToggle() {
     <button
       type="button"
       onClick={() => setTheme(resolvedTheme === "dark" ? "light" : "dark")}
-      className="group relative flex h-9 w-9 items-center justify-center overflow-hidden rounded-full border border-border bg-bg-subtle/50 text-text-2 transition-all hover:border-accent/40 hover:bg-bg-subtle hover:text-text-1"
+      className="group relative flex h-11 w-11 items-center justify-center overflow-hidden rounded-full border border-border bg-bg-subtle/50 text-text-2 transition-all hover:border-accent/40 hover:bg-bg-subtle hover:text-text-1"
       aria-label="Toggle theme"
     >
       <Sun
-        size={16}
+        size={18}
         className={cn(
           "absolute transition-all duration-500",
           resolvedTheme === "dark"
@@ -24,7 +24,7 @@ export function ThemeToggle() {
         )}
       />
       <Moon
-        size={16}
+        size={18}
         className={cn(
           "absolute transition-all duration-500",
           resolvedTheme === "dark"

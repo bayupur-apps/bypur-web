@@ -5,6 +5,7 @@ import dynamic from "next/dynamic";
 import { Menu, X, ArrowUpRight } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { cn } from "@/lib/helpers";
+import { usePortfolio } from "@/contexts/portfolio-context";
 
 // Dynamic import to skip SSR for theme toggle (avoid hydration mismatch)
 const ThemeToggle = dynamic(
@@ -22,6 +23,7 @@ type Props = {
 };
 
 export default function SiteHeader({ navLinks, isMobileOpen, onToggleMobile, onCloseMobile }: Props) {
+  const { profile } = usePortfolio();
   const [scrolled, setScrolled] = useState(false);
   const [activeSection, setActiveSection] = useState("");
 
@@ -70,9 +72,9 @@ export default function SiteHeader({ navLinks, isMobileOpen, onToggleMobile, onC
         {/* Logo */}
         <a
           href="#hero"
-          className="flex shrink-0 items-center text-lg font-semibold tracking-tight text-text-1 transition-opacity hover:opacity-80"
+          className="flex min-h-11 shrink-0 items-center text-lg font-semibold tracking-tight text-text-1 transition-opacity hover:opacity-80"
         >
-          Bayu Purnomo
+          {profile.name}
         </a>
 
         {/* Desktop nav */}
@@ -104,7 +106,7 @@ export default function SiteHeader({ navLinks, isMobileOpen, onToggleMobile, onC
           {/* CTA */}
           <a
             href="#contact"
-            className="group hidden h-9 items-center gap-1.5 rounded-full bg-accent pl-4 pr-3 text-sm font-medium text-accent-fg shadow-sm shadow-accent/25 transition-all hover:bg-accent-hover hover:shadow-md hover:shadow-accent/30 sm:inline-flex"
+            className="group hidden h-11 items-center gap-1.5 rounded-full bg-accent pl-5 pr-4 text-sm font-medium text-accent-fg shadow-sm shadow-accent/25 transition-all hover:bg-accent-hover hover:shadow-md hover:shadow-accent/30 sm:inline-flex"
           >
             Get in touch
           </a>
@@ -112,7 +114,7 @@ export default function SiteHeader({ navLinks, isMobileOpen, onToggleMobile, onC
           {/* Mobile menu */}
           <button
             type="button"
-            className="flex h-9 w-9 items-center justify-center rounded-full border border-border bg-bg-subtle/50 text-text-2 transition-all hover:border-accent/40 hover:text-text-1 md:hidden"
+            className="flex h-11 w-11 items-center justify-center rounded-full border border-border bg-bg-subtle/50 text-text-2 transition-all hover:border-accent/40 hover:text-text-1 md:hidden"
             onClick={onToggleMobile}
             aria-label="Menu"
             aria-expanded={isMobileOpen}
@@ -126,7 +128,7 @@ export default function SiteHeader({ navLinks, isMobileOpen, onToggleMobile, onC
                   exit={{ rotate: -90, opacity: 0 }}
                   transition={{ duration: 0.2 }}
                 >
-                  <X size={16} />
+                  <X size={18} />
                 </motion.div>
               ) : (
                 <motion.div
@@ -136,7 +138,7 @@ export default function SiteHeader({ navLinks, isMobileOpen, onToggleMobile, onC
                   exit={{ rotate: 90, opacity: 0 }}
                   transition={{ duration: 0.2 }}
                 >
-                  <Menu size={16} />
+                  <Menu size={18} />
                 </motion.div>
               )}
             </AnimatePresence>

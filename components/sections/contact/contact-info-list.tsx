@@ -23,49 +23,56 @@ export function ContactInfoList({ contactInfo, email }: ContactInfoListProps) {
   }
 
   return (
-    <div className="flex flex-col gap-4">
+    <div className="flex flex-col gap-3 sm:gap-4">
       <FadeUp delay={0.05}>
-        <ul className="flex flex-col gap-3">
+        <ul className="flex flex-col gap-3 sm:gap-3.5">
           {contactInfo.map((c) => {
             const Icon = getIconComponent(c.icon);
+            const isActionable = Boolean(c.href && c.href !== "#");
+            const Wrapper = isActionable ? "a" : "div";
+
             return (
               <li key={c.label}>
-                <a
-                  href={c.href}
-                  className="group flex items-center gap-3 rounded-xl border border-border bg-bg-card p-4 transition-all duration-200 hover:border-accent/40 hover:shadow-lg hover:shadow-accent/5"
+                <Wrapper
+                  {...(isActionable ? { href: c.href } : {})}
+                  className={`group flex items-center gap-3 rounded-xl border border-border/80 bg-bg-card p-3.5 sm:p-4 shadow-xs transition-all duration-200 ${
+                    isActionable ? "hover:border-accent/40 hover:shadow-md hover:shadow-accent/5" : ""
+                  }`}
                 >
-                  <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg border border-border bg-bg-subtle">
-                    <Icon size={15} className="text-text-2" />
+                  <span className="flex h-9 w-9 sm:h-10 sm:w-10 shrink-0 items-center justify-center rounded-lg border border-border/60 bg-bg-subtle text-accent shadow-xs group-hover:scale-105 group-hover:border-accent/30 group-hover:bg-accent/10 transition-all duration-200">
+                    <Icon size={16} className="text-accent" />
                   </span>
-                  <div className="flex min-w-0 flex-1 flex-col">
-                    <span className="text-[10px] font-semibold uppercase tracking-wider text-text-3">
+                  <div className="flex min-w-0 flex-1 flex-col justify-center">
+                    <span className="text-[10px] font-semibold uppercase tracking-widest text-text-3">
                       {c.label}
                     </span>
-                    <span className="truncate text-[13px] font-medium text-text-1">{c.value}</span>
+                    <span className="truncate text-xs sm:text-[13px] font-semibold text-text-1 group-hover:text-accent transition-colors duration-150">
+                      {c.value}
+                    </span>
                   </div>
                   {c.copyable ? (
                     <button
                       type="button"
                       aria-label={copied ? "Copied" : "Copy email"}
-                      className="flex h-7 w-7 shrink-0 items-center justify-center rounded-md border border-border bg-bg-subtle text-text-3 transition-colors duration-200 hover:border-accent/40 hover:text-accent"
+                      className="flex h-9 w-9 sm:h-10 sm:w-10 shrink-0 items-center justify-center rounded-lg border border-border/80 bg-bg-subtle text-text-3 transition-all duration-200 hover:border-accent/40 hover:bg-accent/10 hover:text-accent active:scale-95"
                       onClick={(e) => {
                         e.preventDefault();
                         copyEmail();
                       }}
                     >
                       {copied ? (
-                        <Check size={13} className="text-emerald-500" />
+                        <Check size={14} className="text-emerald-500" />
                       ) : (
-                        <Copy size={13} />
+                        <Copy size={14} />
                       )}
                     </button>
-                  ) : c.href !== "#" ? (
+                  ) : isActionable ? (
                     <ArrowRight
-                      size={13}
-                      className="shrink-0 text-text-3 transition-transform duration-200 group-hover:translate-x-0.5 group-hover:text-accent"
+                      size={14}
+                      className="shrink-0 text-text-3 transition-transform duration-200 group-hover:translate-x-1 group-hover:text-accent"
                     />
                   ) : null}
-                </a>
+                </Wrapper>
               </li>
             );
           })}

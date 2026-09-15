@@ -1,24 +1,30 @@
-import { profileDataDefault as profile } from "@/lib/data/profile.default";
+"use client";
+
 import { SOCIAL_SVG_PATHS } from "@/lib/config/constants";
-import { Mail, ArrowUpRight } from "lucide-react";
+import { Globe, Mail, ArrowUpRight } from "lucide-react";
+import { usePortfolio } from "@/contexts/portfolio-context";
 
-const navLinks = [
-  { label: "About", href: "#about" },
-  { label: "Skills", href: "#skills" },
-  { label: "Experience", href: "#experience" },
-  { label: "Projects", href: "#projects" },
-  { label: "Contact", href: "#contact" },
-];
+type NavLink = { label: string; href: string };
 
-export default function SiteFooter() {
+interface SiteFooterProps {
+  navLinks: NavLink[];
+}
+
+export default function SiteFooter({ navLinks }: SiteFooterProps) {
+  const { profile } = usePortfolio();
   const year = new Date().getFullYear();
 
+  // Only render icons for socials the user has actually configured in the
+  // CMS - no dead "#" links for platforms that were never set.
   const socials = [
-    { label: "GitHub", href: profile.socials.github ?? "#", path: SOCIAL_SVG_PATHS.github },
-    { label: "LinkedIn", href: profile.socials.linkedin ?? "#", path: SOCIAL_SVG_PATHS.linkedin },
-    { label: "Instagram", href: profile.socials.instagram ?? "#", path: SOCIAL_SVG_PATHS.instagram },
-    { label: "WhatsApp", href: profile.socials.whatsapp ?? "#", path: SOCIAL_SVG_PATHS.whatsapp },
-  ];
+    { label: "GitHub", href: profile.socials.github, path: SOCIAL_SVG_PATHS.github },
+    { label: "LinkedIn", href: profile.socials.linkedin, path: SOCIAL_SVG_PATHS.linkedin },
+    { label: "Twitter / X", href: profile.socials.twitter, path: SOCIAL_SVG_PATHS.twitter },
+    { label: "Instagram", href: profile.socials.instagram, path: SOCIAL_SVG_PATHS.instagram },
+    { label: "YouTube", href: profile.socials.youtube, path: SOCIAL_SVG_PATHS.youtube },
+    { label: "WhatsApp", href: profile.socials.whatsapp, path: SOCIAL_SVG_PATHS.whatsapp },
+    { label: "Website", href: profile.socials.website, path: null },
+  ].filter((s): s is typeof s & { href: string } => Boolean(s.href));
 
   return (
     <footer className="relative isolate overflow-hidden border-t border-border/60 bg-bg">
@@ -54,12 +60,12 @@ export default function SiteFooter() {
         </a>
 
         {/* Middle grid */}
-        <div className="grid gap-8 border-t border-border pt-10 md:grid-cols-[1.6fr_1fr_1fr] md:gap-10">
+        <div className="grid gap-8 border-t border-border pt-10 md:grid-cols-[1fr_0.55fr_0.75fr] md:gap-6">
           {/* Brand */}
           <div className="flex flex-col gap-5">
-            <a href="#hero" aria-label="Home" className="inline-flex w-fit">
+            <a href="#hero" aria-label="Home" className="inline-flex min-h-11 w-fit items-center">
               <span className="text-2xl font-bold text-text-1">
-                Bayu Purnomo
+                {profile.name}
               </span>
             </a>
 
@@ -76,11 +82,15 @@ export default function SiteFooter() {
                     aria-label={s.label}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="flex h-9 w-9 items-center justify-center rounded-full border border-border bg-bg/60 text-text-3 transition-all duration-200 hover:-translate-y-0.5 hover:border-accent/40 hover:bg-accent/10 hover:text-accent"
+                    className="flex h-11 w-11 items-center justify-center rounded-full border border-border bg-bg/60 text-text-3 transition-all duration-200 hover:-translate-y-0.5 hover:border-accent/40 hover:bg-accent/10 hover:text-accent"
                   >
-                    <svg viewBox="0 0 24 24" fill="currentColor" className="h-4 w-4">
-                      <path d={s.path} />
-                    </svg>
+                    {s.path ? (
+                      <svg viewBox="0 0 24 24" fill="currentColor" className="h-4 w-4">
+                        <path d={s.path} />
+                      </svg>
+                    ) : (
+                      <Globe size={16} />
+                    )}
                   </a>
                 </li>
               ))}
@@ -88,7 +98,7 @@ export default function SiteFooter() {
                 <a
                   href={`mailto:${profile.email}`}
                   aria-label="Email"
-                  className="flex h-9 w-9 items-center justify-center rounded-full border border-border bg-bg/60 text-text-3 transition-all duration-200 hover:-translate-y-0.5 hover:border-accent/40 hover:bg-accent/10 hover:text-accent"
+                  className="flex h-11 w-11 items-center justify-center rounded-full border border-border bg-bg/60 text-text-3 transition-all duration-200 hover:-translate-y-0.5 hover:border-accent/40 hover:bg-accent/10 hover:text-accent"
                 >
                   <Mail size={16} />
                 </a>
@@ -102,12 +112,12 @@ export default function SiteFooter() {
               Sitemap
             </h2>
 
-            <ul className="flex flex-col gap-2.5">
+            <ul className="flex flex-col gap-1.5">
               {navLinks.map((link) => (
                 <li key={link.href}>
                   <a
                     href={link.href}
-                    className="group inline-flex items-center gap-2 text-sm text-text-2 transition-colors hover:text-accent"
+                    className="group inline-flex items-center gap-2 py-1 text-sm text-text-2 transition-colors hover:text-accent"
                   >
                     <span className="h-1 w-1 rounded-full bg-border transition-colors duration-300 group-hover:bg-accent" />
                     {link.label}
@@ -123,11 +133,11 @@ export default function SiteFooter() {
               Get in touch
             </h2>
 
-            <ul className="flex flex-col gap-3">
+            <ul className="flex flex-col gap-2">
               <li>
                 <a
                   href={`mailto:${profile.email}`}
-                  className="group inline-flex items-start gap-2 text-sm text-text-2 transition-colors hover:text-accent"
+                  className="group inline-flex items-start gap-2 py-0.5 text-sm text-text-2 transition-colors hover:text-accent"
                 >
                   <Mail size={16} className="mt-0.5 shrink-0" />
                   <span className="break-all">{profile.email}</span>
@@ -137,7 +147,7 @@ export default function SiteFooter() {
                 <li>
                   <a
                     href={`tel:${profile.phone.replace(/\s|-/g, "")}`}
-                    className="group inline-flex items-start gap-2 text-sm text-text-2 transition-colors hover:text-accent"
+                    className="group inline-flex items-start gap-2 py-0.5 text-sm text-text-2 transition-colors hover:text-accent"
                   >
                     <svg
                       className="mt-0.5 h-4 w-4 shrink-0"
@@ -176,13 +186,13 @@ export default function SiteFooter() {
                     d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"
                   />
                 </svg>
-                <span>Indonesia · UTC+7</span>
+                <span>{profile.location || "Remote"}</span>
               </li>
             </ul>
 
             <div className="mt-2 rounded-lg border border-border/50 bg-bg-subtle/50 p-3">
               <p className="text-[11px] text-text-3">
-                <span className="font-semibold text-text-2">Response time:</span> Usually within 1–2 working days
+                <span className="font-semibold text-text-2">Response time:</span> Usually within 1-2 working days
               </p>
             </div>
           </div>
@@ -191,7 +201,7 @@ export default function SiteFooter() {
         {/* Bottom bar */}
         <div className="mt-10 flex flex-col items-center gap-4 border-t border-border pt-6 sm:flex-row sm:justify-between">
           <p className="text-xs text-text-3">
-            © {year} {profile.name}. All rights reserved.
+            &copy; {year} {profile.name}. All rights reserved.
           </p>
 
           <div className="flex items-center gap-4 text-xs text-text-3">
