@@ -20,7 +20,7 @@ export function AIChatbotLauncher({
   onScrollTop,
 }: AIChatbotLauncherProps) {
   return (
-    <div className="fixed bottom-6 right-6 z-50 flex flex-col gap-3 md:gap-4">
+    <div className="fixed bottom-[calc(1rem+env(safe-area-inset-bottom))] right-4 z-50 flex flex-col gap-3 md:bottom-6 md:right-6 md:gap-4">
       <AnimatePresence>
         {showScrollTop && !isOpen && (
           <motion.div
@@ -32,10 +32,10 @@ export function AIChatbotLauncher({
             <Button
               onClick={onScrollTop}
               size="lg"
-              className="w-14 h-14 rounded-full shadow-sm hover:shadow-md transition-all duration-300 flex items-center justify-center"
+              className="w-12 h-12 rounded-full shadow-sm hover:shadow-md transition-all duration-300 flex items-center justify-center md:h-14 md:w-14"
               aria-label="Scroll to top"
             >
-              <ArrowUp className="w-6 h-6" />
+              <ArrowUp className="h-5 w-5 md:h-6 md:w-6" />
             </Button>
           </motion.div>
         )}
@@ -61,7 +61,7 @@ export function AIChatbotLauncher({
               <Button
                 onClick={onOpen}
                 size="lg"
-                className="relative w-14 h-14 rounded-full shadow-sm hover:shadow-md transition-all duration-300 flex items-center justify-center"
+                className="relative w-12 h-12 rounded-full shadow-sm hover:shadow-md transition-all duration-300 flex items-center justify-center md:h-14 md:w-14"
                 aria-label="Open AI Assistant"
               >
                 <motion.div
@@ -69,7 +69,7 @@ export function AIChatbotLauncher({
                   animate={{ rotate: [0, 10, -10, 0] }}
                   transition={{ duration: 2, repeat: Infinity, repeatDelay: 3 }}
                 >
-                  <MessageCircle className="w-6 h-6" />
+                  <MessageCircle className="h-5 w-5 md:h-6 md:w-6" />
                 </motion.div>
 
                 <motion.div
@@ -77,7 +77,7 @@ export function AIChatbotLauncher({
                   animate={{ scale: [1, 1.2, 1], opacity: [0.7, 1, 0.7] }}
                   transition={{ duration: 2, repeat: Infinity }}
                 >
-                  <Sparkles className="w-4 h-4 text-secondary" />
+                  <Sparkles className="h-3.5 w-3.5 text-secondary md:h-4 md:w-4" />
                 </motion.div>
               </Button>
             </div>
