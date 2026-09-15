@@ -20,6 +20,8 @@ export interface SocialLinks {
   instagram?: string;
   whatsapp?: string;
   twitter?: string;
+  youtube?: string;
+  website?: string;
   email?: string;
 }
 
@@ -27,15 +29,6 @@ export interface Highlight {
   label: string;
   icon: string;
 }
-
-export interface SkillCategory {
-  name: string;
-  desc: string;
-  icon: string;
-}
-
-// Type alias untuk consistency dengan component naming
-export type PrimaryStackItem = SkillCategory;
 
 export interface CTA {
   text: string;

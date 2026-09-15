@@ -3,29 +3,33 @@
  */
 
 export interface Project {
-  id: number;
+  id: string;
   title: string;
   description: string;
+  content?: string;
   techStack: string[];
-  experienceId?: number;
   imageUrl?: string;
   liveUrl?: string;
   repoUrl?: string;
+  featured?: boolean;
 }
 
 export interface Skill {
+  id?: string;
   name: string;
   category: "frontend" | "backend" | "tools" | "ai" | "other";
+  level?: number;
   icon?: string;
+  order?: number;
 }
 
 export interface Experience {
-  id: number;
+  id: string;
   company: string;
   role: string;
   period: string;
   location?: string;
-  type?: string;
+  isCurrent?: boolean;
   description: string[];
   techStack?: string[];
 }
@@ -36,7 +40,17 @@ export interface Service {
   slug: string;
   description: string;
   icon?: string;
-  skillIds?: string[];
-  priceFrom?: number | null;
   isActive?: boolean;
+}
+
+export interface Certificate {
+  id: string;
+  name: string;
+  issuer: string;
+  issueDate: string;
+  expirationDate?: string;
+  isLifetime?: boolean;
+  credentialId?: string;
+  credentialUrl?: string;
+  image?: string;
 }

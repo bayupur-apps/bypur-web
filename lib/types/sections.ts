@@ -2,15 +2,11 @@
  * Section types for page layout
  */
 
-import type { SkillCategory } from "./common";
-
 export interface SkillsSection {
   label: string;
   title: string;
   titleHighlight: string;
   description: string;
-  primaryStack: SkillCategory[];
-  familiarWith: string[];
   cta: {
     label: string;
     title: string;
@@ -30,12 +26,10 @@ export interface AboutSection {
   label: string;
   title: string;
   titleHighlight: string;
-  headline: string;
-  description: string;
-  yearLabel: string;
+  // Narrative copy and primary CTA reuse profile.bio / profile.cta.primary
+  // (the same backend-driven hero content) instead of duplicating it here.
   cta: {
-    primary: { text: string; href: string };
-    secondary: { text: string; href: string };
+    secondary: { text: string };
   };
 }
 
@@ -55,6 +49,13 @@ export interface ExperienceSection {
 }
 
 export interface ProjectsSection {
+  label: string;
+  title: string;
+  titleHighlight: string;
+  description: string;
+}
+
+export interface CertificatesSection {
   label: string;
   title: string;
   titleHighlight: string;

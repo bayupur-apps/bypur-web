@@ -3,7 +3,7 @@
  */
 
 import type { ProfileStat, MobileStat, SocialLinks, Highlight, CTA } from "./common";
-import type { SkillsSection, AboutSection, ExperienceSection, ProjectsSection, ContactSection } from "./sections";
+import type { SkillsSection, AboutSection, ExperienceSection, ProjectsSection, CertificatesSection, ContactSection } from "./sections";
 
 export interface Profile {
   name: string;
@@ -16,6 +16,7 @@ export interface Profile {
   location: string;
   avatar: string;
   resumeUrl: string;
+  isCvVisible?: boolean;
   roles: string[];
   rolesLabel: string;
   techStack: string[];
@@ -26,6 +27,7 @@ export interface Profile {
   about: AboutSection;
   experience: ExperienceSection;
   projects: ProjectsSection;
+  certificates: CertificatesSection;
   contact: ContactSection;
   cta: {
     primary: CTA;

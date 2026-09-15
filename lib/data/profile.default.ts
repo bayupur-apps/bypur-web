@@ -13,10 +13,11 @@ export const profileDataDefault: Profile = {
   location: "Indonesia",
   avatar: profileAssets.avatar,
   resumeUrl: profileAssets.resume,
+  isCvVisible: true,
   roles: [
     "Full Stack Developer",
     "Laravel Developer",
-    "Backend Architect",
+    "Backend Developer",
   ],
   rolesLabel: "Currently working as",
   techStack: [
@@ -77,38 +78,6 @@ export const profileDataDefault: Profile = {
     description:
       "Technologies used to build production and freelance projects.",
 
-    primaryStack: [
-      {
-        name: "Laravel",
-        desc: "Backend & business applications",
-        icon: "Server",
-      },
-      {
-        name: "Node.js",
-        desc: "API & integration services",
-        icon: "Cpu",
-      },
-      {
-        name: "PostgreSQL",
-        desc: "Database design & optimization",
-        icon: "Database",
-      },
-      {
-        name: "Next.js / Vue",
-        desc: "Frontend applications",
-        icon: "Layers",
-      },
-    ],
-
-    familiarWith: [
-      "Docker",
-      "Redis",
-      "CI/CD",
-      "Git",
-      "System Design",
-      "AI APIs (OpenAI / LLM Integration)",
-    ],
-
     cta: {
       label: "Projects",
       title: "See what I've built",
@@ -126,22 +95,9 @@ export const profileDataDefault: Profile = {
     title: "A developer who builds",
     titleHighlight: "real working systems.",
 
-    headline:
-      "Full Stack Developer focused on building real-world business applications.",
-
-    description:
-      "I build web applications with a strong focus on backend logic, APIs, and database design. My experience includes production systems used in real business operations, freelance projects, and integrating modern tools including AI-powered features where needed.",
-
-    yearLabel: "years",
-
     cta: {
-      primary: {
-        text: "Get in touch",
-        href: "#contact",
-      },
       secondary: {
         text: "Download CV",
-        href: profileAssets.resume,
       },
     },
   },
@@ -173,6 +129,15 @@ export const profileDataDefault: Profile = {
       "Real-world applications including business systems and freelance project implementations.",
   },
 
+  certificates: {
+    label: "Certificates",
+    title: "Credentials that back it up.",
+    titleHighlight: "back it up.",
+
+    description:
+      "Certifications earned along the way to validate hands-on skills.",
+  },
+
   contact: {
     label: "Contact",
     title: "Let's work together.",
@@ -199,7 +164,7 @@ export const profileDataDefault: Profile = {
       {
         icon: "MapPin",
         label: "Location",
-        value: "Indonesia · UTC+7",
+      value: "Indonesia - UTC+7",
         href: "#",
         copyable: false,
       },
@@ -207,7 +172,7 @@ export const profileDataDefault: Profile = {
 
     form: {
       title: "Send me a message",
-      subtitle: "I usually respond within 1–2 working days.",
+      subtitle: "I usually respond within 1-2 working days.",
       projectTypes: [
         "Full Stack Web App",
         "Backend System",

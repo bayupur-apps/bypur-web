@@ -13,7 +13,8 @@ import { servicesDefault } from "@/lib/data/services.default";
 import { skillsDefault } from "@/lib/data/skills.default";
 import { experiencesDefault } from "@/lib/data/experiences.default";
 import { projectsDefault } from "@/lib/data/projects.default";
-import type { Profile, Service, Skill, Experience, Project } from "@/lib/types";
+import { certificatesDefault } from "@/lib/data/certificates.default";
+import type { Profile, Service, Skill, Experience, Project, Certificate } from "@/lib/types";
 
 interface PortfolioContextType {
   profile: Profile;
@@ -21,6 +22,7 @@ interface PortfolioContextType {
   skills: Skill[];
   experiences: Experience[];
   projects: Project[];
+  certificates: Certificate[];
   loading: boolean;
   refetch: () => Promise<void>;
 }
@@ -36,17 +38,15 @@ export function PortfolioProvider({ children }: { children: ReactNode }) {
   const [experiences, setExperiences] =
     useState<Experience[]>(experiencesDefault);
   const [projects, setProjects] = useState<Project[]>(projectsDefault);
-  const [loading, setLoading] = useState(true);
+  const [certificates, setCertificates] =
+    useState<Certificate[]>(certificatesDefault);
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     let cancelled = false;
 
     const fetchData = async () => {
       try {
-        if (!cancelled) {
-          setLoading(true);
-        }
-
         // Use portfolioApi for unified fetching with automatic fallback
         const data = await portfolioApi.getAllPortfolioData();
 
@@ -56,6 +56,7 @@ export function PortfolioProvider({ children }: { children: ReactNode }) {
           setSkills(data.skills);
           setExperiences(data.experiences);
           setProjects(data.projects);
+          setCertificates(data.certificates);
         }
       } catch (error) {
         console.error("Failed to fetch portfolio data:", error);
@@ -83,6 +84,7 @@ export function PortfolioProvider({ children }: { children: ReactNode }) {
       setSkills(data.skills);
       setExperiences(data.experiences);
       setProjects(data.projects);
+      setCertificates(data.certificates);
     } catch (error) {
       console.error("Failed to fetch portfolio data:", error);
     } finally {
@@ -98,6 +100,7 @@ export function PortfolioProvider({ children }: { children: ReactNode }) {
         skills,
         experiences,
         projects,
+        certificates,
         loading,
         refetch,
       }}

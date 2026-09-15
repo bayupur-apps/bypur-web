@@ -8,12 +8,12 @@ import type { Experience } from "@/lib/types";
 
 export const experiencesDefault: Experience[] = [
   {
-    id: 1,
+    id: "1",
     company: "PT Ethos Kreatif Indonesia",
     role: "Full Stack Developer",
     period: "May 2024 - Present",
     location: "Purwokerto, Indonesia",
-    type: "On-site",
+    isCurrent: true,
     description: [
       "Develop and maintain internal business applications that support company operations and cross-system integrations.",
       "Build and enhance web-based systems including Ticketing, CMS, Compliance, Asset Management, Outlet Management, and Order Management System (OMS).",
@@ -39,12 +39,12 @@ export const experiencesDefault: Experience[] = [
     ],
   },
   {
-    id: 2,
+    id: "2",
     company: "Freelance",
     role: "Full Stack Developer",
     period: "2022 - Present",
     location: "Remote",
-    type: "Freelance",
+    isCurrent: true,
     description: [
       "Architected and developed a custom Order Management System (OMS) to support order processing, inventory management, and operational workflows.",
       "Built a SaaS-based attendance management platform with employee management, attendance tracking, reporting, and administrative features.",
