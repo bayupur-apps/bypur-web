@@ -120,6 +120,9 @@ jobs:
             tar -xzf /tmp/deploy.tar.gz -C /var/www/bypur-web/
             rm -f /tmp/deploy.tar.gz
             
+            # Remove old container name if running
+            docker rm -f bypur-portfolio 2>/dev/null || true
+            
             # Restart containers
             docker compose down || docker-compose down || true
             docker compose up -d --build || docker-compose up -d --build
