@@ -189,7 +189,7 @@ jobs:
           username: ${{ secrets.VPS_USERNAME }}
           key: ${{ secrets.VPS_SSH_KEY }}
           script: |
-            cd /var/www/bypur-portfolio
+            cd /var/www/bypur-web
             
             # Backup current version
             [ -d ".next" ] && tar -czf backup-$(date +%Y%m%d-%H%M%S).tar.gz .next public
