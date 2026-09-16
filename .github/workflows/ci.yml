@@ -65,6 +65,10 @@ jobs:
 
       - name: Build application
         run: pnpm build
+        env:
+          NEXT_PUBLIC_API_URL: ${{ secrets.NEXT_PUBLIC_API_URL || 'https://api.bypur.my.id/api/public' }}
+          NEXT_PUBLIC_API_KEY: ${{ secrets.NEXT_PUBLIC_API_KEY }}
+          NEXT_PUBLIC_USE_BACKEND: 'true'
 
       - name: Package deployment artifact
         run: |

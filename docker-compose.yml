@@ -5,6 +5,10 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
+      args:
+        NEXT_PUBLIC_API_URL: ${NEXT_PUBLIC_API_URL:-https://api.bypur.my.id/api/public}
+        NEXT_PUBLIC_API_KEY: ${NEXT_PUBLIC_API_KEY}
+        NEXT_PUBLIC_USE_BACKEND: ${NEXT_PUBLIC_USE_BACKEND:-true}
     image: bypur-portfolio:latest
     container_name: bypur-portfolio
     restart: unless-stopped
