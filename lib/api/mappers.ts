@@ -25,18 +25,28 @@ export interface BackendProfile {
   location?: string | null;
   phone?: string | null;
   resumeUrl?: string | null;
+  resume_url?: string | null;
   isCvVisible?: boolean | null;
+  is_cv_visible?: boolean | null;
   socialLinks?: BackendSocialLink[];
+  social_links?: BackendSocialLink[];
   // Hero section content
   roles?: string[];
   rolesLabel?: string | null;
+  roles_label?: string | null;
   tagline?: string | null;
   taglineHighlight?: string | null;
+  tagline_highlight?: string | null;
   ctaPrimaryText?: string | null;
+  cta_primary_text?: string | null;
   ctaPrimaryHref?: string | null;
+  cta_primary_href?: string | null;
   ctaSecondaryText?: string | null;
+  cta_secondary_text?: string | null;
   ctaSecondaryHref?: string | null;
+  cta_secondary_href?: string | null;
   highlights?: { label: string; icon: string }[];
+  highlights_?: { label: string; icon: string }[];
 }
 
 export interface BackendOffering {
