@@ -8,6 +8,7 @@ interface AIChatbotLauncherProps {
   showScrollTop: boolean;
   isOpen: boolean;
   hasNewMessage: boolean;
+  showChat?: boolean;
   onOpen: () => void;
   onScrollTop: () => void;
 }
@@ -16,6 +17,7 @@ export function AIChatbotLauncher({
   showScrollTop,
   isOpen,
   hasNewMessage,
+  showChat = true,
   onOpen,
   onScrollTop,
 }: AIChatbotLauncherProps) {
@@ -42,7 +44,7 @@ export function AIChatbotLauncher({
       </AnimatePresence>
 
       <AnimatePresence>
-        {!isOpen && (
+        {showChat && !isOpen && (
           <motion.div
             initial={{ scale: 0, opacity: 0 }}
             animate={{ scale: 1, opacity: 1 }}

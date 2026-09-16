@@ -5,7 +5,7 @@ import type {
   Service,
   Profile,
   ProfileStat,
-  ProfileHighlight,
+  Highlight,
 } from "@/lib/types";
 
 describe("TypeScript Interfaces", () => {
@@ -146,9 +146,10 @@ describe("TypeScript Interfaces", () => {
     });
   });
 
-  describe("ProfileHighlight Interface", () => {
+  describe("Highlight Interface", () => {
     it("should accept valid highlight object", () => {
-      const highlight: ProfileHighlight = {
+      const highlight: Highlight = {
+        label: "Coding",
         icon: "Code",
       };
       expect(highlight).toBeDefined();
@@ -156,7 +157,7 @@ describe("TypeScript Interfaces", () => {
     });
 
     it("should accept optional label", () => {
-      const highlight: ProfileHighlight = {
+      const highlight: Highlight = {
         label: "JavaScript",
         icon: "Code",
       };

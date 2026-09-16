@@ -105,15 +105,39 @@ export interface BackendCertificate {
 
 // ─── Helpers ─────────────────────────────────────────────────────────────
 
-/** Backend stores techStack/description-list columns as a JSON array string. */
 function parseJsonStringArray(raw: string): string[] {
+  if (!raw) return [];
   try {
-    const parsed = JSON.parse(raw);
-    return Array.isArray(parsed) ? parsed.filter((v) => typeof v === "string") : [];
-  } catch {
+    let parsed: unknown = JSON.parse(raw);
+    if (typeof parsed === "string") {
+      try {
+        parsed = JSON.parse(parsed);
+      } catch {
+        // use string fallback
+      }
+    }
+    if (Array.isArray(parsed)) {
+      return parsed
+        .map((v) => String(v).replace(/[[\]"\\']/g, "").trim())
+        .filter(Boolean);
+    }
+    if (typeof parsed === "string") {
+      return parsed
+        .replace(/[[\]"\\']/g, "")
+        .split(",")
+        .map((v) => v.trim())
+        .filter(Boolean);
+    }
     return [];
+  } catch {
+    return String(raw)
+      .replace(/[[\]"\\']/g, "")
+      .split(",")
+      .map((v) => v.trim())
+      .filter(Boolean);
   }
 }
+
 
 function formatMonthYear(iso: string): string {
   const d = new Date(iso);
@@ -183,12 +207,12 @@ export function mapProfile(be: BackendProfile, fallback: Profile): Profile {
     highlights: be.highlights?.length ? be.highlights : fallback.highlights,
     cta: {
       primary: {
-        text: ctaPrimaryText || fallback.cta.primary.text,
-        href: ctaPrimaryHref || fallback.cta.primary.href,
+        text: ctaPrimaryText || fallback.cta?.primary?.text || "",
+        href: ctaPrimaryHref || fallback.cta?.primary?.href || "",
       },
       secondary: {
-        text: ctaSecondaryText || fallback.cta.secondary.text,
-        href: ctaSecondaryHref || fallback.cta.secondary.href,
+        text: ctaSecondaryText || fallback.cta?.secondary?.text || "",
+        href: ctaSecondaryHref || fallback.cta?.secondary?.href || "",
       },
     },
   };

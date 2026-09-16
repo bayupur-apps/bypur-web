@@ -1,4 +1,4 @@
-﻿"use client";
+"use client";
 
 import {
   type ReactNode,
@@ -173,7 +173,7 @@ export function renderMessageContent(content: string) {
   return nodes;
 }
 
-export function AIChatbot() {
+export function AIChatbot({ enabled = true }: { enabled?: boolean }) {
   const [isOpen, setIsOpen] = useState(false);
   const [messages, setMessages] = useState<Message[]>([WELCOME_MESSAGE]);
   const [input, setInput] = useState("");
@@ -283,6 +283,7 @@ export function AIChatbot() {
         showScrollTop={showScrollTop}
         isOpen={isOpen}
         hasNewMessage={hasNewMessage}
+        showChat={enabled}
         onOpen={handleOpen}
         onScrollTop={scrollToTop}
       />

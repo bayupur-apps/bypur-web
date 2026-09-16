@@ -27,7 +27,7 @@ export function ContactInfoList({ contactInfo, email }: ContactInfoListProps) {
       <FadeUp delay={0.05}>
         <ul className="flex flex-col gap-3 sm:gap-3.5">
           {contactInfo.map((c) => {
-            const Icon = getIconComponent(c.icon);
+            const Icon = getIconComponent(c.icon || "");
             const isActionable = Boolean(c.href && c.href !== "#");
             const Wrapper = isActionable ? "a" : "div";
 

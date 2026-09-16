@@ -150,6 +150,12 @@ export async function sendChatMessage(messages: { role: string; content: string 
   return res?.message || "Tidak ada jawaban yang dikembalikan dari AI backend.";
 }
 
+/** Get Settings map - fallback to empty object if API unavailable */
+export async function getSettingsMap(): Promise<Record<string, string>> {
+  const map = await fetchFromAPI<Record<string, string> | null>("/settings/map", null);
+  return map || {};
+}
+
 /** Unified API export */
 export const portfolioApi = {
   getProfile,
@@ -158,7 +164,9 @@ export const portfolioApi = {
   getExperiences,
   getCertificates,
   getProjects,
+  getSettingsMap,
   getAllPortfolioData,
   submitContact,
   sendChatMessage,
 };
+

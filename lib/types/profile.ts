@@ -8,30 +8,30 @@ import type { SkillsSection, AboutSection, ExperienceSection, ProjectsSection, C
 export interface Profile {
   name: string;
   title: string;
-  tagline: string;
-  taglineHighlight: string;
+  tagline?: string;
+  taglineHighlight?: string;
   bio: string;
   email: string;
-  phone: string;
+  phone?: string;
   location: string;
   avatar: string;
-  resumeUrl: string;
+  resumeUrl?: string;
   isCvVisible?: boolean;
-  roles: string[];
-  rolesLabel: string;
-  techStack: string[];
-  stats: ProfileStat[];
-  mobileStats: MobileStat[];
-  highlights: Highlight[];
-  skills: SkillsSection;
-  about: AboutSection;
-  experience: ExperienceSection;
-  projects: ProjectsSection;
-  certificates: CertificatesSection;
-  contact: ContactSection;
-  cta: {
-    primary: CTA;
-    secondary: CTA;
+  roles?: string[];
+  rolesLabel?: string;
+  techStack?: string[];
+  stats?: ProfileStat[];
+  mobileStats?: MobileStat[];
+  highlights?: Highlight[];
+  skills?: SkillsSection;
+  about?: AboutSection;
+  experience?: ExperienceSection;
+  projects?: ProjectsSection;
+  certificates?: CertificatesSection;
+  contact?: ContactSection;
+  cta?: {
+    primary?: CTA;
+    secondary?: CTA;
   };
   socials: SocialLinks;
 }

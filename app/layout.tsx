@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import { ThemeProvider } from "@/components/providers/theme-provider";
 import { AIChatbot } from "@/components/ui/ai-chatbot";
-import { getProfile, getSkills } from "@/lib/api/portfolio";
+import { getProfile, getSkills, getSettingsMap } from "@/lib/api/portfolio";
 import "./globals.css";
 
 const geistSans = Geist({
@@ -25,7 +25,7 @@ export async function generateMetadata(): Promise<Metadata> {
   return {
     title: siteTitle,
     description: profile.bio,
-    keywords: [profile.name, profile.title, ...profile.roles, "Portfolio"],
+    keywords: [profile.name, profile.title, ...(profile.roles || []), "Portfolio"],
     authors: [{ name: profile.name }],
     creator: profile.name,
     publisher: profile.name,
@@ -75,7 +75,14 @@ export default async function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const [profile, skills] = await Promise.all([getProfile(), getSkills()]);
+  const [profile, skills, settingsMap] = await Promise.all([
+    getProfile(),
+    getSkills(),
+    getSettingsMap(),
+  ]);
+
+  const isMaintenance = settingsMap.site_maintenance_mode === "true";
+  const showAIChat = !isMaintenance && settingsMap.ai_chat_enabled !== "false";
 
   const jsonLd = {
     "@context": "https://schema.org",
@@ -117,7 +124,7 @@ export default async function RootLayout({
         />
         <ThemeProvider>
           {children}
-          <AIChatbot />
+          <AIChatbot enabled={showAIChat} />
         </ThemeProvider>
       </body>
     </html>
