@@ -68,7 +68,7 @@ jobs:
 
       - name: Package deployment artifact
         run: |
-          tar -czf deploy.tar.gz .next public package.json pnpm-lock.yaml Dockerfile docker-compose.yml
+          tar -czf deploy.tar.gz app components contexts lib public package.json pnpm-lock.yaml next.config.ts tailwind.config.ts postcss.config.mjs tsconfig.json Dockerfile docker-compose.yml
 
       - name: Upload build artifact
         uses: actions/upload-artifact@v4
