@@ -3,6 +3,8 @@ import { Geist, Geist_Mono } from "next/font/google";
 import { ThemeProvider } from "@/components/providers/theme-provider";
 import { AIChatbot } from "@/components/ui/ai-chatbot";
 import { getProfile, getSkills, getSettingsMap } from "@/lib/api/portfolio";
+import { GoogleAnalytics } from "@/components/analytics/google-analytics";
+import { env } from "@/lib/config/env";
 import "./globals.css";
 
 const geistSans = Geist({
@@ -116,6 +118,7 @@ export default async function RootLayout({
       className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
     >
       <body className="min-h-full flex flex-col">
+        <GoogleAnalytics gaId={env.gaMeasurementId} />
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{

@@ -4,9 +4,9 @@ export default function sitemap(): MetadataRoute.Sitemap {
   return [
     {
       url: "https://bypur.my.id",
-      lastModified: new Date("2026-07-21"),
-      changeFrequency: "monthly",
-      priority: 1,
+      lastModified: new Date(),
+      changeFrequency: "weekly",
+      priority: 1.0,
     },
   ];
 }

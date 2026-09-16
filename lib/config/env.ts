@@ -5,6 +5,9 @@ export const env = {
   useBackend: process.env.NEXT_PUBLIC_USE_BACKEND !== "false",
   apiKey: process.env.NEXT_PUBLIC_API_KEY || "",
 
+  // Google Analytics 4 Measurement ID (e.g. G-XXXXXXXXXX)
+  gaMeasurementId: process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID || "",
+
   // Environment check
   isDev: process.env.NODE_ENV === "development",
 } as const;
