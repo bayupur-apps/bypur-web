@@ -1,5 +1,5 @@
 // Unit Tests for Projects Section Utils
-import { generateTags } from "@/components/sections/projects/utils";
+import { generateTags, hasRealImage, pickCoverPalette } from "@/components/sections/projects/utils";
 import type { Project } from "@/lib/types";
 
 describe("Projects Section Utils", () => {
@@ -106,5 +106,20 @@ describe("Projects Section Utils", () => {
       const result = generateTags(projects);
       expect(result).toEqual(["All"]);
     });
+  });
+});
+
+describe("cover helpers", () => {
+  it("treats missing and placeholder images as no image", () => {
+    expect(hasRealImage(undefined)).toBe(false);
+    expect(hasRealImage("/images/projects/placeholder.svg")).toBe(false);
+    expect(hasRealImage("https://cdn.example.com/oms.png")).toBe(true);
+  });
+
+  it("picks a stable palette index within range", () => {
+    const a = pickCoverPalette("Order Management System (OMS)", 4);
+    expect(a).toBe(pickCoverPalette("Order Management System (OMS)", 4));
+    expect(a).toBeGreaterThanOrEqual(0);
+    expect(a).toBeLessThan(4);
   });
 });

@@ -1,5 +1,5 @@
 // Unit Tests for Experience Section Utils
-import { calculateYearsExp } from "@/components/sections/experience/utils";
+import { calculateYearsExp, formatDuration } from "@/components/sections/experience/utils";
 import type { Experience } from "@/lib/types";
 
 describe("Experience Section Utils", () => {
@@ -77,5 +77,25 @@ describe("Experience Section Utils", () => {
       const result = calculateYearsExp(experiences);
       expect(result).toBe(0); // current year - current year
     });
+  });
+});
+
+describe("formatDuration", () => {
+  const now = new Date(2026, 8, 30); // 30 Sep 2026
+
+  it("counts months inclusively for month-precise periods", () => {
+    expect(formatDuration("May 2024 - Present", now)).toBe("2 yrs 5 mos");
+    expect(formatDuration("Jan 2023 - Dec 2023", now)).toBe("1 yr");
+    expect(formatDuration("Sep 2026 - Present", now)).toBe("1 mo");
+  });
+
+  it("gives whole years for year-only periods", () => {
+    expect(formatDuration("2022 - Present", now)).toBe("4 yrs");
+    expect(formatDuration("2026 - Present", now)).toBe("< 1 yr");
+  });
+
+  it("returns an empty string for unparsable periods", () => {
+    expect(formatDuration("Sometime", now)).toBe("");
+    expect(formatDuration("Q1 2024 - Q2 2024", now)).toBe("");
   });
 });
