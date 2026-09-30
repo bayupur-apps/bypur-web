@@ -19,6 +19,8 @@ export interface Profile {
   isCvVisible?: boolean;
   roles?: string[];
   rolesLabel?: string;
+  /** Short availability note shown as a pill above the hero headline; hidden when empty. */
+  availability?: string;
   techStack?: string[];
   stats?: ProfileStat[];
   mobileStats?: MobileStat[];

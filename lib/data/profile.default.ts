@@ -20,6 +20,7 @@ export const profileDataDefault: Profile = {
     "Backend Developer",
   ],
   rolesLabel: "Currently working as",
+  availability: "Open to freelance projects",
   techStack: [
     "Laravel",
     "Node.js",

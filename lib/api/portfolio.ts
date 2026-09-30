@@ -118,7 +118,8 @@ function withDerivedHeroStats(
         accent: false,
         icon: "ti-server",
       },
-      { value: "100%", label: "remote ready", accent: false, icon: "ti-world" },
+      // Not derivable from data - keep the curated CMS/default stat.
+      profile.mobileStats?.[3] ?? { value: "100%", label: "remote ready", accent: false, icon: "ti-world" },
     ],
   };
 }

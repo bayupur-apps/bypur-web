@@ -59,6 +59,11 @@ jest.mock("framer-motion", () => {
       li: createMockComponent("li"),
     },
     AnimatePresence: ({ children }: { children: React.ReactNode }) => children,
+    useReducedMotion: () => false,
+    useMotionValue: (initial: unknown) => ({ get: () => initial, set: jest.fn() }),
+    useSpring: (source: unknown) => source,
+    // Static value is enough - jsdom has no layout to parallax against.
+    useTransform: () => 0,
   };
 });
 

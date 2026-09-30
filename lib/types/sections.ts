@@ -26,6 +26,8 @@ export interface AboutSection {
   label?: string;
   title?: string;
   titleHighlight?: string;
+  /** Longer About story; blank lines split paragraphs. Falls back to `bio`. */
+  description?: string;
   cta?: {
     secondary?: { text?: string };
   };
