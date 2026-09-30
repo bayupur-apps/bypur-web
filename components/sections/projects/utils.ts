@@ -16,3 +16,13 @@ export const generateTags = (projects: Project[]): string[] => {
 /** Featured projects first (stable within each group), for grid display priority. */
 export const sortByFeatured = (projects: Project[]): Project[] =>
   [...projects].sort((a, b) => Number(b.featured ?? false) - Number(a.featured ?? false));
+
+/** Placeholder art (or no image) should get a generated cover instead. */
+export const hasRealImage = (url?: string): boolean => Boolean(url) && !/placeholder/i.test(url!);
+
+/** Stable palette index per project so covers vary but never reshuffle. */
+export const pickCoverPalette = (seed: string, paletteCount: number): number => {
+  let hash = 0;
+  for (let i = 0; i < seed.length; i++) hash = (hash * 31 + seed.charCodeAt(i)) >>> 0;
+  return hash % paletteCount;
+};

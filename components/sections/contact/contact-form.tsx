@@ -12,7 +12,6 @@ interface ContactFormProps {
 type SubmitState = "idle" | "submitting" | "success" | "error";
 
 export function ContactForm({ email, formConfig }: ContactFormProps) {
-  const [selectedType, setSelectedType] = useState<string>("Web app");
   const [name, setName] = useState("");
   const [senderEmail, setSenderEmail] = useState("");
   const [message, setMessage] = useState("");
@@ -20,7 +19,8 @@ export function ContactForm({ email, formConfig }: ContactFormProps) {
   const MAX_MSG = 1000;
 
   const title = formConfig?.title || "Send me a message";
-  const subtitle = formConfig?.subtitle || "I'll get back to you within 1-2 working days.";
+  const subtitle =
+    formConfig?.subtitle || "I'll get back to you within 1-2 working days.";
   const projectTypes = formConfig?.projectTypes || [
     "Web app",
     "Landing page",
@@ -28,6 +28,14 @@ export function ContactForm({ email, formConfig }: ContactFormProps) {
     "Consulting",
     "Other",
   ];
+  // Default to the first configured type - a hard-coded default that isn't
+  // in the CMS list left every option unselected while still being sent.
+  const [selectedType, setSelectedType] = useState<string>(
+    projectTypes[0] ?? "Other",
+  );
+  const activeType = projectTypes.includes(selectedType)
+    ? selectedType
+    : projectTypes[0];
 
   async function handleSubmit(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
@@ -37,7 +45,7 @@ export function ContactForm({ email, formConfig }: ContactFormProps) {
       await submitContact({
         name,
         email: senderEmail,
-        subject: selectedType,
+        subject: activeType,
         message,
       });
       setStatus("success");
@@ -53,10 +61,12 @@ export function ContactForm({ email, formConfig }: ContactFormProps) {
     <FadeUp delay={0.1}>
       <form
         onSubmit={handleSubmit}
-        className="flex flex-col gap-4 rounded-2xl border border-border/80 bg-bg-card p-4.5 sm:p-7 shadow-xs"
+        className="flex flex-col gap-4 rounded-3xl border border-border glass p-5 shadow-xl shadow-accent/5 sm:p-7 dark:shadow-black/20"
       >
         <div>
-          <h3 className="text-sm sm:text-[15px] font-semibold text-text-1">{title}</h3>
+          <h3 className="text-sm sm:text-[15px] font-semibold text-text-1">
+            {title}
+          </h3>
           <p className="mt-0.5 text-xs text-text-2">{subtitle}</p>
         </div>
 
@@ -74,11 +84,11 @@ export function ContactForm({ email, formConfig }: ContactFormProps) {
                   type="radio"
                   name="project_type"
                   value={type}
-                  checked={selectedType === type}
+                  checked={activeType === type}
                   onChange={(e) => setSelectedType(e.target.value)}
                   className="peer sr-only"
                 />
-                <span className="inline-flex min-h-9 sm:min-h-10 items-center justify-center rounded-full border border-border/80 bg-bg-subtle px-3 py-1.5 sm:px-3.5 text-[11px] sm:text-xs font-medium text-text-2 transition-all duration-150 hover:border-accent/30 hover:text-text-1 peer-checked:border-accent/60 peer-checked:bg-accent/10 peer-checked:text-accent peer-checked:font-semibold shadow-xs">
+                <span className="inline-flex min-h-9 sm:min-h-10 items-center justify-center rounded-full border border-border/80 bg-bg-subtle px-3 py-1.5 sm:px-3.5 text-[11px] sm:text-xs font-medium text-text-2 transition-all duration-150 hover:border-accent/30 hover:text-text-1 peer-checked:border-accent peer-checked:bg-accent peer-checked:text-accent-fg peer-focus-visible:ring-2 peer-focus-visible:ring-secondary/50">
                   {type}
                 </span>
               </label>
@@ -150,22 +160,28 @@ export function ContactForm({ email, formConfig }: ContactFormProps) {
           disabled={status === "submitting"}
           className="group flex w-full items-center justify-center gap-2 rounded-lg bg-accent px-5 py-3 text-[13px] font-semibold text-accent-fg shadow-md shadow-accent/20 transition-all duration-200 hover:bg-accent-hover hover:shadow-lg hover:shadow-accent/25 active:scale-[0.99] disabled:cursor-not-allowed disabled:opacity-60"
         >
-          <Send size={14} className="transition-transform duration-200 group-hover:-translate-y-0.5 group-hover:translate-x-0.5" />
+          <Send
+            size={14}
+            className="transition-transform duration-200 group-hover:-translate-y-0.5 group-hover:translate-x-0.5"
+          />
           {status === "submitting" ? "Sending..." : "Send Message"}
         </button>
 
-        {status === "success" && (
-          <p className="flex items-center gap-1.5 text-xs font-medium text-emerald-600 dark:text-emerald-400">
-            <CheckCircle2 size={14} />
-            Message sent — I&apos;ll get back to you soon.
-          </p>
-        )}
-        {status === "error" && (
-          <p className="flex items-center gap-1.5 text-xs font-medium text-red-500">
-            <AlertCircle size={14} />
-            Couldn&apos;t send right now — email me directly at {email} instead.
-          </p>
-        )}
+        <div aria-live="polite" className="empty:hidden">
+          {status === "success" && (
+            <p className="flex items-center gap-1.5 text-xs font-medium text-emerald-600 dark:text-emerald-400">
+              <CheckCircle2 size={14} />
+              Message sent — I&apos;ll get back to you soon.
+            </p>
+          )}
+          {status === "error" && (
+            <p className="flex items-center gap-1.5 text-xs font-medium text-red-500">
+              <AlertCircle size={14} />
+              Couldn&apos;t send right now — email me directly at {email}{" "}
+              instead.
+            </p>
+          )}
+        </div>
       </form>
     </FadeUp>
   );

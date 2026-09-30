@@ -2,9 +2,9 @@
 
 import { FadeUp } from "@/components/ui/motion";
 import { SectionHeader } from "@/components/ui/section-header";
+import { HighlightedTitle } from "@/components/ui/highlighted-title";
 import { SectionContainer } from "@/components/ui/section-container";
 import { SkillLogoGrid } from "./stack/skill-logo-grid";
-import { CTABanner } from "./stack/cta-banner";
 import { usePortfolio } from "@/contexts/portfolio-context";
 
 export default function StackSection() {
@@ -24,23 +24,17 @@ export default function StackSection() {
       <FadeUp>
         <SectionHeader
           label={label}
-          title={
-            <>
-              {title.replace(titleHighlight, "")}{" "}
-              <span className="text-accent">{titleHighlight}</span>
-            </>
-          }
+          title={<HighlightedTitle title={title} highlight={titleHighlight} />}
           description={description}
+          className="mx-auto max-w-2xl text-center"
         />
       </FadeUp>
 
-      <div className="mx-auto mt-12 max-w-5xl space-y-16">
-        <FadeUp delay={0.05}>
-          <SkillLogoGrid skills={skills} />
-        </FadeUp>
-
-        <CTABanner cta={skillsConfig.cta} />
-      </div>
+      {/* The "see my projects" banner was dropped: Hero already leads with
+          that CTA and the Projects section is two scrolls away. */}
+      <FadeUp delay={0.05} className="mx-auto mt-10 max-w-5xl">
+        <SkillLogoGrid skills={skills} />
+      </FadeUp>
     </SectionContainer>
   );
 }

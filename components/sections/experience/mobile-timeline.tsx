@@ -1,73 +1,117 @@
+"use client";
+
+import { useState } from "react";
+import { ChevronDown, MapPin } from "lucide-react";
 import { FadeUp } from "@/components/ui/motion";
-import { Badge } from "@/components/ui/badge";
+import { TechChip } from "@/components/ui/tech-chip";
+import { cn } from "@/lib/helpers";
 import type { Experience } from "@/lib/types";
+import { companyInitials } from "./experience-detail";
+import { formatDuration } from "./utils";
 
 interface MobileTimelineProps {
   experiences: Experience[];
 }
 
+// Six bullets per role makes a very long scroll on a phone - show the
+// first few and let the reader expand.
+const COLLAPSED_BULLETS = 3;
+
+function MobileExperienceCard({ exp }: { exp: Experience }) {
+  const [expanded, setExpanded] = useState(false);
+  const duration = formatDuration(exp.period);
+  const bullets = expanded ? exp.description : exp.description.slice(0, COLLAPSED_BULLETS);
+  const hidden = exp.description.length - COLLAPSED_BULLETS;
+
+  return (
+    <article className="rounded-2xl border border-border glass p-5">
+      <header className="flex items-start gap-3">
+        <span
+          aria-hidden="true"
+          className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-linear-to-br from-secondary/25 to-accent/15 text-sm font-semibold text-accent ring-1 ring-inset ring-secondary/25 dark:to-tertiary/15 dark:text-secondary"
+        >
+          {companyInitials(exp.company)}
+        </span>
+        <div className="min-w-0 flex-1">
+          <h3 className="text-base font-bold leading-snug text-text-1">{exp.role}</h3>
+          <p className="mt-0.5 text-sm font-medium text-text-2">{exp.company}</p>
+        </div>
+      </header>
+
+      <p className="mt-3 flex flex-wrap items-center gap-x-3 gap-y-1 text-xs text-text-3">
+        <span>
+          {exp.period}
+          {duration && <span className="text-text-3/80"> · {duration}</span>}
+        </span>
+        {exp.location && (
+          <span className="inline-flex items-center gap-1">
+            <MapPin size={12} aria-hidden="true" />
+            {exp.location}
+          </span>
+        )}
+      </p>
+
+      <ul className="mt-4 space-y-2.5">
+        {bullets.map((d, idx) => (
+          <li key={`${d}-${idx}`} className="flex items-start gap-2.5 text-sm leading-relaxed text-text-2">
+            <span
+              aria-hidden="true"
+              className="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-linear-to-br from-secondary to-accent dark:to-tertiary"
+            />
+            <span>{d}</span>
+          </li>
+        ))}
+      </ul>
+
+      {hidden > 0 && (
+        <button
+          type="button"
+          onClick={() => setExpanded((v) => !v)}
+          aria-expanded={expanded}
+          className="mt-3 inline-flex min-h-9 items-center gap-1 text-sm font-medium text-accent dark:text-secondary"
+        >
+          {expanded ? "Show less" : `Show ${hidden} more`}
+          <ChevronDown size={15} className={cn("transition-transform duration-300", expanded && "rotate-180")} />
+        </button>
+      )}
+
+      {exp.techStack?.length ? (
+        <div className="mt-4 flex flex-wrap gap-1.5">
+          {exp.techStack.map((tech, idx) => (
+            <TechChip key={`${tech}-${idx}`} name={tech} />
+          ))}
+        </div>
+      ) : null}
+    </article>
+  );
+}
+
 export function MobileTimeline({ experiences }: MobileTimelineProps) {
   return (
-    <div className="relative mx-auto mt-8 max-w-2xl lg:hidden">
-      {/* Timeline gradient line */}
-      <div className="pointer-events-none absolute bottom-0 left-4 top-0 w-0.5 bg-linear-to-b from-accent/30 via-border to-transparent" />
+    <ol className="relative mx-auto mt-10 max-w-2xl lg:hidden">
+      {/* Timeline line */}
+      <div
+        aria-hidden="true"
+        className="pointer-events-none absolute bottom-0 left-1.75 top-2 w-px bg-linear-to-b from-secondary/50 via-border to-transparent"
+      />
 
       {experiences.map((exp, i) => (
-        <FadeUp key={exp.id} delay={i * 0.05}>
-          <div className="relative mb-12 pl-10 last:mb-0">
-            {/* Enhanced dot */}
-            <span className="absolute left-2.5 top-2 flex h-3 w-3 items-center justify-center">
-              <span className="absolute h-3 w-3 animate-ping rounded-full bg-accent/30" />
-              <span className="relative h-3 w-3 rounded-full border-2 border-accent bg-bg shadow-md shadow-accent/20" />
-            </span>
-
-            <div className="group mb-3 rounded-md border border-border bg-bg-card p-5 transition-all duration-200 hover:border-accent/30 hover:shadow-lg hover:shadow-accent/5">
-              <div className="mb-2 flex flex-wrap items-center gap-1.5">
-                <div className="inline-flex items-center gap-2 rounded-full border border-accent/20 bg-accent/5 px-2.5 py-0.5">
-                  <span className="text-[10px] font-bold uppercase tracking-widest text-accent">
-                    {exp.period}
-                  </span>
-                </div>
-                {exp.isCurrent && (
-                  <div className="inline-flex items-center gap-1 rounded-full bg-emerald-500/10 px-2 py-0.5">
-                    <span className="h-1 w-1 animate-pulse rounded-full bg-emerald-500" />
-                    <span className="text-[9px] font-bold uppercase tracking-wider text-emerald-500">
-                      Now
-                    </span>
-                  </div>
-                )}
-              </div>
-
-              <h3 className="mt-2 text-[16px] font-bold text-text-1">{exp.role}</h3>
-              <p className="mt-0.5 text-[13px] font-medium text-text-2">{exp.company}</p>
-
-              <ul className="mt-4 space-y-2">
-                {exp.description.map((d, idx) => (
-                  <li
-                    key={`${d}-${idx}`}
-                    className="flex items-start gap-2 text-[13px] leading-relaxed text-text-2"
-                  >
-                    <span className="mt-1 flex h-4 w-4 shrink-0 items-center justify-center rounded bg-accent/10 text-[9px] font-bold text-accent">
-                      {idx + 1}
-                    </span>
-                    <span>{d}</span>
-                  </li>
-                ))}
-              </ul>
-
-              {exp.techStack?.length ? (
-                <div className="mt-4 flex flex-wrap gap-1.5">
-                  {exp.techStack.map((tech, idx) => (
-                    <Badge key={`${tech}-${idx}`} variant="outline" className="text-[11px]">
-                      {tech}
-                    </Badge>
-                  ))}
-                </div>
-              ) : null}
-            </div>
-          </div>
-        </FadeUp>
+        <li key={exp.id} className="relative mb-8 pl-8 last:mb-0">
+          {/* Dot */}
+          <span
+            aria-hidden="true"
+            className={cn(
+              "absolute left-0 top-5 h-3.75 w-3.75 rounded-full border-2",
+              exp.isCurrent
+                ? "border-secondary bg-secondary shadow-md shadow-secondary/40"
+                : "border-border bg-bg"
+            )}
+          />
+          <FadeUp delay={i * 0.05}>
+            <MobileExperienceCard exp={exp} />
+          </FadeUp>
+        </li>
       ))}
-    </div>
+    </ol>
   );
 }

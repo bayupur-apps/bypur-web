@@ -24,7 +24,7 @@ export function MobileStatsGrid({ stats }: MobileStatsGridProps) {
         return (
           <div
             key={stat.label}
-            className="relative overflow-hidden rounded-xl border border-border bg-bg-card px-3.5 py-3"
+            className="relative overflow-hidden rounded-xl border border-border glass px-3.5 py-3"
           >
             <span
               className={cn(

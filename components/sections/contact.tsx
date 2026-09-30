@@ -2,6 +2,7 @@
 
 import { FadeUp } from "@/components/ui/motion";
 import { SectionHeader } from "@/components/ui/section-header";
+import { HighlightedTitle } from "@/components/ui/highlighted-title";
 import { SectionContainer } from "@/components/ui/section-container";
 import { ContactInfoList } from "./contact/contact-info-list";
 import { ContactForm } from "./contact/contact-form";
@@ -26,19 +27,21 @@ export default function ContactSection() {
       href: `mailto:${profileData.email}`,
       copyable: true,
     },
-    {
-      icon: "Phone",
-      label: "Phone",
-      value: profileData.phone || "-",
-      href: profileData.phone ? `tel:${profileData.phone.replace(/\s|-/g, "")}` : "#",
-      copyable: false,
-    },
+    ...(profileData.phone
+      ? [
+          {
+            icon: "Phone",
+            label: "Phone",
+            value: profileData.phone,
+            href: `tel:${profileData.phone.replace(/\s|-/g, "")}`,
+            copyable: false,
+          },
+        ]
+      : []),
     {
       icon: "MapPin",
       label: "Location",
-      value: profileData.location
-        ? `${profileData.location} - Replies in ~24h`
-        : "Replies in ~24h",
+      value: profileData.location || "Remote",
       href: "#",
       copyable: false,
     },
@@ -49,19 +52,19 @@ export default function ContactSection() {
       <FadeUp>
         <SectionHeader
           label={label}
-          title={
-            <>
-              {title.replace(titleHighlight, "")}{" "}
-              <span className="text-accent">{titleHighlight}</span>
-            </>
-          }
+          title={<HighlightedTitle title={title} highlight={titleHighlight} />}
           description={description}
+          className="mx-auto max-w-2xl text-center"
         />
       </FadeUp>
 
-      <div className="mx-auto mt-8 grid max-w-6xl items-start gap-5 sm:mt-10 sm:gap-6 lg:grid-cols-[1fr_1.15fr] lg:gap-8">
-        {/* LEFT - Contact info cards */}
-        <ContactInfoList contactInfo={contactInfo} email={profileData.email} />
+      <div className="mx-auto mt-10 grid max-w-5xl items-start gap-5 lg:grid-cols-[1fr_1.35fr] lg:gap-6">
+        {/* LEFT - availability + direct channels */}
+        <ContactInfoList
+          contactInfo={contactInfo}
+          whatsapp={profileData.socials.whatsapp}
+          availability={profileData.availability}
+        />
 
         {/* RIGHT - Form */}
         <ContactForm email={profileData.email} formConfig={contactConfig.form} />
@@ -69,4 +72,3 @@ export default function ContactSection() {
     </SectionContainer>
   );
 }
-                      

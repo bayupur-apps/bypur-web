@@ -1,6 +1,10 @@
+"use client";
+
+import { useRef, type KeyboardEvent } from "react";
 import { FadeUp } from "@/components/ui/motion";
 import { cn } from "@/lib/helpers";
 import type { Experience } from "@/lib/types";
+import { formatDuration } from "./utils";
 
 interface DesktopTimelineProps {
   experiences: Experience[];
@@ -8,68 +12,100 @@ interface DesktopTimelineProps {
   onSelect: (id: string) => void;
 }
 
-export function DesktopTimeline({ experiences, selectedId, onSelect }: DesktopTimelineProps) {
-  return (
-    <FadeUp delay={0.1}>
-      <nav className="sticky top-24 flex flex-col gap-2" aria-label="Career timeline">
-        {/* Timeline line */}
-        <div className="pointer-events-none absolute bottom-8 left-6 top-8 w-px bg-linear-to-b from-accent/40 via-border to-border" />
+export const detailPanelId = "experience-detail-panel";
+export const tabId = (id: string) => `experience-tab-${id}`;
 
-        {experiences.map((exp, i) => (
-          <button
-            key={exp.id}
-            className={cn(
-              "group relative rounded-md border py-4 pl-14 pr-4 text-left transition-all duration-300",
-              selectedId === exp.id
-                ? "border-accent/30 bg-bg-card shadow-lg shadow-accent/5"
-                : "border-transparent hover:border-border/50 hover:bg-bg-card/50"
-            )}
-            onClick={() => onSelect(exp.id)}
-          >
-            {/* Animated dot */}
-            <span
+export function DesktopTimeline({ experiences, selectedId, onSelect }: DesktopTimelineProps) {
+  const tabsRef = useRef<(HTMLButtonElement | null)[]>([]);
+
+  // Tabs pattern: arrow keys move between roles, Home/End jump to the ends.
+  const handleKeyDown = (e: KeyboardEvent<HTMLButtonElement>, index: number) => {
+    const last = experiences.length - 1;
+    const next =
+      e.key === "ArrowDown" ? (index === last ? 0 : index + 1)
+      : e.key === "ArrowUp" ? (index === 0 ? last : index - 1)
+      : e.key === "Home" ? 0
+      : e.key === "End" ? last
+      : null;
+    if (next === null) return;
+    e.preventDefault();
+    onSelect(experiences[next].id);
+    tabsRef.current[next]?.focus();
+  };
+
+  return (
+    <FadeUp delay={0.05} className="sticky top-24">
+      <div role="tablist" aria-orientation="vertical" aria-label="Career timeline" className="relative flex flex-col gap-2">
+        {/* Timeline line */}
+        <div
+          aria-hidden="true"
+          className="pointer-events-none absolute bottom-6 left-5.75 top-6 w-px bg-linear-to-b from-secondary/50 via-border to-transparent"
+        />
+
+        {experiences.map((exp, i) => {
+          const active = selectedId === exp.id;
+          const duration = formatDuration(exp.period);
+          return (
+            <button
+              key={exp.id}
+              ref={(el) => {
+                tabsRef.current[i] = el;
+              }}
+              id={tabId(exp.id)}
+              type="button"
+              role="tab"
+              aria-selected={active}
+              aria-controls={detailPanelId}
+              tabIndex={active ? 0 : -1}
+              onClick={() => onSelect(exp.id)}
+              onKeyDown={(e) => handleKeyDown(e, i)}
               className={cn(
-                "absolute left-3 top-1/2 flex h-6 w-6 -translate-y-1/2 items-center justify-center rounded-full border-2 font-mono text-[9px] font-semibold transition-all duration-300",
-                selectedId === exp.id
-                  ? "border-accent bg-accent text-accent-fg shadow-md shadow-accent/25"
-                  : "border-border bg-bg text-text-3 group-hover:border-accent/40 group-hover:bg-bg-card"
+                "group relative rounded-2xl border py-4 pl-13 pr-4 text-left transition-all duration-300",
+                active
+                  ? "border-secondary/30 glass shadow-lg shadow-secondary/10"
+                  : "border-transparent hover:border-border hover:bg-bg-card/50"
               )}
             >
-              {String(i + 1).padStart(2, "0")}
-            </span>
+              {/* Dot */}
+              <span
+                aria-hidden="true"
+                className={cn(
+                  "absolute left-3.5 top-5 flex h-4.5 w-4.5 items-center justify-center rounded-full border-2 transition-all duration-300",
+                  active
+                    ? "border-secondary bg-secondary shadow-md shadow-secondary/40"
+                    : "border-border bg-bg group-hover:border-secondary/50"
+                )}
+              >
+                {active && <span className="h-1.5 w-1.5 rounded-full bg-white" />}
+              </span>
 
-            {/* Pulse effect when active */}
-            {selectedId === exp.id && (
-              <span className="absolute left-3 top-1/2 h-6 w-6 -translate-y-1/2 animate-ping rounded-full bg-accent/20" />
-            )}
-
-            <div>
-              <div className="flex items-center gap-1.5">
-                <span className="block text-[10px] font-bold uppercase tracking-[0.14em] text-accent">
+              <span className="flex flex-wrap items-center gap-x-2 gap-y-1 text-[11px] font-medium text-text-3">
+                <span className={cn("uppercase tracking-wider", active && "text-accent dark:text-secondary")}>
                   {exp.period}
                 </span>
                 {exp.isCurrent && (
-                  <span className="inline-flex items-center gap-1 rounded-full bg-emerald-500/10 px-1.5 py-0.5 text-[9px] font-bold uppercase tracking-wider text-emerald-500">
-                    <span className="h-1 w-1 animate-pulse rounded-full bg-emerald-500" />
+                  <span className="inline-flex items-center gap-1 rounded-full bg-emerald-500/10 px-1.5 py-px text-[10px] font-semibold uppercase tracking-wider text-emerald-600 dark:text-emerald-400">
+                    <span className="h-1 w-1 rounded-full bg-emerald-500" />
                     Now
                   </span>
                 )}
-              </div>
+              </span>
               <span
                 className={cn(
-                  "mt-1 block text-[14px] font-semibold leading-snug transition-colors",
-                  selectedId === exp.id
-                    ? "text-text-1"
-                    : "text-text-2 group-hover:text-text-1"
+                  "mt-1.5 block text-[15px] font-semibold leading-snug transition-colors",
+                  active ? "text-text-1" : "text-text-2 group-hover:text-text-1"
                 )}
               >
                 {exp.role}
               </span>
-              <span className="mt-0.5 block text-[12px] text-text-3">{exp.company}</span>
-            </div>
-          </button>
-        ))}
-      </nav>
+              <span className="mt-0.5 block text-[13px] text-text-3">
+                {exp.company}
+                {duration && <span className="text-text-3/80"> · {duration}</span>}
+              </span>
+            </button>
+          );
+        })}
+      </div>
     </FadeUp>
   );
 }

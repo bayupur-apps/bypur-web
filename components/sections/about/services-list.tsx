@@ -1,45 +1,71 @@
+"use client";
+
 import { FadeUp } from "@/components/ui/motion";
-import * as Icons from "lucide-react";
-import type { LucideIcon } from "lucide-react";
+import { Box } from "lucide-react";
+import { DynamicIcon, iconNames, type IconName } from "lucide-react/dynamic";
 import type { Service } from "@/lib/types";
 
 interface ServicesListProps {
   services: Service[];
 }
 
+const ICON_NAMES = new Set<string>(iconNames);
+
+/**
+ * CMS stores PascalCase component names ("Building2"); the dynamic loader
+ * wants kebab-case ("building-2"). Unknown names fall back to "box".
+ */
+const toIconName = (icon?: string): IconName => {
+  if (!icon) return "box";
+  const kebab = icon
+    .replace(/([a-z0-9])([A-Z])/g, "$1-$2")
+    .replace(/([a-zA-Z])(\d)/g, "$1-$2")
+    .toLowerCase();
+  return (ICON_NAMES.has(kebab) ? kebab : "box") as IconName;
+};
+
+// Loaded per icon on demand instead of `import * as Icons`, which pulled the
+// entire lucide set (~1,900 icons) into the bundle.
+function ServiceIcon({ name }: { name?: string }) {
+  return (
+    <DynamicIcon
+      name={toIconName(name)}
+      size={20}
+      strokeWidth={1.75}
+      fallback={() => <Box size={20} strokeWidth={1.75} className="opacity-0" />}
+    />
+  );
+}
+
 export function ServicesList({ services }: ServicesListProps) {
   return (
-    <div
-      className="grid grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-3"
-      style={{ gridAutoRows: "1fr" }}
-    >
-      {services.map((service, index) => {
-        const IconComponent: LucideIcon = service.icon
-          ? ((Icons as Record<string, unknown>)[service.icon] as LucideIcon) || Icons.Box
-          : Icons.Box;
+    <div className="grid auto-rows-fr grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3">
+      {services.map((service, index) => (
+        <FadeUp key={service.slug} delay={0.05 + index * 0.05} className="h-full">
+          <div className="group relative isolate flex h-full flex-col overflow-hidden rounded-2xl border border-border glass p-6 transition-all duration-300 hover:-translate-y-1 hover:border-secondary/40 hover:shadow-xl hover:shadow-secondary/10">
+            {/* Hover glow */}
+            <div
+              aria-hidden="true"
+              className="pointer-events-none absolute -right-12 -top-12 -z-10 h-36 w-36 rounded-full bg-secondary/25 opacity-0 blur-2xl transition-opacity duration-500 group-hover:opacity-100"
+            />
 
-        return (
-          <FadeUp key={service.slug} delay={0.1 + index * 0.05}>
-            <div className="group relative flex h-full flex-col overflow-hidden rounded-xl border border-border bg-bg p-6 transition-all duration-300 hover:border-accent/40 hover:shadow-lg hover:shadow-accent/5">
+            <div className="mb-5 flex items-start justify-between">
               {/* Icon */}
-              <div className="mb-4 flex h-11 w-11 shrink-0 items-center justify-center rounded-lg bg-accent/10 text-accent transition-colors duration-300 group-hover:bg-accent group-hover:text-accent-fg">
-                <IconComponent size={20} strokeWidth={1.5} />
+              <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-linear-to-br from-secondary/20 to-accent/10 text-accent ring-1 ring-inset ring-secondary/20 transition-transform duration-300 group-hover:scale-110 dark:from-secondary/25 dark:to-tertiary/10 dark:text-secondary">
+                <ServiceIcon name={service.icon} />
               </div>
 
-              {/* Content */}
-              <h4 className="mb-2 shrink-0 text-sm font-medium text-text-1">
-                {service.title}
-              </h4>
-              <p className="flex-1 text-sm leading-relaxed text-text-3">
-                {service.description}
-              </p>
-
-              {/* Hover bar */}
-              <div className="absolute bottom-0 left-0 h-0.5 w-0 rounded-none bg-accent transition-all duration-300 group-hover:w-full" />
+              {/* Index */}
+              <span className="font-mono text-xs text-text-3/70">
+                {String(index + 1).padStart(2, "0")}
+              </span>
             </div>
-          </FadeUp>
-        );
-      })}
+
+            <h3 className="mb-2 text-base font-semibold text-text-1">{service.title}</h3>
+            <p className="flex-1 text-sm leading-relaxed text-text-2">{service.description}</p>
+          </div>
+        </FadeUp>
+      ))}
     </div>
   );
 }

@@ -10,16 +10,20 @@ interface CTAButtonsProps {
 }
 
 export function CTAButtons({ cta, secondaryText, resumeUrl, isCvVisible = true }: CTAButtonsProps) {
+  // Hero already leads with "view my work"; after the story, the natural
+  // next step is to start a conversation.
+  const primary = cta?.secondary ?? cta?.primary;
+
   return (
     <div className="mt-8 flex flex-wrap justify-center gap-3">
-      {cta?.primary && (
+      {primary && (
         <Button
-          href={cta.primary.href}
+          href={primary.href}
           variant="primary"
           icon={ArrowRight}
           iconPosition="right"
         >
-          {cta.primary.text}
+          {primary.text}
         </Button>
       )}
       {isCvVisible && secondaryText && resumeUrl && (

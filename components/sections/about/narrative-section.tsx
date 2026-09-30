@@ -1,4 +1,3 @@
-import { FadeUp } from "@/components/ui/motion";
 import { CTAButtons } from "./cta-buttons";
 import type { Profile } from "@/lib/types";
 
@@ -7,24 +6,28 @@ interface NarrativeSectionProps {
 }
 
 export function NarrativeSection({ profileData }: NarrativeSectionProps) {
-  return (
-    <FadeUp delay={0.05}>
-      <div className="flex flex-col text-center">
-        {/* Description - reuses the same backend-driven bio shown in Hero */}
-        {profileData.bio && (
-          <p className="text-[15px] leading-relaxed text-text-3">
-            {profileData.bio}
-          </p>
-        )}
+  // Dedicated About copy when the CMS provides it; otherwise the full bio
+  // (Hero only shows its first two sentences, so this isn't a repeat).
+  const story = profileData.about?.description || profileData.bio;
+  const paragraphs = story
+    .split(/\n{2,}/)
+    .map((p) => p.trim())
+    .filter(Boolean);
 
-        {/* CTAs */}
-        <CTAButtons
-          cta={profileData.cta}
-          secondaryText={profileData.about?.cta?.secondary?.text}
-          resumeUrl={profileData.resumeUrl}
-          isCvVisible={profileData.isCvVisible}
-        />
+  return (
+    <div className="mt-6 flex flex-col">
+      <div className="space-y-4 text-[15px] leading-[1.8] text-text-2">
+        {paragraphs.map((paragraph, idx) => (
+          <p key={idx}>{paragraph}</p>
+        ))}
       </div>
-    </FadeUp>
+
+      <CTAButtons
+        cta={profileData.cta}
+        secondaryText={profileData.about?.cta?.secondary?.text}
+        resumeUrl={profileData.resumeUrl}
+        isCvVisible={profileData.isCvVisible}
+      />
+    </div>
   );
 }
