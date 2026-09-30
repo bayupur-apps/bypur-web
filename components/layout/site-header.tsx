@@ -65,7 +65,7 @@ export default function SiteHeader({ navLinks, isMobileOpen, onToggleMobile, onC
         className={cn(
           "mx-auto flex h-14 items-center justify-between gap-3 border px-4 transition-all duration-300 sm:h-16 sm:gap-4 sm:px-5",
           scrolled
-            ? "max-w-5xl rounded-xl border-border bg-bg/85 shadow-lg backdrop-blur-xl"
+            ? "max-w-5xl rounded-2xl border-border glass-strong shadow-lg shadow-accent/5"
             : "max-w-7xl border-transparent"
         )}
       >
@@ -114,7 +114,7 @@ export default function SiteHeader({ navLinks, isMobileOpen, onToggleMobile, onC
           {/* Mobile menu */}
           <button
             type="button"
-            className="flex h-11 w-11 items-center justify-center rounded-full border border-border bg-bg-subtle/50 text-text-2 transition-all hover:border-accent/40 hover:text-text-1 md:hidden"
+            className="flex h-11 w-11 items-center justify-center rounded-full border border-border glass text-text-2 transition-all hover:border-accent/40 hover:text-text-1 md:hidden"
             onClick={onToggleMobile}
             aria-label="Menu"
             aria-expanded={isMobileOpen}
@@ -154,7 +154,7 @@ export default function SiteHeader({ navLinks, isMobileOpen, onToggleMobile, onC
             animate={{ y: 0, opacity: 1 }}
             exit={{ y: -8, opacity: 0 }}
             transition={{ duration: 0.2, ease: [0.16, 1, 0.3, 1] }}
-            className="mx-3 mt-2 origin-top overflow-hidden rounded-xl border border-border bg-bg/95 shadow-xl backdrop-blur-xl md:hidden"
+            className="mx-3 mt-2 origin-top overflow-hidden rounded-2xl border border-border glass-strong shadow-xl md:hidden"
           >
             <nav className="flex flex-col p-2" aria-label="Mobile navigation">
               {navLinks.map((link) => (
