@@ -10,11 +10,11 @@ interface CardProps {
 
 export function Card({ children, variant = "default", className, asChild }: CardProps) {
   const variants = {
-    default: "rounded-md border border-border bg-bg-card p-5",
+    default: "rounded-xl border border-border glass p-5",
     interactive:
-      "group rounded-md border border-border bg-bg-card p-5 transition-colors hover:border-accent/50",
+      "group rounded-xl border border-border glass p-5 transition-colors hover:border-accent/50",
     gradient:
-      "rounded-xl border border-border bg-gradient-to-br from-accent/5 to-transparent",
+      "rounded-xl border border-border glass",
   };
 
   const Component = asChild ? "div" : "div";

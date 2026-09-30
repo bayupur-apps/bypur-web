@@ -40,7 +40,7 @@ export function AIChatbotWindow({
         transition={{ duration: 0.2 }}
         className="fixed inset-0 z-50 mx-auto w-full max-w-full md:inset-auto md:bottom-6 md:right-6 md:w-full md:max-w-md"
       >
-        <div className="bg-card rounded-none md:rounded-3xl border border-border shadow-lg flex flex-col h-dvh md:h-150 overflow-hidden">
+        <div className="glass-strong rounded-none md:rounded-3xl border border-border shadow-2xl shadow-accent/10 flex flex-col h-dvh md:h-150 overflow-hidden">
           <div className="bg-accent p-4 flex items-center justify-between">
             <div className="flex items-center gap-3">
               <div className="w-10 h-10 rounded-full bg-accent-fg/10 backdrop-blur-sm flex items-center justify-center">
@@ -122,7 +122,7 @@ export function AIChatbotWindow({
             <div ref={messagesEndRef} />
           </div>
 
-          <div className="p-4 border-t border-border bg-card">
+          <div className="p-4 border-t border-border">
             <div className="flex gap-2">
               <input
                 ref={inputRef}
@@ -131,7 +131,7 @@ export function AIChatbotWindow({
                 onKeyPress={onKeyPress}
                 placeholder="Type your message..."
                 disabled={isLoading}
-                className="min-h-11 flex-1 rounded-full border border-border bg-bg px-4 py-2 text-text-1 placeholder:text-text-3 transition-all focus:outline-none focus:ring-2 focus:ring-accent disabled:opacity-50"
+                className="min-h-11 flex-1 rounded-full border border-border bg-bg-subtle px-4 py-2 text-text-1 placeholder:text-text-3 transition-all focus:outline-none focus:ring-2 focus:ring-accent disabled:opacity-50"
               />
               <Button
                 onClick={onSend}

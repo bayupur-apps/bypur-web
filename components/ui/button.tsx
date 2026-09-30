@@ -32,7 +32,7 @@ export function Button({
     primary:
       "group bg-accent text-accent-fg shadow-sm shadow-accent/25 hover:bg-accent-hover hover:shadow-md hover:shadow-accent/30",
     secondary:
-      "border border-border bg-card text-text-1 hover:bg-bg-subtle hover:border-text-3",
+      "border border-border glass text-text-1 hover:bg-bg-subtle hover:border-text-3",
     outline:
       "border border-accent text-accent hover:bg-accent/10 hover:border-accent-hover",
   };

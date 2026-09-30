@@ -25,10 +25,12 @@ export function SectionContainer({
   };
 
   const backgroundStyles = {
-    default: "bg-bg",
-    subtle: "bg-bg-subtle",
+    default: "bg-transparent",
+    // Fades in and out so the band has no hard top/bottom edge over the
+    // page-wide gradient backdrop.
+    subtle: "bg-linear-to-b from-transparent via-bg-subtle/50 to-transparent",
     accent: "bg-accent/[0.02] dark:bg-accent/[0.01]",
-    gradient: "bg-linear-to-b from-bg-subtle to-bg",
+    gradient: "bg-linear-to-b from-bg-subtle/60 to-transparent",
   };
 
   return (

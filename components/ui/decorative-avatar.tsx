@@ -86,28 +86,21 @@ function MonoDecoration({ tag }: { tag?: string }) {
   );
 }
 
-// ─── Dekorasi: concentric rings + accent glow (Vue style) ───
+// ─── Dekorasi: glass plate + orbit guides ───
 function RingsDecoration({ showGlow = true }: { showGlow?: boolean }) {
   return (
     <>
-      {/* Central body (avatar border) */}
-      <div className="absolute inset-0 rounded-full border border-border shadow-lg" />
-      <div className="absolute inset-6 rounded-full border border-border/60" />
-
-      {/* Simple concentric rings */}
-      <div className="absolute inset-0 rounded-full border border-border" />
-      <div className="absolute inset-6 rounded-full border border-border/60" />
-
-      {/* Orbit guide rings (dashed) */}
-      <div className="pointer-events-none absolute -inset-8 rounded-full border border-dashed border-accent/20" />
-      <div className="pointer-events-none absolute -inset-16 rounded-full border border-dashed border-accent/15" />
-
       {/* Subtle accent glow */}
       {showGlow && (
-        <>
-          <div className="pointer-events-none absolute inset-8 -z-10 rounded-full bg-accent/20 blur-2xl dark:inset-12 dark:bg-accent/15 dark:blur-xl" />
-        </>
+        <div className="pointer-events-none absolute inset-4 -z-10 rounded-full bg-secondary/30 blur-3xl dark:bg-secondary/20" />
       )}
+
+      {/* Orbit guide rings (dashed) */}
+      <div className="pointer-events-none absolute -inset-10 rounded-full border border-dashed border-accent/20 dark:border-secondary/20" />
+      <div className="pointer-events-none absolute -inset-18 rounded-full border border-dashed border-accent/10 dark:border-secondary/10" />
+
+      {/* Frosted glass plate behind the photo */}
+      <div className="pointer-events-none absolute -inset-5 rounded-full border border-border glass shadow-xl shadow-accent/10" />
     </>
   );
 }
@@ -131,7 +124,7 @@ export function DecorativeAvatar({
   const finalShape = decoration === "rings" ? "rounded-full" : shapeClass;
 
   return (
-    <div className={cn("relative mx-auto w-fit overflow-visible", className)}>
+    <div className={cn("relative isolate mx-auto w-fit overflow-visible", className)}>
 
       {/* Dekorasi di belakang/sekitar frame */}
       {decoration === "corners" && <CornersDecoration shape={shapeClass} />}

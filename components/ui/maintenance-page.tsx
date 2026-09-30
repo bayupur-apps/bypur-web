@@ -25,7 +25,7 @@ export function MaintenancePage({ profile, settingsMap }: MaintenancePageProps) 
       </div>
 
       {/* Main Container Card */}
-      <div className="relative z-10 w-full max-w-xl rounded-3xl border border-border/80 bg-card/60 backdrop-blur-xl p-6 sm:p-10 shadow-2xl shadow-accent/5 transition-all duration-300">
+      <div className="relative z-10 w-full max-w-xl rounded-3xl border border-border/80 glass-strong p-6 sm:p-10 shadow-2xl shadow-accent/5 transition-all duration-300">
         
         {/* Top Status Pill */}
         <div className="flex items-center justify-center mb-8">
@@ -80,7 +80,7 @@ export function MaintenancePage({ profile, settingsMap }: MaintenancePageProps) 
             {ownerEmail && (
               <a
                 href={`mailto:${ownerEmail}`}
-                className="flex items-center gap-2 rounded-xl border border-border bg-card px-3.5 py-2 text-xs font-semibold text-foreground hover:border-accent/40 hover:bg-accent/10 hover:text-accent transition-all duration-200"
+                className="flex items-center gap-2 rounded-xl border border-border glass px-3.5 py-2 text-xs font-semibold text-foreground hover:border-accent/40 hover:bg-accent/10 hover:text-accent transition-all duration-200"
               >
                 <Mail size={14} className="text-accent" />
                 <span>Email</span>
@@ -92,7 +92,7 @@ export function MaintenancePage({ profile, settingsMap }: MaintenancePageProps) 
                 href={whatsappUrl}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="flex items-center gap-2 rounded-xl border border-border bg-card px-3.5 py-2 text-xs font-semibold text-foreground hover:border-emerald-500/40 hover:bg-emerald-500/10 hover:text-emerald-500 transition-all duration-200"
+                className="flex items-center gap-2 rounded-xl border border-border glass px-3.5 py-2 text-xs font-semibold text-foreground hover:border-emerald-500/40 hover:bg-emerald-500/10 hover:text-emerald-500 transition-all duration-200"
               >
                 <Phone size={14} className="text-emerald-500" />
                 <span>WhatsApp</span>
@@ -104,7 +104,7 @@ export function MaintenancePage({ profile, settingsMap }: MaintenancePageProps) 
                 href={githubUrl}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="flex items-center gap-2 rounded-xl border border-border bg-card px-3.5 py-2 text-xs font-semibold text-foreground hover:border-accent/40 hover:bg-accent/10 hover:text-accent transition-all duration-200"
+                className="flex items-center gap-2 rounded-xl border border-border glass px-3.5 py-2 text-xs font-semibold text-foreground hover:border-accent/40 hover:bg-accent/10 hover:text-accent transition-all duration-200"
               >
                 <Globe size={14} />
                 <span>GitHub</span>
@@ -116,7 +116,7 @@ export function MaintenancePage({ profile, settingsMap }: MaintenancePageProps) 
                 href={linkedinUrl}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="flex items-center gap-2 rounded-xl border border-border bg-card px-3.5 py-2 text-xs font-semibold text-foreground hover:border-accent/40 hover:bg-accent/10 hover:text-accent transition-all duration-200"
+                className="flex items-center gap-2 rounded-xl border border-border glass px-3.5 py-2 text-xs font-semibold text-foreground hover:border-accent/40 hover:bg-accent/10 hover:text-accent transition-all duration-200"
               >
                 <ExternalLink size={14} />
                 <span>LinkedIn</span>
