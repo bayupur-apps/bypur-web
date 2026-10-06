@@ -109,7 +109,7 @@ export function SkillLogoGrid({ skills }: SkillLogoGridProps) {
           return (
             <div
               key={cat.key}
-              className="animate-fade-up group relative flex flex-col overflow-hidden rounded-2xl border border-border/80 neumorphic p-6 transition-all duration-300 hover:shadow-lg"
+              className="animate-fade-up group relative flex flex-col overflow-hidden rounded-2xl border border-border/80 neumorphic p-6 transition-all duration-300 hover:shadow-md hover:border-accent/40"
               style={{ animationDelay: `${idx * 60}ms` }}
             >
               {/* Header */}

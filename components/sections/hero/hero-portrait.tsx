@@ -22,7 +22,7 @@ export function HeroPortrait({ src, alt, size = "lg", priority = false, classNam
   return (
     <div
       className={cn(
-        "relative mx-auto flex items-center justify-center rounded-full p-2.5 neumorphic transition-all duration-300 hover:shadow-lg",
+        "relative mx-auto flex items-center justify-center rounded-full p-2.5 neumorphic transition-all duration-300 hover:shadow-md",
         width,
         className
       )}

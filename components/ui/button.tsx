@@ -30,7 +30,7 @@ export function Button({
 
   const variantStyles = {
     primary:
-      "group bg-accent text-accent-fg shadow-sm shadow-accent/25 hover:bg-accent-hover hover:shadow-md hover:shadow-accent/30 active:scale-[0.99]",
+      "group bg-accent text-accent-fg shadow-[0_2px_4px_rgba(2,132,199,0.18)] hover:bg-accent-hover hover:shadow-[0_4px_8px_rgba(2,132,199,0.25)] active:scale-[0.99]",
     secondary:
       "border border-border/80 neumorphic text-text-1 hover:bg-bg-subtle hover:border-accent/40 active:scale-[0.99]",
     outline:

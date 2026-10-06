@@ -34,7 +34,7 @@ export function AIChatbotLauncher({
             <Button
               onClick={onScrollTop}
               size="lg"
-              className="w-12 h-12 rounded-full shadow-sm hover:shadow-md transition-all duration-300 flex items-center justify-center md:h-14 md:w-14"
+              className="w-12 h-12 rounded-full shadow-xs hover:shadow-sm transition-all duration-300 flex items-center justify-center md:h-14 md:w-14"
               aria-label="Scroll to top"
             >
               <ArrowUp className="h-5 w-5 md:h-6 md:w-6" />
@@ -63,7 +63,7 @@ export function AIChatbotLauncher({
               <Button
                 onClick={onOpen}
                 size="lg"
-                className="relative w-12 h-12 rounded-full shadow-sm hover:shadow-md transition-all duration-300 flex items-center justify-center md:h-14 md:w-14"
+                className="relative w-12 h-12 rounded-full shadow-xs hover:shadow-sm transition-all duration-300 flex items-center justify-center md:h-14 md:w-14"
                 aria-label="Open AI Assistant"
               >
                 <motion.div

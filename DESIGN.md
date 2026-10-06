@@ -148,7 +148,7 @@ Base corner radius: 20px. See rounded tokens in front matter for the full scale.
 
 - **Primary Button:** Rounded (20px) shape. Muted cyan accent fill. Hover: 8% darken + subtle lift shadow. Active: -1px translate tactile press. Font weight 600. No outer glows.
 - **Secondary / Ghost Button:** Neumorphic outline variant. 1.5px border in muted color. Text in primary color. Hover: subtle background fill.
-- **Cards:** Rounded (20px) corners. Neumorphic soft surface. Shadow (6px 6px 14px #CBD5E1, -6px -6px 14px #FFFFFF). 1px border stroke.
+- **Cards:** Rounded (20px) corners. Neumorphic soft surface. Shadow (3px 3px 8px rgba(203, 213, 225, 0.65), -3px -3px 8px rgba(255, 255, 255, 0.9)). 1px border stroke.
 - **Inputs:** Label above input. 1px border stroke. Focus ring: 2px muted cyan accent offset 2px. Error text below in semantic red. No floating labels.
 - **Navigation:** Primary surface background with neumorphic depth. Active item: muted cyan accent indicator. Font weight 500 when active.
 - **Skeletons:** Shimmer animation matching component dimensions. No circular spinners.

@@ -43,11 +43,11 @@
   --radius-md: 20px;
   --radius-lg: 40px;
 
-  /* Neumorphic Shadows */
-  --shadow-xs: 2px 2px 5px var(--shadow-dark), -2px -2px 5px var(--shadow-light);
-  --shadow-sm: 4px 4px 10px var(--shadow-dark), -4px -4px 10px var(--shadow-light);
-  --shadow-md: 6px 6px 14px var(--shadow-dark), -6px -6px 14px var(--shadow-light);
-  --shadow-lg: 10px 10px 20px var(--shadow-dark), -10px -10px 20px var(--shadow-light);
+  /* Neumorphic Shadows - Refined & Subtle */
+  --shadow-xs: 1px 1px 3px var(--shadow-dark), -1px -1px 3px var(--shadow-light);
+  --shadow-sm: 2px 2px 6px var(--shadow-dark), -2px -2px 6px var(--shadow-light);
+  --shadow-md: 4px 4px 10px var(--shadow-dark), -4px -4px 10px var(--shadow-light);
+  --shadow-lg: 6px 6px 14px var(--shadow-dark), -6px -6px 14px var(--shadow-light);
 
   /* Animations */
   --animate-fade-up: fade-up 0.6s cubic-bezier(0.16, 1, 0.3, 1) both;
@@ -138,17 +138,17 @@ body {
   --error: #EF4444;
 
   --shadow-light: #FFFFFF;
-  --shadow-dark: #CBD5E1;
+  --shadow-dark: rgba(203, 213, 225, 0.65);
 
-  --neumorphic-outer: 6px 6px 14px #CBD5E1, -6px -6px 14px #FFFFFF;
-  --neumorphic-outer-lg: 10px 10px 20px #CBD5E1, -10px -10px 20px #FFFFFF;
-  --neumorphic-inner: inset 3px 3px 6px #CBD5E1, inset -3px -3px 6px #FFFFFF;
-  --neumorphic-accent: 6px 6px 16px rgba(2, 132, 199, 0.35), -6px -6px 16px #FFFFFF;
+  --neumorphic-outer: 3px 3px 8px rgba(203, 213, 225, 0.65), -3px -3px 8px rgba(255, 255, 255, 0.9);
+  --neumorphic-outer-lg: 5px 5px 12px rgba(203, 213, 225, 0.7), -5px -5px 12px rgba(255, 255, 255, 0.9);
+  --neumorphic-inner: inset 2px 2px 4px rgba(203, 213, 225, 0.5), inset -2px -2px 4px rgba(255, 255, 255, 0.8);
+  --neumorphic-accent: 3px 3px 8px rgba(2, 132, 199, 0.25), -2px -2px 6px rgba(255, 255, 255, 0.8);
 
   --glass-bg: rgba(241, 245, 249, 0.85);
   --glass-bg-strong: rgba(241, 245, 249, 0.95);
   --glass-sheen: rgba(255, 255, 255, 0.5);
-  --glass-blur: 10px;
+  --glass-blur: 8px;
 
   --gradient-from: var(--palette-secondary);
   --gradient-via: var(--palette-secondary);
@@ -178,13 +178,13 @@ body {
   --secondary-muted: rgba(248, 250, 252, 0.1);
   --secondary-ink: #F8FAFC;
 
-  --shadow-light: #1E293B;
-  --shadow-dark: #070A12;
+  --shadow-light: rgba(30, 41, 59, 0.5);
+  --shadow-dark: rgba(7, 10, 18, 0.6);
 
-  --neumorphic-outer: 6px 6px 14px #070A12, -6px -6px 14px #1E293B;
-  --neumorphic-outer-lg: 10px 10px 20px #070A12, -10px -10px 20px #1E293B;
-  --neumorphic-inner: inset 3px 3px 6px #070A12, inset -3px -3px 6px #1E293B;
-  --neumorphic-accent: 6px 6px 16px rgba(56, 189, 248, 0.35), -6px -6px 16px #1E293B;
+  --neumorphic-outer: 3px 3px 8px rgba(7, 10, 18, 0.5), -3px -3px 8px rgba(30, 41, 59, 0.4);
+  --neumorphic-outer-lg: 5px 5px 12px rgba(7, 10, 18, 0.6), -5px -5px 12px rgba(30, 41, 59, 0.5);
+  --neumorphic-inner: inset 2px 2px 4px rgba(7, 10, 18, 0.5), inset -2px -2px 4px rgba(30, 41, 59, 0.4);
+  --neumorphic-accent: 3px 3px 8px rgba(56, 189, 248, 0.25), -2px -2px 6px rgba(30, 41, 59, 0.4);
 
   --glass-bg: rgba(15, 23, 42, 0.85);
   --glass-bg-strong: rgba(15, 23, 42, 0.95);

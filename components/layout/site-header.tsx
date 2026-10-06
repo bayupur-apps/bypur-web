@@ -65,7 +65,7 @@ export default function SiteHeader({ navLinks, isMobileOpen, onToggleMobile, onC
         className={cn(
           "mx-auto flex h-14 items-center justify-between gap-3 border px-4 transition-all duration-300 sm:h-16 sm:gap-4 sm:px-5",
           scrolled
-            ? "max-w-5xl rounded-2xl border-border glass-strong shadow-lg shadow-accent/5"
+            ? "max-w-5xl rounded-2xl border-border glass-strong shadow-sm"
             : "max-w-7xl border-transparent"
         )}
       >
