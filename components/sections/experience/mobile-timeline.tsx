@@ -13,8 +13,6 @@ interface MobileTimelineProps {
   experiences: Experience[];
 }
 
-// Six bullets per role makes a very long scroll on a phone - show the
-// first few and let the reader expand.
 const COLLAPSED_BULLETS = 3;
 
 function MobileExperienceCard({ exp }: { exp: Experience }) {
@@ -24,11 +22,11 @@ function MobileExperienceCard({ exp }: { exp: Experience }) {
   const hidden = exp.description.length - COLLAPSED_BULLETS;
 
   return (
-    <article className="rounded-2xl border border-border glass p-5">
+    <article className="rounded-2xl border border-border/80 neumorphic p-5">
       <header className="flex items-start gap-3">
         <span
           aria-hidden="true"
-          className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-linear-to-br from-secondary/25 to-accent/15 text-sm font-semibold text-accent ring-1 ring-inset ring-secondary/25 dark:to-tertiary/15 dark:text-secondary"
+          className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-accent/10 text-sm font-semibold text-accent ring-1 ring-inset ring-accent/20"
         >
           {companyInitials(exp.company)}
         </span>
@@ -56,7 +54,7 @@ function MobileExperienceCard({ exp }: { exp: Experience }) {
           <li key={`${d}-${idx}`} className="flex items-start gap-2.5 text-sm leading-relaxed text-text-2">
             <span
               aria-hidden="true"
-              className="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-linear-to-br from-secondary to-accent dark:to-tertiary"
+              className="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-accent ring-4 ring-accent/15"
             />
             <span>{d}</span>
           </li>
@@ -68,7 +66,7 @@ function MobileExperienceCard({ exp }: { exp: Experience }) {
           type="button"
           onClick={() => setExpanded((v) => !v)}
           aria-expanded={expanded}
-          className="mt-3 inline-flex min-h-9 items-center gap-1 text-sm font-medium text-accent dark:text-secondary"
+          className="mt-3 inline-flex min-h-9 items-center gap-1 text-sm font-medium text-accent hover:underline"
         >
           {expanded ? "Show less" : `Show ${hidden} more`}
           <ChevronDown size={15} className={cn("transition-transform duration-300", expanded && "rotate-180")} />
@@ -92,7 +90,7 @@ export function MobileTimeline({ experiences }: MobileTimelineProps) {
       {/* Timeline line */}
       <div
         aria-hidden="true"
-        className="pointer-events-none absolute bottom-0 left-1.75 top-2 w-px bg-linear-to-b from-secondary/50 via-border to-transparent"
+        className="pointer-events-none absolute bottom-0 left-1.75 top-2 w-px bg-linear-to-b from-accent/50 via-border to-transparent"
       />
 
       {experiences.map((exp, i) => (
@@ -103,8 +101,8 @@ export function MobileTimeline({ experiences }: MobileTimelineProps) {
             className={cn(
               "absolute left-0 top-5 h-3.75 w-3.75 rounded-full border-2",
               exp.isCurrent
-                ? "border-secondary bg-secondary shadow-md shadow-secondary/40"
-                : "border-border bg-bg"
+                ? "border-accent bg-accent shadow-sm"
+                : "border-border bg-bg-card"
             )}
           />
           <FadeUp delay={i * 0.05}>

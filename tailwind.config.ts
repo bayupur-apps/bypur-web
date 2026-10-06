@@ -10,9 +10,9 @@ export default {
   theme: {
     extend: {
       fontFamily: {
-        sans: ["var(--font-geist-sans)", "system-ui", "-apple-system", "sans-serif"],
+        sans: ["var(--font-plus-jakarta-sans)", "Plus Jakarta Sans", "system-ui", "-apple-system", "sans-serif"],
         mono: [
-          "var(--font-geist-mono)",
+          "var(--font-jetbrains-mono)",
           "ui-monospace",
           "Cascadia Code",
           "Source Code Pro",
@@ -76,9 +76,9 @@ export default {
       },
 
       boxShadow: {
-        xs: "0 1px 2px rgba(13, 30, 40, 0.04)",
-        sm: "0 2px 4px rgba(13, 30, 40, 0.06)",
-        md: "0 4px 8px rgba(13, 30, 40, 0.08)",
+        xs: "0 1px 2px rgba(35, 47, 62, 0.04)",
+        sm: "0 2px 4px rgba(35, 47, 62, 0.06)",
+        md: "0 4px 8px rgba(35, 47, 62, 0.08)",
       },
 
       keyframes: {

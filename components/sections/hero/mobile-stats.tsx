@@ -37,14 +37,14 @@ export function MobileStatsGrid({ stats }: MobileStatsGridProps) {
                 size={14}
                 className={cn(
                   "absolute right-3 top-3",
-                  stat.accent ? "text-accent/60" : "text-text-3/60",
+                  stat.accent ? "text-accent-ink/60" : "text-text-3/60",
                 )}
               />
             )}
             <p
               className={cn(
                 "font-mono text-xl font-medium leading-none mb-1",
-                stat.accent ? "text-accent" : "text-text-1",
+                stat.accent ? "text-accent-ink" : "text-text-1",
               )}
             >
               {stat.value}

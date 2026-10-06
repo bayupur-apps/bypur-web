@@ -27,7 +27,7 @@ export function StatusBadge({
         </span>
       )}
       {label}
-      <span className="inline-flex items-center gap-1.5 rounded-md border border-accent/25 bg-accent/10 px-2.5 py-0.5 text-xs font-semibold text-accent">
+      <span className="inline-flex items-center gap-1.5 rounded-md border border-accent/25 bg-accent/10 px-2.5 py-0.5 text-xs font-semibold text-accent-ink">
         {status}
       </span>
     </div>

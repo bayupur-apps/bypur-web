@@ -87,7 +87,7 @@ export default function SiteHeader({ navLinks, isMobileOpen, onToggleMobile, onC
                   className={cn(
                     "relative rounded-full px-3.5 py-1.5 text-sm font-medium transition-all duration-200",
                     activeSection === link.href
-                      ? "bg-accent/10 text-accent"
+                      ? "bg-accent/10 text-accent-ink"
                       : "text-text-3 hover:bg-bg-subtle/60 hover:text-text-1"
                   )}
                 >

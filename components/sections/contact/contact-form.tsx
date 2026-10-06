@@ -28,8 +28,6 @@ export function ContactForm({ email, formConfig }: ContactFormProps) {
     "Consulting",
     "Other",
   ];
-  // Default to the first configured type - a hard-coded default that isn't
-  // in the CMS list left every option unselected while still being sent.
   const [selectedType, setSelectedType] = useState<string>(
     projectTypes[0] ?? "Other",
   );
@@ -61,7 +59,7 @@ export function ContactForm({ email, formConfig }: ContactFormProps) {
     <FadeUp delay={0.1}>
       <form
         onSubmit={handleSubmit}
-        className="flex flex-col gap-4 rounded-3xl border border-border glass p-5 shadow-xl shadow-accent/5 sm:p-7 dark:shadow-black/20"
+        className="flex flex-col gap-4 rounded-3xl border border-border/80 neumorphic p-5 sm:p-7"
       >
         <div>
           <h3 className="text-sm sm:text-[15px] font-semibold text-text-1">
@@ -70,11 +68,11 @@ export function ContactForm({ email, formConfig }: ContactFormProps) {
           <p className="mt-0.5 text-xs text-text-2">{subtitle}</p>
         </div>
 
-        <div className="h-px w-full bg-border/70" />
+        <div className="h-px w-full bg-border/60" />
 
         {/* Project type */}
         <fieldset className="flex flex-col gap-2">
-          <legend className="text-[10px] font-semibold uppercase tracking-widest text-text-3">
+          <legend className="mono-label text-[10px] font-semibold uppercase tracking-widest text-text-3">
             What&apos;s this about?
           </legend>
           <div className="flex flex-wrap gap-1.5 sm:gap-2">
@@ -88,7 +86,7 @@ export function ContactForm({ email, formConfig }: ContactFormProps) {
                   onChange={(e) => setSelectedType(e.target.value)}
                   className="peer sr-only"
                 />
-                <span className="inline-flex min-h-9 sm:min-h-10 items-center justify-center rounded-full border border-border/80 bg-bg-subtle px-3 py-1.5 sm:px-3.5 text-[11px] sm:text-xs font-medium text-text-2 transition-all duration-150 hover:border-accent/30 hover:text-text-1 peer-checked:border-accent peer-checked:bg-accent peer-checked:text-accent-fg peer-focus-visible:ring-2 peer-focus-visible:ring-secondary/50">
+                <span className="inline-flex min-h-9 sm:min-h-10 items-center justify-center rounded-full border border-border/80 bg-bg-subtle/80 px-3.5 py-1.5 text-[11px] sm:text-xs font-medium text-text-2 transition-all duration-150 hover:border-accent/40 hover:text-text-1 peer-checked:border-accent peer-checked:bg-accent peer-checked:text-accent-fg peer-focus-visible:ring-2 peer-focus-visible:ring-accent/40">
                   {type}
                 </span>
               </label>
@@ -99,7 +97,7 @@ export function ContactForm({ email, formConfig }: ContactFormProps) {
         {/* Name + Email */}
         <div className="grid gap-3.5 sm:grid-cols-2">
           <label className="flex flex-col gap-1.5">
-            <span className="text-[10px] font-semibold uppercase tracking-widest text-text-3">
+            <span className="mono-label text-[10px] font-semibold uppercase tracking-widest text-text-3">
               Name
             </span>
             <input
@@ -109,11 +107,11 @@ export function ContactForm({ email, formConfig }: ContactFormProps) {
               value={name}
               onChange={(e) => setName(e.target.value)}
               placeholder="Your name"
-              className="rounded-lg border border-border/80 bg-bg-subtle/60 px-3.5 py-2.5 text-[13px] text-text-1 outline-none transition duration-150 placeholder:text-text-3/70 focus:border-accent focus:bg-bg-card focus:ring-2 focus:ring-accent/15"
+              className="rounded-xl border border-border/80 bg-bg-subtle/60 px-3.5 py-2.5 text-[13px] text-text-1 outline-none transition duration-150 placeholder:text-text-3/70 focus:border-accent focus:bg-bg-card focus:ring-2 focus:ring-accent/15"
             />
           </label>
           <label className="flex flex-col gap-1.5">
-            <span className="text-[10px] font-semibold uppercase tracking-widest text-text-3">
+            <span className="mono-label text-[10px] font-semibold uppercase tracking-widest text-text-3">
               Email
             </span>
             <input
@@ -123,7 +121,7 @@ export function ContactForm({ email, formConfig }: ContactFormProps) {
               value={senderEmail}
               onChange={(e) => setSenderEmail(e.target.value)}
               placeholder="you@example.com"
-              className="rounded-lg border border-border/80 bg-bg-subtle/60 px-3.5 py-2.5 text-[13px] text-text-1 outline-none transition duration-150 placeholder:text-text-3/70 focus:border-accent focus:bg-bg-card focus:ring-2 focus:ring-accent/15"
+              className="rounded-xl border border-border/80 bg-bg-subtle/60 px-3.5 py-2.5 text-[13px] text-text-1 outline-none transition duration-150 placeholder:text-text-3/70 focus:border-accent focus:bg-bg-card focus:ring-2 focus:ring-accent/15"
             />
           </label>
         </div>
@@ -131,7 +129,7 @@ export function ContactForm({ email, formConfig }: ContactFormProps) {
         {/* Message */}
         <label className="flex flex-col gap-1.5">
           <div className="flex items-center justify-between">
-            <span className="text-[10px] font-semibold uppercase tracking-widest text-text-3">
+            <span className="mono-label text-[10px] font-semibold uppercase tracking-widest text-text-3">
               Message
             </span>
             <span
@@ -150,7 +148,7 @@ export function ContactForm({ email, formConfig }: ContactFormProps) {
             placeholder="Tell me about your project..."
             value={message}
             onChange={(e) => setMessage(e.target.value)}
-            className="resize-none rounded-lg border border-border/80 bg-bg-subtle/60 px-3.5 py-2.5 text-[13px] text-text-1 outline-none transition duration-150 placeholder:text-text-3/70 focus:border-accent focus:bg-bg-card focus:ring-2 focus:ring-accent/15"
+            className="resize-none rounded-xl border border-border/80 bg-bg-subtle/60 px-3.5 py-2.5 text-[13px] text-text-1 outline-none transition duration-150 placeholder:text-text-3/70 focus:border-accent focus:bg-bg-card focus:ring-2 focus:ring-accent/15"
           />
         </label>
 
@@ -158,7 +156,7 @@ export function ContactForm({ email, formConfig }: ContactFormProps) {
         <button
           type="submit"
           disabled={status === "submitting"}
-          className="group flex w-full items-center justify-center gap-2 rounded-lg bg-accent px-5 py-3 text-[13px] font-semibold text-accent-fg shadow-md shadow-accent/20 transition-all duration-200 hover:bg-accent-hover hover:shadow-lg hover:shadow-accent/25 active:scale-[0.99] disabled:cursor-not-allowed disabled:opacity-60"
+          className="group flex w-full items-center justify-center gap-2 rounded-xl bg-accent px-5 py-3 text-[13px] font-semibold text-accent-fg shadow-md shadow-accent/20 transition-all duration-200 hover:bg-accent-hover hover:shadow-lg hover:shadow-accent/25 active:scale-[0.99] disabled:cursor-not-allowed disabled:opacity-60"
         >
           <Send
             size={14}
@@ -169,16 +167,15 @@ export function ContactForm({ email, formConfig }: ContactFormProps) {
 
         <div aria-live="polite" className="empty:hidden">
           {status === "success" && (
-            <p className="flex items-center gap-1.5 text-xs font-medium text-emerald-600 dark:text-emerald-400">
+            <p className="flex items-center gap-1.5 text-xs font-medium text-success-ink">
               <CheckCircle2 size={14} />
-              Message sent — I&apos;ll get back to you soon.
+              Message sent, I will get back to you soon.
             </p>
           )}
           {status === "error" && (
-            <p className="flex items-center gap-1.5 text-xs font-medium text-red-500">
+            <p className="flex items-center gap-1.5 text-xs font-medium text-error">
               <AlertCircle size={14} />
-              Couldn&apos;t send right now — email me directly at {email}{" "}
-              instead.
+              Could not send right now. Please email me directly at {email} instead.
             </p>
           )}
         </div>

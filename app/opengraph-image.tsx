@@ -26,7 +26,7 @@ export default async function Image() {
           flexDirection: "column",
           justifyContent: "space-between",
           background: "#0F172A",
-          color: "#F8FAFC",
+          color: "#FFFFFF",
           padding: "72px",
           fontFamily: "Arial, sans-serif",
         }}
@@ -42,7 +42,7 @@ export default async function Image() {
           <div
             style={{
               display: "flex",
-              border: "1px solid #38BDF8",
+              border: "1px solid #0284C7",
               borderRadius: 999,
               color: "#38BDF8",
               fontSize: 24,

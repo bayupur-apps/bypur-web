@@ -48,7 +48,7 @@ export function AIChatbotWindow({
               </div>
               <div>
                 <h3 className="font-semibold text-accent-fg">AI Assistant</h3>
-                <p className="text-xs text-accent-fg/80">Powered by AI</p>
+                <p className="text-xs text-accent-fg">Powered by AI</p>
               </div>
             </div>
             <div className="flex gap-2">
@@ -85,7 +85,7 @@ export function AIChatbotWindow({
                   <p className="text-sm whitespace-pre-wrap">
                     {renderMessageContent(message.content)}
                   </p>
-                  <p className={`text-xs mt-1 ${message.role === 'user' ? 'text-accent-fg/70' : 'text-text-3'}`}>
+                  <p className={`text-xs mt-1 ${message.role === 'user' ? 'text-accent-fg' : 'text-text-3'}`}>
                     {message.timestamp.toLocaleTimeString([], {
                       hour: '2-digit',
                       minute: '2-digit',

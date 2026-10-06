@@ -39,7 +39,7 @@ export function DesktopTimeline({ experiences, selectedId, onSelect }: DesktopTi
         {/* Timeline line */}
         <div
           aria-hidden="true"
-          className="pointer-events-none absolute bottom-6 left-5.75 top-6 w-px bg-linear-to-b from-secondary/50 via-border to-transparent"
+          className="pointer-events-none absolute bottom-6 left-5.75 top-6 w-px bg-linear-to-b from-accent/50 via-border to-transparent"
         />
 
         {experiences.map((exp, i) => {
@@ -62,8 +62,8 @@ export function DesktopTimeline({ experiences, selectedId, onSelect }: DesktopTi
               className={cn(
                 "group relative rounded-2xl border py-4 pl-13 pr-4 text-left transition-all duration-300",
                 active
-                  ? "border-secondary/30 glass shadow-lg shadow-secondary/10"
-                  : "border-transparent hover:border-border hover:bg-bg-card/50"
+                  ? "border-accent/40 neumorphic shadow-md"
+                  : "border-transparent hover:border-border/60 hover:bg-bg-subtle/50"
               )}
             >
               {/* Dot */}
@@ -72,20 +72,20 @@ export function DesktopTimeline({ experiences, selectedId, onSelect }: DesktopTi
                 className={cn(
                   "absolute left-3.5 top-5 flex h-4.5 w-4.5 items-center justify-center rounded-full border-2 transition-all duration-300",
                   active
-                    ? "border-secondary bg-secondary shadow-md shadow-secondary/40"
-                    : "border-border bg-bg group-hover:border-secondary/50"
+                    ? "border-accent bg-accent shadow-sm"
+                    : "border-border bg-bg-card group-hover:border-accent/50"
                 )}
               >
                 {active && <span className="h-1.5 w-1.5 rounded-full bg-white" />}
               </span>
 
               <span className="flex flex-wrap items-center gap-x-2 gap-y-1 text-[11px] font-medium text-text-3">
-                <span className={cn("uppercase tracking-wider", active && "text-accent dark:text-secondary")}>
+                <span className={cn("uppercase tracking-wider font-mono", active && "text-accent font-semibold")}>
                   {exp.period}
                 </span>
                 {exp.isCurrent && (
-                  <span className="inline-flex items-center gap-1 rounded-full bg-emerald-500/10 px-1.5 py-px text-[10px] font-semibold uppercase tracking-wider text-emerald-600 dark:text-emerald-400">
-                    <span className="h-1 w-1 rounded-full bg-emerald-500" />
+                  <span className="inline-flex items-center gap-1 rounded-full bg-success/10 px-1.5 py-px text-[10px] font-semibold uppercase tracking-wider text-success-ink">
+                    <span className="h-1 w-1 rounded-full bg-success" />
                     Now
                   </span>
                 )}

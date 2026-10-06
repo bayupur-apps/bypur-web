@@ -126,7 +126,7 @@ export function renderMessageContent(content: string) {
             <a
               key={index}
               href={href}
-              className="text-accent underline transition-colors hover:text-accent/80"
+              className="text-accent-ink underline transition-colors hover:text-accent-ink/80"
             >
               {linkText}
             </a>,
@@ -154,7 +154,7 @@ export function renderMessageContent(content: string) {
           <a
             key={index}
             href={`#${tagText}`}
-            className="text-accent underline transition-colors hover:text-accent/80"
+            className="text-accent-ink underline transition-colors hover:text-accent-ink/80"
           >
             {`#${tagText}`}
           </a>,

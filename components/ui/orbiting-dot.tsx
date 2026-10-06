@@ -14,7 +14,7 @@ export function OrbitingDot({ icon: Icon, className }: OrbitingDotProps) {
         className
       )}
     >
-      <Icon size={16} className="text-accent" />
+      <Icon size={16} className="text-accent-ink" />
     </div>
   );
 }

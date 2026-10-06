@@ -78,7 +78,7 @@ function MonoDecoration({ tag }: { tag?: string }) {
 
       {/* Mono tag label */}
       {tag && (
-        <p className="absolute -bottom-6 left-0 text-[10px] font-mono text-accent/70 tracking-widest select-none">
+        <p className="absolute -bottom-6 left-0 text-[10px] font-mono text-accent-ink/70 tracking-widest select-none">
           {tag}
         </p>
       )}

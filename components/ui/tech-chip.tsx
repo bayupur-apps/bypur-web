@@ -6,14 +6,14 @@ interface TechChipProps {
   className?: string;
 }
 
-/** Small glass chip for a technology, with its logo when one is known. */
+/** Tech chip with logo and monospace label for Neumorphic Tech Blueprint. */
 export function TechChip({ name, className }: TechChipProps) {
   const icon = findSkillIcon(name);
 
   return (
     <span
       className={cn(
-        "inline-flex items-center gap-1.5 rounded-full border border-border bg-bg-subtle px-2.5 py-1 text-xs font-medium text-text-2",
+        "inline-flex items-center gap-1.5 rounded-xl border border-border/70 bg-bg-subtle/80 px-2.5 py-1 font-mono text-xs font-medium text-text-2 transition-all duration-200 hover:border-accent/40 hover:bg-bg-card hover:text-text-1",
         className
       )}
     >
@@ -22,7 +22,7 @@ export function TechChip({ name, className }: TechChipProps) {
           <path d={icon.path} />
         </svg>
       )}
-      {icon?.kind === "lucide" && <icon.icon size={12} className="shrink-0 text-text-3" aria-hidden="true" />}
+      {icon?.kind === "lucide" && <icon.icon size={12} className="shrink-0 text-accent" aria-hidden="true" />}
       {name}
     </span>
   );

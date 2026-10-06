@@ -11,10 +11,6 @@ interface ServicesListProps {
 
 const ICON_NAMES = new Set<string>(iconNames);
 
-/**
- * CMS stores PascalCase component names ("Building2"); the dynamic loader
- * wants kebab-case ("building-2"). Unknown names fall back to "box".
- */
 const toIconName = (icon?: string): IconName => {
   if (!icon) return "box";
   const kebab = icon
@@ -24,8 +20,6 @@ const toIconName = (icon?: string): IconName => {
   return (ICON_NAMES.has(kebab) ? kebab : "box") as IconName;
 };
 
-// Loaded per icon on demand instead of `import * as Icons`, which pulled the
-// entire lucide set (~1,900 icons) into the bundle.
 function ServiceIcon({ name }: { name?: string }) {
   return (
     <DynamicIcon
@@ -42,26 +36,26 @@ export function ServicesList({ services }: ServicesListProps) {
     <div className="grid auto-rows-fr grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3">
       {services.map((service, index) => (
         <FadeUp key={service.slug} delay={0.05 + index * 0.05} className="h-full">
-          <div className="group relative isolate flex h-full flex-col overflow-hidden rounded-2xl border border-border glass p-6 transition-all duration-300 hover:-translate-y-1 hover:border-secondary/40 hover:shadow-xl hover:shadow-secondary/10">
-            {/* Hover glow */}
+          <div className="group relative isolate flex h-full flex-col overflow-hidden rounded-2xl border border-border/80 neumorphic p-6 transition-all duration-300 hover:-translate-y-1 hover:border-accent/40 hover:shadow-lg">
+            {/* Subtle Hover Glow */}
             <div
               aria-hidden="true"
-              className="pointer-events-none absolute -right-12 -top-12 -z-10 h-36 w-36 rounded-full bg-secondary/25 opacity-0 blur-2xl transition-opacity duration-500 group-hover:opacity-100"
+              className="pointer-events-none absolute -right-12 -top-12 -z-10 h-36 w-36 rounded-full bg-accent/10 opacity-0 blur-2xl transition-opacity duration-500 group-hover:opacity-100"
             />
 
             <div className="mb-5 flex items-start justify-between">
               {/* Icon */}
-              <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-linear-to-br from-secondary/20 to-accent/10 text-accent ring-1 ring-inset ring-secondary/20 transition-transform duration-300 group-hover:scale-110 dark:from-secondary/25 dark:to-tertiary/10 dark:text-secondary">
+              <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-accent/10 text-accent ring-1 ring-inset ring-accent/20 transition-transform duration-300 group-hover:scale-110">
                 <ServiceIcon name={service.icon} />
               </div>
 
-              {/* Index */}
-              <span className="font-mono text-xs text-text-3/70">
-                {String(index + 1).padStart(2, "0")}
+              {/* Schematic Index Tag */}
+              <span className="mono-label text-[11px] font-semibold text-text-3">
+                [{String(index + 1).padStart(2, "0")}]
               </span>
             </div>
 
-            <h3 className="mb-2 text-base font-semibold text-text-1">{service.title}</h3>
+            <h3 className="mb-2 text-base font-semibold tracking-tight text-text-1">{service.title}</h3>
             <p className="flex-1 text-sm leading-relaxed text-text-2">{service.description}</p>
           </div>
         </FadeUp>

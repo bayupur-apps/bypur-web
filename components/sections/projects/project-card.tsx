@@ -12,7 +12,6 @@ interface ProjectCardProps {
 }
 
 const VISIBLE_TECH = 4;
-// Roughly three lines at card width - longer copy gets clamped with a toggle.
 const LONG_DESCRIPTION = 150;
 
 export function ProjectCard({ project }: ProjectCardProps) {
@@ -23,13 +22,13 @@ export function ProjectCard({ project }: ProjectCardProps) {
   const hasLinks = Boolean(project.liveUrl || project.repoUrl);
 
   return (
-    <article className="group relative isolate flex h-full flex-col overflow-hidden rounded-2xl border border-border glass transition-all duration-300 hover:-translate-y-1 hover:border-secondary/40 hover:shadow-xl hover:shadow-secondary/10">
+    <article className="group relative isolate flex h-full flex-col overflow-hidden rounded-2xl border border-border/80 neumorphic transition-all duration-300 hover:-translate-y-1 hover:border-accent/40 hover:shadow-lg">
       {/* Cover */}
-      <div className="relative aspect-video overflow-hidden border-b border-border">
+      <div className="relative aspect-video overflow-hidden border-b border-border/70">
         <ProjectCover project={project} />
 
         {project.featured && (
-          <span className="absolute left-3 top-3 inline-flex items-center gap-1 rounded-full border border-white/50 glass-strong px-2.5 py-1 text-[10px] font-bold uppercase tracking-wider text-accent dark:border-white/10 dark:text-secondary">
+          <span className="absolute left-3 top-3 inline-flex items-center gap-1 rounded-full border border-accent/30 bg-bg-card/95 px-2.5 py-1 font-mono text-[10px] font-bold uppercase tracking-wider text-accent shadow-sm">
             <Sparkles size={11} />
             Featured
           </span>
@@ -38,7 +37,7 @@ export function ProjectCard({ project }: ProjectCardProps) {
 
       {/* Body */}
       <div className="flex flex-1 flex-col p-5">
-        <h3 className="text-base font-semibold leading-snug text-text-1">{project.title}</h3>
+        <h3 className="text-base font-semibold leading-snug tracking-tight text-text-1">{project.title}</h3>
 
         <p className={cn("mt-2 text-sm leading-relaxed text-text-2", !expanded && "line-clamp-3")}>
           {project.description}
@@ -51,7 +50,7 @@ export function ProjectCard({ project }: ProjectCardProps) {
             type="button"
             onClick={() => setExpanded((v) => !v)}
             aria-expanded={expanded}
-            className="mt-2 inline-flex items-center gap-1 self-start text-xs font-medium text-accent transition-colors hover:text-accent-hover dark:text-secondary"
+            className="mt-2 inline-flex items-center gap-1 self-start font-mono text-xs font-medium text-accent transition-colors hover:underline"
           >
             {expanded ? "Show less" : "Read more"}
             <ChevronDown size={13} className={cn("transition-transform duration-200", expanded && "rotate-180")} />
@@ -65,7 +64,7 @@ export function ProjectCard({ project }: ProjectCardProps) {
           ))}
           {extraTech > 0 && (
             <span
-              className="inline-flex items-center rounded-full border border-dashed border-border px-2.5 py-1 text-xs font-medium text-text-3"
+              className="inline-flex items-center rounded-full border border-dashed border-border/80 bg-bg-subtle/50 px-2.5 py-1 font-mono text-xs font-medium text-text-3"
               title={project.techStack.slice(VISIBLE_TECH).join(", ")}
             >
               +{extraTech}
@@ -75,8 +74,8 @@ export function ProjectCard({ project }: ProjectCardProps) {
 
         <div className="min-h-5 flex-1" aria-hidden="true" />
 
-        {/* Links - or say why there are none, instead of an empty footer */}
-        <div className="flex items-center gap-2 border-t border-border pt-4">
+        {/* Links */}
+        <div className="flex items-center gap-2 border-t border-border/60 pt-4">
           {hasLinks ? (
             <>
               {project.liveUrl && (
@@ -100,7 +99,7 @@ export function ProjectCard({ project }: ProjectCardProps) {
                   target="_blank"
                   rel="noopener noreferrer"
                   aria-label={`View ${project.title} source code`}
-                  className="inline-flex min-h-10 items-center gap-1.5 rounded-full border border-border px-4 text-xs font-medium text-text-2 transition-all duration-200 hover:border-secondary/40 hover:text-text-1"
+                  className="inline-flex min-h-10 items-center gap-1.5 rounded-full border border-border/80 bg-bg-subtle/50 px-4 text-xs font-medium text-text-2 transition-all duration-200 hover:border-accent/40 hover:bg-bg-card hover:text-text-1"
                 >
                   <Code2 size={14} />
                   Source
@@ -108,7 +107,7 @@ export function ProjectCard({ project }: ProjectCardProps) {
               )}
             </>
           ) : (
-            <span className="inline-flex min-h-10 items-center gap-1.5 text-xs text-text-3">
+            <span className="inline-flex min-h-10 items-center gap-1.5 font-mono text-xs text-text-3">
               <Lock size={13} aria-hidden="true" />
               No public link
             </span>

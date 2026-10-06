@@ -15,7 +15,7 @@ export function FloatingBadge({ icon: Icon, label, className }: FloatingBadgePro
         className
       )}
     >
-      <Icon size={14} className="text-accent dark:text-secondary" />
+      <Icon size={14} className="text-accent-ink dark:text-secondary-ink" />
       <span>{label}</span>
     </div>
   );

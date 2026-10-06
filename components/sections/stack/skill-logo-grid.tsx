@@ -2,52 +2,43 @@
 
 import { useMemo, useState, type CSSProperties } from "react";
 import Image from "next/image";
-import { cn } from "@/lib/helpers";
 import { FilterPills, type FilterOption } from "@/components/ui/filter-pills";
 import { getSkillIcon, isDarkBrand } from "@/lib/config/skill-icons";
 import type { Skill } from "@/lib/types";
+import { Code2, Server, Wrench, Cpu, Layers } from "lucide-react";
 
 interface SkillLogoGridProps {
   skills: Skill[];
 }
 
 const CATEGORY_LABELS: Record<Skill["category"], string> = {
-  frontend: "Frontend",
-  backend: "Backend",
-  tools: "Tools",
-  ai: "AI",
-  other: "Practices",
+  frontend: "Frontend Architecture",
+  backend: "Backend & Systems",
+  tools: "DevOps & Tooling",
+  ai: "AI & Data",
+  other: "Practices & Methods",
+};
+
+const CATEGORY_ICONS: Record<Skill["category"], typeof Code2> = {
+  frontend: Code2,
+  backend: Server,
+  tools: Wrench,
+  ai: Cpu,
+  other: Layers,
 };
 
 type Filter = "all" | Skill["category"];
 
-function LevelDots({ level }: { level: number }) {
-  return (
-    <div className="flex items-center justify-center gap-0.75" aria-hidden>
-      {Array.from({ length: 5 }).map((_, i) => (
-        <span
-          key={i}
-          className={cn(
-            "h-1 w-1 rounded-full transition-colors duration-300",
-            i < level ? "bg-accent/50 group-hover:bg-accent dark:bg-secondary/50 dark:group-hover:bg-secondary" : "bg-border"
-          )}
-        />
-      ))}
-    </div>
-  );
-}
-
 function SkillLogo({ skill }: { skill: Skill }) {
-  // A logo uploaded in the CMS wins over the built-in icon set.
   if (skill.icon) {
     return (
-      <div className="relative h-8 w-8">
+      <div className="relative h-5 w-5 shrink-0">
         <Image
           src={skill.icon}
           alt=""
           fill
-          sizes="32px"
-          className="object-contain opacity-70 grayscale transition-all duration-300 group-hover:opacity-100 group-hover:grayscale-0"
+          sizes="20px"
+          className="object-contain opacity-80 transition-all duration-200 group-hover:opacity-100"
         />
       </div>
     );
@@ -56,16 +47,15 @@ function SkillLogo({ skill }: { skill: Skill }) {
   const icon = getSkillIcon(skill.name);
   if (icon.kind === "lucide") {
     const Icon = icon.icon;
-    return <Icon size={28} strokeWidth={1.6} aria-hidden="true" />;
+    return <Icon size={18} strokeWidth={1.8} className="shrink-0 text-accent transition-transform group-hover:scale-110" aria-hidden="true" />;
   }
   return (
-    <svg viewBox="0 0 24 24" fill="currentColor" className="h-7 w-7" aria-hidden="true">
+    <svg viewBox="0 0 24 24" fill="currentColor" className="h-4.5 w-4.5 shrink-0 text-text-2 transition-colors group-hover:text-accent" aria-hidden="true">
       <path d={icon.path} />
     </svg>
   );
 }
 
-/** Brand colour for the hover state, exposed as a CSS variable. */
 const brandStyle = (skill: Skill): CSSProperties | undefined => {
   if (skill.icon) return undefined;
   const icon = getSkillIcon(skill.name);
@@ -81,23 +71,27 @@ export function SkillLogoGrid({ skills }: SkillLogoGridProps) {
     [skills]
   );
 
-  // Only offer categories that actually have skills, in a stable order.
   const categories = useMemo(
     () =>
       (Object.keys(CATEGORY_LABELS) as Skill["category"][])
-        .map((key) => ({ key, count: sorted.filter((s) => s.category === key).length }))
+        .map((key) => ({
+          key,
+          label: CATEGORY_LABELS[key],
+          count: sorted.filter((s) => s.category === key).length,
+          skills: sorted.filter((s) => s.category === key),
+        }))
         .filter((c) => c.count > 0),
     [sorted]
   );
 
-  const items = filter === "all" ? sorted : sorted.filter((s) => s.category === filter);
-
   if (sorted.length === 0) return null;
 
   const tabs: FilterOption<Filter>[] = [
-    { key: "all", label: "All", count: sorted.length },
-    ...categories.map((c) => ({ key: c.key, label: CATEGORY_LABELS[c.key], count: c.count })),
+    { key: "all", label: "All Domains", count: sorted.length },
+    ...categories.map((c) => ({ key: c.key, label: c.label.split(" ")[0], count: c.count })),
   ];
+
+  const visibleCategories = filter === "all" ? categories : categories.filter((c) => c.key === filter);
 
   return (
     <div>
@@ -105,42 +99,52 @@ export function SkillLogoGrid({ skills }: SkillLogoGridProps) {
         options={tabs}
         value={filter}
         onChange={setFilter}
-        ariaLabel="Filter skills by category"
+        ariaLabel="Filter skills by category domain"
         className="mb-8"
       />
 
-      {/* Remount on filter change so the entrance animation replays */}
-      <ul key={filter} className="grid grid-cols-3 gap-3 sm:grid-cols-4 lg:grid-cols-6">
-        {items.map((skill, idx) => (
-          <li
-            key={skill.id ?? skill.name}
-            className="animate-fade-up"
-            style={{ animationDelay: `${Math.min(idx, 18) * 25}ms` }}
-          >
+      <div key={filter} className="grid grid-cols-1 gap-6 md:grid-cols-2">
+        {visibleCategories.map((cat, idx) => {
+          const CategoryIcon = CATEGORY_ICONS[cat.key] || Layers;
+          return (
             <div
-              style={brandStyle(skill)}
-              className="group relative isolate flex h-full flex-col items-center gap-3 overflow-hidden rounded-2xl border border-border glass px-2 py-5 text-text-2 transition-all duration-300 hover:-translate-y-1 hover:border-secondary/40 hover:text-[color:var(--brand,var(--text-1))] hover:shadow-lg hover:shadow-secondary/10"
-              title={`${skill.name} · ${CATEGORY_LABELS[skill.category]}`}
+              key={cat.key}
+              className="animate-fade-up group relative flex flex-col overflow-hidden rounded-2xl border border-border/80 neumorphic p-6 transition-all duration-300 hover:shadow-lg"
+              style={{ animationDelay: `${idx * 60}ms` }}
             >
-              {/* Brand-tinted glow behind the logo, only on hover */}
-              <div
-                aria-hidden="true"
-                className="pointer-events-none absolute top-2 -z-10 h-16 w-16 rounded-full bg-[var(--brand,var(--secondary))] opacity-0 blur-2xl transition-opacity duration-300 group-hover:opacity-25"
-              />
-
-              <div className="flex h-8 items-center justify-center transition-transform duration-300 group-hover:scale-110">
-                <SkillLogo skill={skill} />
+              {/* Header */}
+              <div className="mb-5 flex items-center justify-between border-b border-border/50 pb-3.5">
+                <div className="flex items-center gap-2.5">
+                  <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-accent/10 text-accent ring-1 ring-inset ring-accent/20">
+                    <CategoryIcon size={18} />
+                  </div>
+                  <h3 className="text-base font-semibold tracking-tight text-text-1">{cat.label}</h3>
+                </div>
+                <span className="mono-label rounded-full bg-bg-subtle px-2.5 py-1 text-[11px] font-semibold text-text-3">
+                  {cat.count} TECHS
+                </span>
               </div>
 
-              <span className="w-full truncate text-center text-[11px] font-medium text-text-2 transition-colors duration-300 group-hover:text-text-1 sm:text-xs">
-                {skill.name}
-              </span>
-
-              {typeof skill.level === "number" && skill.level > 0 && <LevelDots level={skill.level} />}
+              {/* Skills Chip List */}
+              <div className="flex flex-wrap gap-2.5">
+                {cat.skills.map((skill) => (
+                  <div
+                    key={skill.id ?? skill.name}
+                    style={brandStyle(skill)}
+                    className="group/chip inline-flex items-center gap-2 rounded-xl border border-border/60 bg-bg-subtle/60 px-3.5 py-2 text-xs font-medium text-text-2 transition-all duration-200 hover:-translate-y-0.5 hover:border-accent/40 hover:bg-bg-card hover:text-text-1 hover:shadow-sm"
+                  >
+                    <SkillLogo skill={skill} />
+                    <span>{skill.name}</span>
+                    {typeof skill.level === "number" && skill.level >= 4 && (
+                      <span className="h-1.5 w-1.5 rounded-full bg-accent/70" title="Core skill" />
+                    )}
+                  </div>
+                ))}
+              </div>
             </div>
-          </li>
-        ))}
-      </ul>
+          );
+        })}
+      </div>
     </div>
   );
 }

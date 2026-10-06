@@ -10,31 +10,30 @@ import type { ContactInfo } from "@/lib/types";
 
 interface ContactInfoListProps {
   contactInfo: ContactInfo[];
-  /** wa.me link - adds a WhatsApp shortcut next to the phone number. */
   whatsapp?: string;
   availability?: string;
 }
 
 const iconTile =
-  "flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-linear-to-br from-secondary/20 to-accent/10 text-accent ring-1 ring-inset ring-secondary/20 dark:to-tertiary/10 dark:text-secondary";
+  "flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-accent/10 text-accent ring-1 ring-inset ring-accent/20";
 
 const sideButton =
-  "flex h-10 w-10 shrink-0 items-center justify-center rounded-xl border border-border bg-bg-subtle text-text-3 transition-all duration-200 hover:border-secondary/40 hover:text-text-1 active:scale-95";
+  "flex h-10 w-10 shrink-0 items-center justify-center rounded-xl border border-border/80 bg-bg-subtle text-text-3 transition-all duration-200 hover:border-accent/40 hover:text-text-1 active:scale-95";
 
 function ContactCard({ info, whatsapp }: { info: ContactInfo; whatsapp?: string }) {
   const { copied, copy } = useCopyToClipboard();
   const isPhone = info.icon === "Phone";
 
   return (
-    <div className="group flex items-center gap-3 rounded-2xl border border-border glass p-4 transition-all duration-200 hover:border-secondary/40 hover:shadow-lg hover:shadow-secondary/10">
+    <div className="group flex items-center gap-3 rounded-2xl border border-border/80 neumorphic p-4 transition-all duration-200 hover:border-accent/40 hover:shadow-lg">
       <span className={iconTile}>
         {createElement(getIconComponent(info.icon || ""), { size: 17, "aria-hidden": true })}
       </span>
 
       {/* The whole text block is the primary action (mailto:/tel:) */}
       <a href={info.href} className="flex min-w-0 flex-1 flex-col">
-        <span className="text-[11px] font-medium uppercase tracking-wider text-text-3">{info.label}</span>
-        <span className="truncate text-sm font-semibold text-text-1 transition-colors group-hover:text-accent dark:group-hover:text-secondary">
+        <span className="mono-label text-[10px] font-semibold uppercase tracking-wider text-text-3">{info.label}</span>
+        <span className="truncate text-sm font-semibold text-text-1 transition-colors group-hover:text-accent">
           {info.value}
         </span>
       </a>
@@ -46,7 +45,7 @@ function ContactCard({ info, whatsapp }: { info: ContactInfo; whatsapp?: string 
           aria-label={copied ? `${info.label} copied` : `Copy ${info.label.toLowerCase()}`}
           className={sideButton}
         >
-          {copied ? <Check size={15} className="text-emerald-500" /> : <Copy size={15} />}
+          {copied ? <Check size={15} className="text-success-ink" /> : <Copy size={15} />}
         </button>
       )}
 
@@ -57,7 +56,7 @@ function ContactCard({ info, whatsapp }: { info: ContactInfo; whatsapp?: string 
           rel="noopener noreferrer"
           aria-label="Chat on WhatsApp"
           title="Chat on WhatsApp"
-          className={`${sideButton} hover:text-emerald-600 dark:hover:text-emerald-400`}
+          className={`${sideButton} hover:text-success-ink`}
         >
           <svg viewBox="0 0 24 24" fill="currentColor" className="h-4 w-4" aria-hidden="true">
             <path d={SOCIAL_SVG_PATHS.whatsapp} />
@@ -77,31 +76,28 @@ function ContactCard({ info, whatsapp }: { info: ContactInfo; whatsapp?: string 
 }
 
 export function ContactInfoList({ contactInfo, whatsapp, availability }: ContactInfoListProps) {
-  // Items with a real link become action cards; the rest (location, time
-  // zone) are context and go into the status card instead of looking like
-  // dead buttons.
   const actions = contactInfo.filter((c) => c.href && c.href !== "#");
   const notes = contactInfo.filter((c) => !c.href || c.href === "#");
 
   return (
     <FadeUp delay={0.05} className="flex flex-col gap-3">
       {(availability || notes.length > 0) && (
-        <div className="rounded-2xl border border-emerald-500/20 glass p-5">
+        <div className="rounded-2xl border border-success/30 neumorphic p-5">
           {availability && (
             <p className="flex items-center gap-2.5 text-sm font-semibold text-text-1">
               <span className="relative flex h-2.5 w-2.5" aria-hidden="true">
-                <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-emerald-500 opacity-60" />
-                <span className="relative inline-flex h-2.5 w-2.5 rounded-full bg-emerald-500" />
+                <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-success opacity-60" />
+                <span className="relative inline-flex h-2.5 w-2.5 rounded-full bg-success" />
               </span>
               {availability}
             </p>
           )}
           {notes.map((note) => {
             return (
-              <p key={note.label} className="mt-2 flex items-center gap-2.5 text-sm text-text-2 first:mt-0">
+              <p key={note.label} className="mt-2 flex items-center gap-2.5 text-sm text-text-2 first:mt-0 font-mono text-xs">
                 {createElement(getIconComponent(note.icon || ""), {
                   size: 15,
-                  className: "shrink-0 text-text-3",
+                  className: "shrink-0 text-accent",
                   "aria-label": note.label,
                 })}
                 {note.value}
