@@ -11,12 +11,13 @@ export function FloatingBadge({ icon: Icon, label, className }: FloatingBadgePro
   return (
     <div
       className={cn(
-        "inline-flex items-center gap-1.5 rounded-lg border border-border glass-strong px-3 py-1.5 text-xs font-medium text-text-1 shadow-lg transition-all duration-300 hover:scale-105 hover:border-accent/50 hover:shadow-xl",
+        "inline-flex items-center gap-2 rounded-xl border border-border/70 dark:border-white/10 neumorphic px-3 py-1.5 text-xs font-semibold text-text-1 shadow-md transition-all duration-200 hover:border-accent/40 hover:text-accent whitespace-nowrap",
         className
       )}
     >
-      <Icon size={14} className="text-accent-ink dark:text-secondary-ink" />
+      <Icon size={14} className="text-accent shrink-0" />
       <span>{label}</span>
+      <span className="h-1.5 w-1.5 rounded-full bg-accent/40 ring-1 ring-accent/20 shrink-0" />
     </div>
   );
 }

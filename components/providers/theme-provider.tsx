@@ -10,6 +10,7 @@ export function ThemeProvider({ children }: { children: ReactNode }) {
       defaultTheme="light"
       storageKey="theme"
       disableTransitionOnChange
+      scriptProps={{ async: true }}
     >
       {children}
     </NextThemesProvider>

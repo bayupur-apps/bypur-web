@@ -65,9 +65,9 @@ export function HeroStats({ stats, className }: HeroStatsProps) {
       {stats.slice(0, 3).map((stat) => (
         // dt/dd order kept for semantics; column-reverse + justify-end puts
         // the number on top and aligns all numbers regardless of label length.
-        <div key={stat.label} className="flex flex-col-reverse justify-end px-6 first:pl-0 last:pr-0">
-          <dt className="mt-1.5 max-w-36 text-xs leading-snug text-text-3">{stat.label}</dt>
-          <dd className="text-3xl font-semibold leading-none tracking-tight text-text-1">
+        <div key={stat.label} className="flex flex-col-reverse justify-end px-2.5 sm:px-6 first:pl-0 last:pr-0">
+          <dt className="mt-1 max-w-36 text-[10px] sm:text-xs leading-snug text-text-3">{stat.label}</dt>
+          <dd className="text-2xl sm:text-3xl font-semibold leading-none tracking-tight text-text-1">
             {/* Remount on value change so live CMS numbers re-run the count. */}
             <CountUp key={stat.value} value={stat.value} />
           </dd>

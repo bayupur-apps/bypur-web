@@ -19,9 +19,9 @@ export function SectionContainer({
   background = "default",
 }: SectionContainerProps) {
   const variantStyles = {
-    default: "py-16 sm:py-20 lg:py-24",
-    hero: "min-h-svh flex flex-col justify-center pt-16 pb-12 sm:pt-20",
-    "full-height": "min-h-screen flex flex-col justify-center py-16 sm:py-20",
+    default: "w-full py-2 sm:py-4",
+    hero: "w-full flex flex-col justify-center py-2 sm:py-4",
+    "full-height": "w-full flex flex-col justify-center py-2",
   };
 
   const backgroundStyles = {
@@ -37,13 +37,13 @@ export function SectionContainer({
     <section
       id={id}
       className={cn(
-        "relative overflow-hidden",
+        "relative",
         variantStyles[variant],
         backgroundStyles[background],
         className
       )}
     >
-      <div className={cn("container-main w-full", innerClassName)}>
+      <div className={cn("w-full", innerClassName)}>
         {children}
       </div>
     </section>

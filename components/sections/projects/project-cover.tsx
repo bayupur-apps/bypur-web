@@ -53,7 +53,7 @@ function GeneratedCover({ project }: { project: Project }) {
             <span
               key={tech}
               className={cn(
-                "flex h-13 w-13 items-center justify-center rounded-2xl border border-white/50 glass-strong text-text-1 shadow-lg shadow-accent/10 dark:border-white/10",
+                "flex h-13 w-13 items-center justify-center rounded-2xl border border-border/70 glass-strong text-text-1 shadow-lg shadow-accent/10 dark:border-white/10",
                 i === 1 && "-translate-y-2"
               )}
             >
@@ -61,7 +61,7 @@ function GeneratedCover({ project }: { project: Project }) {
             </span>
           ))
         ) : (
-          <span className="flex h-16 w-16 items-center justify-center rounded-2xl border border-white/50 glass-strong text-xl font-bold text-text-1 shadow-lg dark:border-white/10">
+          <span className="flex h-16 w-16 items-center justify-center rounded-2xl border border-border/70 glass-strong text-xl font-bold text-text-1 shadow-lg dark:border-white/10">
             {initials}
           </span>
         )}

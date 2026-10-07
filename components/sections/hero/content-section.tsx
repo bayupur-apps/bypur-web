@@ -56,23 +56,23 @@ export function ContentSection({
       )}
 
       {/* Headline */}
-      <h1 className="mb-6 text-4xl font-bold leading-[1.06] tracking-tight text-text-1 sm:text-5xl lg:text-[3.5rem]">
+      <h1 className="mb-4 text-3xl font-bold leading-[1.08] tracking-tight text-text-1 sm:text-4xl lg:text-[2.75rem]">
         Hi, I&apos;m {profileData.name.split(" ")[0]}
-        <span className="mt-2 block text-xl font-normal leading-snug tracking-normal text-text-2 sm:text-2xl lg:text-3xl">
+        <span className="mt-1.5 block text-lg font-normal leading-snug tracking-normal text-text-2 sm:text-xl lg:text-2xl">
           {renderTagline(tagline, profileData.taglineHighlight)}
         </span>
       </h1>
 
-      {/* Bio - short version; the full story lives in the About section */}
-      <p className={`mb-8 max-w-lg text-[15px] leading-[1.8] text-text-2 ${stagger(80)}`}>
+      {/* Bio - short version */}
+      <p className={`mb-5 max-w-lg text-sm leading-[1.7] text-text-2 ${stagger(80)}`}>
         {shortBio}
       </p>
 
       {/* CTA + CV + GitHub/LinkedIn */}
       <HeroActions profileData={profileData} className={stagger(160)} />
 
-      {/* Stats (desktop - mobile shows the stats grid under the content) */}
-      <HeroStats stats={profileData.stats} className={`mt-12 hidden w-full max-w-lg lg:grid ${stagger(240)}`} />
+      {/* Stats (desktop) */}
+      <HeroStats stats={profileData.stats} className={`mt-6 hidden w-full max-w-lg lg:grid ${stagger(240)}`} />
     </div>
   );
 }

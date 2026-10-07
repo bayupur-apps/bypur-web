@@ -62,7 +62,7 @@ export function CertificateCard({ certificate }: CertificateCardProps) {
     >
       {/* Issuer logo + status */}
       <div className="flex items-start justify-between gap-3">
-        <div className="relative flex h-12 w-12 shrink-0 items-center justify-center overflow-hidden rounded-xl border border-border/80 bg-white/90 shadow-sm">
+        <div className="relative flex h-12 w-12 shrink-0 items-center justify-center overflow-hidden rounded-xl border border-border/80 bg-bg-subtle shadow-sm">
           {certificate.image ? (
             <Image src={certificate.image} alt={certificate.issuer} fill sizes="48px" className="object-contain p-2" />
           ) : (

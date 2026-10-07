@@ -18,6 +18,7 @@ Always produce UI and copy that feel **crafted by a designer** and written by a 
   - **UI States**: Every dynamic view/component MUST implement Empty, Loading, and Error states.
   - **Interactive Elements**: Every button and link must perform a real action (navigation, dialog toggle, state update, or form submission). No dead controls or links to non-existent routes.
   - **No Fabricated Claims or Fake Data**: Never invent fake testimonials, fake stats ("99.9% uptime", "10k+ users"), or fake security badges without real data. Use explicit placeholders like `[REAL DATA]` if missing.
+  - **Layout Diversity & Dynamic Rhythm (No Monotonous Layouts)**: Setiap view/page/section WAJIB memiliki arsitektur layout dan komposisi yang berbeda, unik, dan disesuaikan dengan jenis datanya. DILARANG menggunakan struktur visual/template yang seragam atau monoton antar-page (misal mengulang 3-card grid yang sama di semua section). Setiap view harus memiliki karakter tata letak tersendiri (e.g. Master-Detail Console, Zero-Gravity Orbital Conduit, Architecture Tier Rack, Split Stage, etc.).
   - **Verification Gate**: Build/test the app and inspect interactive elements before declaring a task complete.
 
 <!-- antislop:start -->

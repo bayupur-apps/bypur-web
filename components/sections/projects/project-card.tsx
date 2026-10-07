@@ -1,70 +1,94 @@
 "use client";
 
-import { useState } from "react";
-import { ArrowUpRight, ChevronDown, Code2, Lock, Sparkles } from "lucide-react";
+import { ArrowUpRight, Code2, Lock, Maximize2, Sparkles } from "lucide-react";
 import { TechChip } from "@/components/ui/tech-chip";
-import { cn } from "@/lib/helpers";
 import type { Project } from "@/lib/types";
 import { ProjectCover } from "./project-cover";
 
 interface ProjectCardProps {
   project: Project;
+  index: number;
+  onOpenSpecs: (project: Project) => void;
 }
 
 const VISIBLE_TECH = 4;
-const LONG_DESCRIPTION = 150;
 
-export function ProjectCard({ project }: ProjectCardProps) {
-  const [expanded, setExpanded] = useState(false);
-  const hasContent = Boolean(project.content?.trim());
-  const canExpand = hasContent || project.description.length > LONG_DESCRIPTION;
+export function ProjectCard({ project, index, onOpenSpecs }: ProjectCardProps) {
   const extraTech = project.techStack.length - VISIBLE_TECH;
-  const hasLinks = Boolean(project.liveUrl || project.repoUrl);
+  const systemCode = `SYS-${String(index + 1).padStart(2, "0")}`;
+  const highlight = project.architectureHighlights?.[0];
 
   return (
-    <article className="group relative isolate flex h-full flex-col overflow-hidden rounded-2xl border border-border/80 neumorphic transition-all duration-300 hover:-translate-y-1 hover:border-accent/40 hover:shadow-lg">
-      {/* Cover */}
-      <div className="relative aspect-video overflow-hidden border-b border-border/70">
+    <article className="group relative flex h-full flex-col overflow-hidden rounded-2xl neumorphic border border-border/70 transition-all duration-200 hover:-translate-y-1 hover:border-accent/40 hover:shadow-[0_8px_20px_rgba(2,132,199,0.08)]">
+      {/* Top accent glow line on card hover */}
+      <div
+        aria-hidden="true"
+        className="pointer-events-none absolute inset-x-0 top-0 h-0.5 bg-gradient-to-r from-transparent via-accent/60 to-transparent opacity-0 transition-opacity duration-200 group-hover:opacity-100 z-10"
+      />
+
+      {/* Interactive Cover: Opens specs modal */}
+      <button
+        type="button"
+        onClick={() => onOpenSpecs(project)}
+        aria-label={`Open ${project.title} specifications`}
+        className="relative block aspect-[16/8] w-full overflow-hidden border-b border-border/60 text-left focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent"
+      >
         <ProjectCover project={project} />
 
+        {/* Top Badges */}
+        <div className="absolute left-2.5 top-2.5 flex items-center gap-1.5">
+          <span className="inline-flex items-center gap-1 rounded-md neumorphic-chip px-1.5 py-0.5 font-mono text-[9px] font-bold text-text-2">
+            <span className="h-1.5 w-1.5 rounded-full bg-emerald-500 shrink-0" />
+            {systemCode}
+          </span>
+          {project.endpoints && project.endpoints.length > 0 && (
+            <span className="hidden sm:inline-flex rounded-md neumorphic-chip px-1.5 py-0.5 font-mono text-[9px] font-medium text-text-3">
+              {project.endpoints.length} EP
+            </span>
+          )}
+        </div>
+
         {project.featured && (
-          <span className="absolute left-3 top-3 inline-flex items-center gap-1 rounded-full border border-accent/30 bg-bg-card/95 px-2.5 py-1 font-mono text-[10px] font-bold uppercase tracking-wider text-accent shadow-sm">
-            <Sparkles size={11} />
+          <span className="absolute right-2.5 top-2.5 inline-flex items-center gap-1 rounded-md neumorphic-chip px-1.5 py-0.5 font-mono text-[9px] font-bold uppercase text-accent">
+            <Sparkles size={9} aria-hidden="true" />
             Featured
           </span>
         )}
-      </div>
 
-      {/* Body */}
-      <div className="flex flex-1 flex-col p-5">
-        <h3 className="text-base font-semibold leading-snug tracking-tight text-text-1">{project.title}</h3>
+        {/* Tactile Hover Prompt */}
+        <div className="absolute inset-0 hidden sm:flex items-center justify-center bg-secondary/15 opacity-0 backdrop-blur-[1px] transition-opacity duration-200 group-hover:opacity-100">
+          <span className="inline-flex items-center gap-1.5 rounded-xl border border-accent/40 bg-bg-card/95 px-3 py-1 text-xs font-semibold text-accent shadow-md">
+            <Maximize2 size={12} aria-hidden="true" />
+            Inspect Specs
+          </span>
+        </div>
+      </button>
 
-        <p className={cn("mt-2 text-sm leading-relaxed text-text-2", !expanded && "line-clamp-3")}>
+      {/* Card Content */}
+      <div className="flex flex-1 flex-col p-3.5 sm:p-4">
+        <h3 className="text-sm font-bold leading-snug tracking-tight text-text-1 transition-colors group-hover:text-accent">
+          {project.title}
+        </h3>
+        <p className="mt-1 line-clamp-2 text-xs leading-relaxed text-text-2">
           {project.description}
         </p>
-        {expanded && hasContent && (
-          <p className="mt-2 whitespace-pre-line text-sm leading-relaxed text-text-3">{project.content}</p>
-        )}
-        {canExpand && (
-          <button
-            type="button"
-            onClick={() => setExpanded((v) => !v)}
-            aria-expanded={expanded}
-            className="mt-2 inline-flex items-center gap-1 self-start font-mono text-xs font-medium text-accent transition-colors hover:underline"
-          >
-            {expanded ? "Show less" : "Read more"}
-            <ChevronDown size={13} className={cn("transition-transform duration-200", expanded && "rotate-180")} />
-          </button>
+
+        {/* Architecture Highlight (Proof-of-work) */}
+        {highlight && (
+          <div className="mt-2.5 flex items-center gap-1.5 rounded-lg bg-bg-subtle/50 px-2 py-1 border border-border/40 font-mono text-[10px] text-text-2">
+            <span className="h-1.5 w-1.5 rounded-full bg-accent shrink-0" />
+            <span className="truncate">{highlight}</span>
+          </div>
         )}
 
-        {/* Stack */}
-        <div className="mt-4 flex flex-wrap gap-1.5">
+        {/* Tech Stack Chips */}
+        <div className="mt-3 flex flex-wrap gap-1.5">
           {project.techStack.slice(0, VISIBLE_TECH).map((tech, idx) => (
             <TechChip key={`${tech}-${idx}`} name={tech} />
           ))}
           {extraTech > 0 && (
             <span
-              className="inline-flex items-center rounded-full border border-dashed border-border/80 bg-bg-subtle/50 px-2.5 py-1 font-mono text-xs font-medium text-text-3"
+              className="inline-flex items-center rounded-lg neumorphic-chip px-2 py-0.5 font-mono text-[10px] font-medium text-text-3"
               title={project.techStack.slice(VISIBLE_TECH).join(", ")}
             >
               +{extraTech}
@@ -72,46 +96,50 @@ export function ProjectCard({ project }: ProjectCardProps) {
           )}
         </div>
 
-        <div className="min-h-5 flex-1" aria-hidden="true" />
+        <div className="flex-1" aria-hidden="true" />
 
-        {/* Links */}
-        <div className="flex items-center gap-2 border-t border-border/60 pt-4">
-          {hasLinks ? (
-            <>
-              {project.liveUrl && (
-                <a
-                  href={project.liveUrl}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  aria-label={`Open ${project.title} live site`}
-                  className="group/btn inline-flex min-h-10 items-center gap-1.5 rounded-full bg-accent px-4 text-xs font-semibold text-accent-fg shadow-sm shadow-accent/20 transition-all duration-200 hover:bg-accent-hover hover:shadow-md hover:shadow-accent/30"
-                >
-                  Live site
-                  <ArrowUpRight
-                    size={14}
-                    className="transition-transform duration-200 group-hover/btn:-translate-y-0.5 group-hover/btn:translate-x-0.5"
-                  />
-                </a>
-              )}
-              {project.repoUrl && (
-                <a
-                  href={project.repoUrl}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  aria-label={`View ${project.title} source code`}
-                  className="inline-flex min-h-10 items-center gap-1.5 rounded-full border border-border/80 bg-bg-subtle/50 px-4 text-xs font-medium text-text-2 transition-all duration-200 hover:border-accent/40 hover:bg-bg-card hover:text-text-1"
-                >
-                  <Code2 size={14} />
-                  Source
-                </a>
-              )}
-            </>
-          ) : (
-            <span className="inline-flex min-h-10 items-center gap-1.5 font-mono text-xs text-text-3">
-              <Lock size={13} aria-hidden="true" />
-              No public link
-            </span>
-          )}
+        {/* Footer Action Bar */}
+        <div className="mt-3.5 flex items-center gap-2 border-t border-border/50 pt-3">
+          <button
+            type="button"
+            onClick={() => onOpenSpecs(project)}
+            aria-label={`Open ${project.title} specifications`}
+            className="inline-flex min-h-11 sm:min-h-9 items-center gap-1.5 rounded-xl neumorphic-chip px-3 text-xs font-semibold text-text-2 transition-all hover:border-accent/40 hover:text-accent active:scale-95"
+          >
+            <Maximize2 size={12} aria-hidden="true" />
+            Specs
+          </button>
+
+          <div className="ml-auto flex items-center gap-2">
+            {project.repoUrl && (
+              <a
+                href={project.repoUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label={`View ${project.title} source code`}
+                className="inline-flex h-11 w-11 sm:h-9 sm:w-9 items-center justify-center rounded-xl neumorphic-chip text-text-2 transition-all hover:border-accent/40 hover:text-text-1 active:scale-95"
+              >
+                <Code2 size={14} />
+              </a>
+            )}
+            {project.liveUrl && (
+              <a
+                href={project.liveUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex min-h-11 sm:min-h-9 items-center gap-1 rounded-xl bg-accent px-3 text-xs font-semibold text-accent-fg shadow-sm transition-all hover:bg-accent-hover active:scale-95"
+              >
+                Live
+                <ArrowUpRight size={13} aria-hidden="true" />
+              </a>
+            )}
+            {!project.repoUrl && !project.liveUrl && (
+              <span className="inline-flex items-center gap-1 font-mono text-[10px] text-text-3">
+                <Lock size={11} aria-hidden="true" />
+                Private
+              </span>
+            )}
+          </div>
         </div>
       </div>
     </article>

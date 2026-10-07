@@ -16,7 +16,7 @@ const WELCOME_MESSAGE: Message = {
   id: "welcome",
   role: "assistant",
   content:
-    "👋 Hi! I'm Bayu's AI assistant. I can help answer questions about his experience, skills, and projects. What would you like to know?",
+    "Hi, I am Bayu's AI assistant. Feel free to ask about his technical experience, projects, or background.",
   timestamp: new Date(),
 };
 
@@ -59,7 +59,7 @@ export function renderMessageContent(content: string) {
       if (end !== -1) {
         pushText(content.slice(lastIndex, index));
         pushElement(
-          <strong key={index} className="font-semibold">
+          <strong key={index} className="font-semibold text-text-1">
             {content.slice(index + 2, end)}
           </strong>,
         );
@@ -91,7 +91,7 @@ export function renderMessageContent(content: string) {
         pushElement(
           <code
             key={index}
-            className="rounded bg-muted px-1 py-[0.1rem] font-mono text-sm"
+            className="rounded bg-bg-card border border-border/70 px-1.5 py-0.5 font-mono text-xs text-accent font-medium"
           >
             {content.slice(index + 1, end)}
           </code>,
@@ -126,7 +126,7 @@ export function renderMessageContent(content: string) {
             <a
               key={index}
               href={href}
-              className="text-accent-ink underline transition-colors hover:text-accent-ink/80"
+              className="text-accent underline font-medium transition-colors hover:text-accent-hover"
             >
               {linkText}
             </a>,
@@ -154,7 +154,7 @@ export function renderMessageContent(content: string) {
           <a
             key={index}
             href={`#${tagText}`}
-            className="text-accent-ink underline transition-colors hover:text-accent-ink/80"
+            className="text-accent underline font-medium transition-colors hover:text-accent-hover"
           >
             {`#${tagText}`}
           </a>,
@@ -215,13 +215,14 @@ export function AIChatbot({ enabled = true }: { enabled?: boolean }) {
     window.scrollTo({ top: 0, behavior: "smooth" });
   };
 
-  const handleSend = async () => {
-    if (!input.trim() || isLoading) return;
+  const handleSend = async (customText?: string) => {
+    const textToSend = typeof customText === "string" ? customText.trim() : input.trim();
+    if (!textToSend || isLoading) return;
 
     const userMessage: Message = {
       id: Date.now().toString(),
       role: "user",
-      content: input.trim(),
+      content: textToSend,
       timestamp: new Date(),
     };
 
@@ -294,12 +295,13 @@ export function AIChatbot({ enabled = true }: { enabled?: boolean }) {
           isLoading={isLoading}
           input={input}
           onInputChange={setInput}
-          onSend={handleSend}
+          onSend={() => handleSend()}
           onClose={handleClose}
           onKeyPress={handleKeyPress}
           renderMessageContent={renderMessageContent}
           inputRef={inputRef}
           messagesEndRef={messagesEndRef}
+          onSuggestionSelect={(prompt) => handleSend(prompt)}
         />
       )}
     </>

@@ -1,8 +1,8 @@
-﻿'use client';
+'use client';
 
 import { type ReactNode, type RefObject, type KeyboardEvent } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { X, Minimize2, Sparkles, Send } from 'lucide-react';
+import { X, Minimize2, Send, Bot } from 'lucide-react';
 import { Button } from './button';
 import { Message } from './chat-types';
 
@@ -17,7 +17,14 @@ interface AIChatbotWindowProps {
   renderMessageContent: (content: string) => ReactNode;
   inputRef: RefObject<HTMLInputElement | null>;
   messagesEndRef: RefObject<HTMLDivElement | null>;
+  onSuggestionSelect?: (text: string) => void;
 }
+
+const QUICK_PROMPTS = [
+  "Tech stack overview",
+  "Key projects",
+  "Contact information",
+];
 
 export function AIChatbotWindow({
   messages,
@@ -30,38 +37,43 @@ export function AIChatbotWindow({
   renderMessageContent,
   inputRef,
   messagesEndRef,
+  onSuggestionSelect,
 }: AIChatbotWindowProps) {
+  const showSuggestions = messages.length <= 1 && !isLoading;
+
   return (
     <AnimatePresence>
       <motion.div
-        initial={{ opacity: 0, y: 20, scale: 0.95 }}
+        initial={{ opacity: 0, y: 16, scale: 0.98 }}
         animate={{ opacity: 1, y: 0, scale: 1 }}
-        exit={{ opacity: 0, y: 20, scale: 0.95 }}
-        transition={{ duration: 0.2 }}
-        className="fixed inset-0 z-50 mx-auto w-full max-w-full md:inset-auto md:bottom-6 md:right-6 md:w-full md:max-w-md"
+        exit={{ opacity: 0, y: 16, scale: 0.98 }}
+        transition={{ duration: 0.18, ease: "easeOut" }}
+        className="fixed inset-0 z-50 mx-auto w-full max-w-full md:inset-auto md:bottom-6 md:right-6 md:w-[380px] md:max-w-md"
       >
-        <div className="glass-strong rounded-none md:rounded-3xl border border-border shadow-2xl shadow-accent/10 flex flex-col h-dvh md:h-150 overflow-hidden">
-          <div className="bg-accent p-4 flex items-center justify-between">
-            <div className="flex items-center gap-3">
-              <div className="w-10 h-10 rounded-full bg-accent-fg/10 backdrop-blur-sm flex items-center justify-center">
-                <Sparkles className="w-5 h-5 text-accent-fg" />
+        <div className="flex flex-col h-dvh md:h-[520px] bg-bg-card border border-border/80 md:rounded-2xl shadow-xl overflow-hidden">
+          {/* Header */}
+          <div className="px-4 py-3 border-b border-border/60 bg-bg-card flex items-center justify-between">
+            <div className="flex items-center gap-2.5">
+              <div className="w-7 h-7 rounded-lg bg-accent/10 border border-accent/20 flex items-center justify-center text-accent">
+                <Bot className="w-4 h-4" />
               </div>
               <div>
-                <h3 className="font-semibold text-accent-fg">AI Assistant</h3>
-                <p className="text-xs text-accent-fg">Powered by AI</p>
+                <h3 className="text-sm font-semibold text-text-1">AI Assistant</h3>
+                <p className="text-[11px] text-text-3">Portfolio Guide</p>
               </div>
             </div>
-            <div className="flex gap-2">
+
+            <div className="flex items-center gap-1">
               <button
                 onClick={onClose}
-                className="h-10 w-10 rounded-lg flex items-center justify-center text-accent-fg hover:bg-accent-fg/10 transition-colors"
+                className="h-8 w-8 rounded-lg flex items-center justify-center text-text-3 hover:text-text-1 hover:bg-bg-subtle transition-colors"
                 aria-label="Minimize"
               >
                 <Minimize2 className="w-4 h-4" />
               </button>
               <button
                 onClick={onClose}
-                className="h-10 w-10 rounded-lg flex items-center justify-center text-accent-fg hover:bg-accent-fg/10 transition-colors"
+                className="h-8 w-8 rounded-lg flex items-center justify-center text-text-3 hover:text-text-1 hover:bg-bg-subtle transition-colors"
                 aria-label="Close"
               >
                 <X className="w-4 h-4" />
@@ -69,61 +81,80 @@ export function AIChatbotWindow({
             </div>
           </div>
 
-          <div className="flex-1 overflow-y-auto p-4 space-y-4">
-            {messages.map((message) => (
-              <motion.div
-                key={message.id}
-                initial={{ opacity: 0, y: 10 }}
-                animate={{ opacity: 1, y: 0 }}
-                className={`flex ${message.role === 'user' ? 'justify-end' : 'justify-start'}`}
-              >
+          {/* Messages Body */}
+          <div className="flex-1 overflow-y-auto p-4 space-y-3 custom-workspace-scroll text-sm">
+            {messages.map((message) => {
+              const isUser = message.role === 'user';
+              return (
                 <div
-                  className={`max-w-[80%] rounded-2xl px-4 py-2 ${
-                    message.role === 'user' ? 'bg-accent text-accent-fg' : 'bg-bg-subtle text-text-1'
-                  }`}
+                  key={message.id}
+                  className={`flex flex-col ${isUser ? 'items-end' : 'items-start'}`}
                 >
-                  <p className="text-sm whitespace-pre-wrap">
-                    {renderMessageContent(message.content)}
-                  </p>
-                  <p className={`text-xs mt-1 ${message.role === 'user' ? 'text-accent-fg' : 'text-text-3'}`}>
+                  <div
+                    className={`max-w-[85%] rounded-2xl px-3.5 py-2.5 leading-relaxed ${
+                      isUser
+                        ? 'bg-accent text-accent-fg rounded-tr-xs font-medium'
+                        : 'bg-bg-subtle/80 border border-border/60 text-text-1 rounded-tl-xs'
+                    }`}
+                  >
+                    <div className="whitespace-pre-wrap break-words">
+                      {renderMessageContent(message.content)}
+                    </div>
+                  </div>
+                  <span className="text-[10px] text-text-3 px-1 mt-1 font-mono">
                     {message.timestamp.toLocaleTimeString([], {
                       hour: '2-digit',
                       minute: '2-digit',
                     })}
-                  </p>
+                  </span>
                 </div>
-              </motion.div>
-            ))}
+              );
+            })}
 
+            {/* Subtle Inline Suggestions */}
+            {showSuggestions && (
+              <div className="pt-2">
+                <div className="flex flex-wrap gap-1.5">
+                  {QUICK_PROMPTS.map((prompt, idx) => (
+                    <button
+                      key={idx}
+                      type="button"
+                      onClick={() => {
+                        if (onSuggestionSelect) {
+                          onSuggestionSelect(prompt);
+                        } else {
+                          onInputChange(prompt);
+                          inputRef.current?.focus();
+                        }
+                      }}
+                      className="px-2.5 py-1 rounded-full bg-bg-subtle/70 border border-border/70 hover:border-accent/60 text-xs text-text-2 hover:text-text-1 transition-colors"
+                    >
+                      {prompt}
+                    </button>
+                  ))}
+                </div>
+              </div>
+            )}
+
+            {/* Loading Indicator */}
             {isLoading && (
-              <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="flex justify-start">
-                <div className="bg-bg-subtle rounded-2xl px-4 py-3">
-                  <div className="flex gap-2">
-                    <motion.div
-                      animate={{ scale: [1, 1.2, 1] }}
-                      transition={{ duration: 0.6, repeat: Infinity, delay: 0 }}
-                      className="w-2 h-2 bg-text-3 rounded-full"
-                    />
-                    <motion.div
-                      animate={{ scale: [1, 1.2, 1] }}
-                      transition={{ duration: 0.6, repeat: Infinity, delay: 0.2 }}
-                      className="w-2 h-2 bg-text-3 rounded-full"
-                    />
-                    <motion.div
-                      animate={{ scale: [1, 1.2, 1] }}
-                      transition={{ duration: 0.6, repeat: Infinity, delay: 0.4 }}
-                      className="w-2 h-2 bg-text-3 rounded-full"
-                    />
+              <div className="flex items-start">
+                <div className="bg-bg-subtle/80 border border-border/60 rounded-2xl rounded-tl-xs px-3.5 py-2.5">
+                  <div className="flex gap-1.5 items-center">
+                    <span className="w-1.5 h-1.5 rounded-full bg-accent animate-pulse" />
+                    <span className="w-1.5 h-1.5 rounded-full bg-accent animate-pulse [animation-delay:200ms]" />
+                    <span className="w-1.5 h-1.5 rounded-full bg-accent animate-pulse [animation-delay:400ms]" />
                   </div>
                 </div>
-              </motion.div>
+              </div>
             )}
 
             <div ref={messagesEndRef} />
           </div>
 
-          <div className="p-4 border-t border-border">
-            <div className="flex gap-2">
+          {/* 3D Neumorphic Slate Input Bar */}
+          <div className="p-3.5 border-t border-border/50 bg-bg-card">
+            <div className="neumorphic-pressed rounded-2xl px-3.5 py-1.5 flex items-center gap-2 focus-within:ring-2 focus-within:ring-accent/40 transition-all">
               <input
                 ref={inputRef}
                 value={input}
@@ -131,13 +162,13 @@ export function AIChatbotWindow({
                 onKeyPress={onKeyPress}
                 placeholder="Type your message..."
                 disabled={isLoading}
-                className="min-h-11 flex-1 rounded-full border border-border bg-bg-subtle px-4 py-2 text-text-1 placeholder:text-text-3 transition-all focus:outline-none focus:ring-2 focus:ring-accent disabled:opacity-50"
+                className="flex-1 bg-transparent py-1.5 text-sm text-text-1 placeholder:text-text-3 focus:outline-none disabled:opacity-50 min-w-0"
               />
               <Button
                 onClick={onSend}
                 disabled={!input.trim() || isLoading}
                 size="sm"
-                className="w-11 h-11 p-0 rounded-full disabled:opacity-50 flex items-center justify-center"
+                className="w-9 h-9 p-0 rounded-xl bg-accent text-accent-fg shadow-[2px_2px_5px_var(--shadow-dark),-2px_-2px_5px_var(--shadow-light)] hover:bg-accent-hover active:shadow-[inset_2px_2px_4px_rgba(0,0,0,0.35)] active:scale-95 disabled:opacity-40 disabled:shadow-none flex items-center justify-center shrink-0 transition-all duration-150"
               >
                 <Send className="w-4 h-4" />
               </Button>

@@ -1,27 +1,32 @@
 ---
-version: "alpha"
-name: "Neumorphic Muted Slate & Technical Cyan"
-description: "Neumorphic landing page, soft ui, tech schematic, muted slate background, soft shadows, clean layout, hub and spoke design. Ideal for landing pages, modern websites. AI-ready template."
+version: "beta-desktop-app"
+name: "Neumorphic Slate & Technical Cyan (Zero-Scroll Desktop App)"
+description: "Desktop-first application shell, zero global page-scroll, viewport-locked 100dvh canvas, floating tactile island dock, technical schematic blueprint, soft neumorphic depth with technical cyan accents."
 colors:
-  primary: "#F1F5F9"
+  primary: "#CAD6E2"
   secondary: "#0F172A"
   tertiary: "#0284C7"
-  neutral: "#FFFFFF"
-  surface: "#CBD5E1"
+  neutral: "#D8E2EC"
+  surface: "#A2B5C7"
   accent: "#0284C7"
+  card: "#D8E2EC"
 typography:
   h1:
     fontFamily: Plus Jakarta Sans
-    fontSize: 2.5rem
+    fontSize: 2.25rem
     fontWeight: 700
   body-md:
     fontFamily: Plus Jakarta Sans
     fontSize: 1rem
     fontWeight: 400
+  mono:
+    fontFamily: JetBrains Mono
+    fontSize: 0.8125rem
+    fontWeight: 500
 rounded:
-  sm: 20px
-  md: 40px
-  lg: 60px
+  sm: 16px
+  md: 24px
+  lg: 32px
 components:
   button-primary:
     backgroundColor: "{colors.accent}"
@@ -30,149 +35,120 @@ components:
     padding: 12px
 ---
 
-## Overview
+## 1. Overview & Core Paradigm
 
-Neumorphic Muted Slate & Technical Cyan landing page, soft UI, technical schematic, muted cool slate background, soft shadows, clean layout, hub and spoke design. Ideal for landing pages, modern websites. AI-ready template. Technical and modern, highly neutral and professional: soft neumorphic depth layered with crisp architectural slate lines, monospaced tech indicators, and muted electric cyan accents.
+This design system establishes a **Zero-Scroll Desktop Application Shell** for the portfolio. Rather than a conventional long vertical webpage, the interface behaves like a precision-engineered native desktop application (e.g. macOS desktop app, Linear, Raycast, or VS Code).
 
-The schematic layer provides engineered structure. Precision lines, grid overlays, monospaced type, circuit-board patterns — giving neumorphism clear function and hierarchy.
+### Key Architectural Pillars
+- **Zero Global Window Scroll**: The browser body is locked to exact viewport height (`100dvh`). There is no global window scrollbar.
+- **Floating Island Dock**: A floating tactile navigation island positioned on the left (or bottom on mobile), featuring magnetic sliding indicators, pneumatic pressed states, and keyboard shortcut hints (`1` to `6`).
+- **Dynamic Central Workspace Canvas**: The central stage swaps content smoothly via micro-fade/slide transitions when switching views (Bio, Stack Matrix, Projects, Experience, Certificates, Contact).
+- **Isolated Inner Scrolling**: If a specific view contains extensive items (such as the Project Gallery or Experience Timeline), scrolling is strictly isolated to that specific inner panel using sleek custom neumorphic scrollbars.
+- **Schematic Engineering Aesthetics**: Subtle grid textures, blueprint flow lines, circuit markers, and JetBrains Mono technical metadata tags.
 
-- Density: 5/10 — Balanced
-- Variance: 4/10 — Moderate
-- Motion: 4/10 — Subtle
+```
+┌──────────────────────────────────────────────────────────────────────────────────────────────────┐
+│ [● ● ●]  bypur.app // ARCHITECTURE STUDIO      [SYS: ONLINE 🟢]    [⌘K SEARCH]  [☀️/🌙] [ID/EN]   │
+├───────────────┬──────────────────────────────────────────────────────────────────────────────────┤
+│               │                                                                                  │
+│ [FLOATING     │  [CENTRAL WORKSPACE CANVAS] (100dvh / Viewport Locked)                           │
+│  ISLAND DOCK] │                                                                                  │
+│               │  Dynamic Stage / View Switching:                                                 │
+│  [01 // BIO]  │  • 01 Bio & Profile Hub                                                          │
+│  [02 // WORK] │  • 02 Featured Projects Studio                                                   │
+│  [03 // EXP]  │  • 03 Career & Experience Logs                                                   │
+│  [04 // STACK]│  • 04 Skills Bento & Architecture Matrix                                         │
+│  [05 // CERT] │  • 05 Verified Credentials                                                       │
+│  [06 // TALK] │  • 06 Contact & Communication Hub                                                │
+│               │                                                                                  │
+│  ───────────  │  *(Content is dense, ergonomic, and fitted to screen; inner panel scroll only)* │
+│  [⌘K] [Theme] │                                                                                  │
+├───────────────┴──────────────────────────────────────────────────────────────────────────────────┤
+│  ⚡ STATUS: OPEN FOR FULL-TIME / CONTRACT    •    JAKARTA (UTC+7) 21:15    •    LATENCY: 24ms    │
+└──────────────────────────────────────────────────────────────────────────────────────────────────┘
+```
 
-- **Style:** Professional, Informative, Technical Neutral
-- **Keywords:** neumorphic, schematic, muted slate, technical cyan, soft shadows, professional, hub and spoke
-- **Era:** Modern Professional Tech
-- **Light/Dark:** ✓ Light Mode Default (Full Toggle Support)
+---
 
-## Colors
+## 2. Color Palette & Surface Tokens
 
-- **Background** (#F1F5F9) — Primary muted cool slate background surface
-- **Text** (#0F172A) — Deep slate charcoal primary text color
-- **Accent** (#0284C7) — Muted technical cyan primary accent, CTAs and interactive elements
-- **Shadow Light** (#FFFFFF) — Soft highlight surface
-- **Shadow Dark** (#CBD5E1) — Muted slate contrast surface shadow
-- **Flow Line** (#0284C7) — Tech schematic flow line accent
+- **Background Canvas** (`#CAD6E2` light / `#0B0F19` dark): Primary muted slate surface, zero harsh glare.
+- **Card Surface** (`#D8E2EC` light / `#111827` dark): Soft matte elevated slate surface.
+- **Subtle Surface** (`#BFCCD9` light / `#131B2E` dark): Inset sunken depth, input wells, and chips.
+- **Text Primary** (`#0F172A` light / `#F8FAFC` dark): Deep slate charcoal high-contrast text.
+- **Text Secondary** (`#334155` light / `#CBD5E1` dark): Medium slate supporting text.
+- **Accent Cyan** (`#0284C7` light / `#38BDF8` dark): Technical cyan for active indicators, active keys, and focus outlines.
+- **Surface Elevation Light** (`rgba(230, 238, 246, 0.5)` light / `#1E293B` dark): Soft diffused light reflection for neumorphic bevel (no pure white `#FFFFFF` glare).
+- **Surface Shadow Dark** (`rgba(100, 120, 142, 0.35)` light / `#020617` dark): Soft depth shadow for neumorphic extrusions.
 
+---
 
-## Typography
+## 3. Typography & Hierarchy
 
-- **Display / Hero:** Plus Jakarta Sans — Weight 700, tight tracking, used for headline impact
-- **Body:** Plus Jakarta Sans — Weight 400, 16px/1.6 line-height, max 72ch per line
-- **UI Labels / Captions:** Plus Jakarta Sans — 0.875rem, weight 500, slight letter-spacing
-- **Monospace:** JetBrains Mono — Used for code, metadata, technical values, and schematic tags
+- **Display & Headings**: Plus Jakarta Sans (Weight 700 / 600) for sharp, modern legibility.
+- **Body & Descriptions**: Plus Jakarta Sans (Weight 400 / 500), 15px - 16px, line-height 1.5.
+- **Technical & Metadata**: JetBrains Mono (Weight 500 / 600) for indices (`01 //`, `SYS:OK`), shortcuts (`[⌘1]`), dates, and metrics.
 
-Scale:
-- Hero: clamp(2.5rem, 5vw, 4rem)
-- H1: 2.25rem
-- H2: 1.5rem
-- Body: 1rem / 1.6
-- Small: 0.875rem
+---
 
+## 4. Layout & Viewport Specifications
 
-## Layout
+- **Viewport Dimension**: Exactly `100dvh` height and `100vw` width. Global `body` has `overflow: hidden`.
+- **Top Window Bar (`AppTopBar`)**:
+  - Height: `56px`.
+  - Left: System traffic lights (`● ● ●`) and brand node identifier (`BYPUR.APP // v2.4`).
+  - Center: Active workspace breadcrumb (`WORKSPACE > 02_SKILLS_MATRIX`).
+  - Right: Quick command palette trigger (`[⌘K]`), live status indicator dot (`ONLINE 🟢`), and theme toggle.
+- **Floating Island Dock (`AppIslandDock`)**:
+  - Position: Floating on the left flank with margin (`ml-4 my-auto`), `rounded-2xl` geometry.
+  - Width: `230px` (or collapsed icon rail on narrower desktop viewports).
+  - Navigation Nodes: Neumorphic tactile buttons with index (`01`, `02`, etc.), Lucide icon, text label, and keyboard shortcut badge.
+  - Active State: Tactile inset pressed depth (`neumorphic-pressed`) with cyan accent glow line.
+  - Spring Indicator: Smooth magnetic pill sliding behind the active item.
+- **Central Workspace Canvas (`AppWorkspaceCanvas`)**:
+  - Fills the remaining viewport height (`h-[calc(100dvh-100px)]`).
+  - Dynamic View Switcher with fast crossfade/slide animation (200ms ease-out).
+  - Internal panel scrolling (`overflow-y-auto`) enabled only where item volume exceeds viewport space.
+- **Bottom Status Bar (`AppStatusBar`)**:
+  - Height: `36px`.
+  - Monospaced telemetry: Availability status, local time (Jakarta WIB), Next.js App Router engine tag, and quick GitHub link.
+- **Mobile Adaptation**:
+  - On viewports < 768px, the left Floating Island Dock automatically shifts to a **Floating Bottom Dock** (native iOS/Android app style).
 
-- **Grid:** CSS Grid primary. Max-width containment: 1280px centered with 1.5rem side padding.
-- **Spacing rhythm:** Balanced. Base unit: 0.5rem (8px).
-- **Section vertical gaps:** clamp(4rem, 8vw, 8rem).
-- **Hero layout:** Split-screen (text left, visual right).
-- **Feature sections:** Zig-zag alternating text+image rows. No 3-equal-columns.
-- **Mobile collapse:** All multi-column layouts collapse below 768px. No horizontal overflow.
-- **z-index contract:** base (0) / sticky-nav (100) / overlay (200) / modal (300) / toast (500).
+---
 
+## 5. View & Section Specifications (Distinct Layout Architecture)
 
-## Section Layout Specifications (Hero to Footer)
+Setiap view memiliki komposisi tata letak dan interaksi yang berbeda secara visual untuk menghindari kesan monoton:
 
-### 1. Site Header & Navigation (`SiteHeader`)
-- **Layout**: Fixed top bar with dynamic scroll behavior. On scroll, transforms into a centered floating neumorphic pill container (`max-w-5xl rounded-2xl`).
-- **Elements**: Brand logo left, desktop link items centered with pill active-state indicator (`bg-accent/10 text-accent-ink`), theme toggle (Sun/Moon), and "Get in touch" CTA right.
-- **Mobile Behavior**: Collapses into a neumorphic menu button; opens a smooth slide-down glass drawer containing vertical link nodes with `ArrowUpRight` indicators.
+### 01. Bio & Profile View (`BioView`)
+- **Layout Model**: Asymmetric Split-Screen Stage.
+- **Visual Composition**: Neumorphic portrait visual dengan compass coordinates dan soft ambient lighting di kiri; punchy headline, engineering bio, status chips, dan direct action buttons di kanan.
 
-### 2. Hero Section (`HeroSection`)
-- **Layout**: Asymmetric 2-column split-screen grid (`1.1fr_1fr`).
-- **Left Column**: Monospaced status tag (`// AVAILABILITY`), main Space Grotesk headline, bio summary paragraph, primary action CTA button, and social link triggers.
-- **Right Column (Visual Hub)**: Neumorphic circular portrait frame with soft ambient diffuse aura, floating metric chips (Years Experience, Key Skills), and interactive status indicators.
-- **Scroll Indicator**: Floating scroll cue button centered at the bottom edge.
+### 02. Skills Bento & Architecture Matrix (`SkillsView`)
+- **Layout Model**: System Architecture Tier Rack & Precision Telemetry HUD.
+- **Visual Composition**: Horizontal Core Production Runtime slots dan 5 Architecture Tier Bus Lines (`01_CLIENT` hingga `05_AI_SPEC`) dengan tactile key nodes di kiri; Contextual Proof-of-Work HUD dengan live project linkages di kanan.
 
-### 3. About Section (`AboutSection`)
-- **Layout**: Asymmetric 2-column layout (`1fr_1.2fr`) with schematic divider header.
-- **Left Column**: Monospaced category tag (`01 // ABOUT`), section title, and highlighted key metrics cards styled with neumorphic depth (`6px 6px 14px`).
-- **Right Column**: Detailed technical background story, core engineering philosophy cards, and key strength badges.
+### 03. Featured Projects Studio (`ProjectsView`)
+- **Layout Model**: Master-Detail Engineering Studio Console.
+- **Visual Composition**: System Registry & Selector Rail (`SYS-01` s/d `SYS-06`) di kiri; Live Architecture Blueprint stage, real problem statement, architectural highlights, dan interactive interface endpoint console (`GET`, `POST`, `WS`) di kanan.
 
-### 4. Skills & Tech Stack Section (`StackSection`)
-- **Layout**: Central Hub & Spoke schematic layout grouped into 4 distinct domain cards (Frontend, Backend, DevOps & Cloud, Tools & Practices).
-- **Cards**: Neumorphic containers (`rounded-2xl`) featuring inset pressed badge tags, JetBrains Mono skill labels, and subtle accent status dots.
-- **Interactive Feedback**: Hovering cards elevates soft shadows and highlights schematic flow lines.
+### 04. Experience & Career Logs (`ExperienceView`)
+- **Layout Model**: Zero-Gravity Orbital Timeline Conduit & Floating Station Stage.
+- **Visual Composition**: Vertical glowing technical cyan conduit line dengan orbital station markers dan status beacon di kiri; 3D perspective floating station card dengan levitating staggered responsibilities dan tech constellation di kanan.
 
-### 5. Certificates Section (`CertificatesSection`)
-- **Layout**: Responsive 2-column / 3-column grid of credential cards. (Automatically omitted if no certificates exist to prevent broken anchors).
-- **Cards**: Soft neumorphic surface containing issuing organization icon, certificate title, credential ID in JetBrains Mono, issue date, and "Verify Credential" link button.
+### 05. Verified Credentials (`CertificatesView`)
+- **Layout Model**: Compact Verification Credential Grid.
+- **Visual Composition**: Dense tactile credential badges dengan direct verification links dan credential ID inspection.
 
-### 6. Experience Section (`ExperienceSection`)
-- **Layout**: Vertical timeline schematic layout featuring a central connecting guide line with neumorphic node markers.
-- **Timeline Items**: Card blocks containing role title, company badge, date pill, key technical achievements bullet points, and tech stack tags.
+### 06. Contact & Direct Hub (`ContactView`)
+- **Layout Model**: Ergonomic Dual-Channel Console.
+- **Visual Composition**: Direct communication channels dengan response SLA di kiri; inset neumorphic quick messaging terminal di kanan.
 
-### 7. Projects Section (`ProjectsSection`)
-- **Layout**: Featured project showcase layout followed by a 2-column secondary project grid.
-- **Featured Cards**: Split-screen card (mockup left, project narrative right) with live demo CTA (`ArrowUpRight`), GitHub repo link, and tech stack badges.
-- **Grid Cards**: Neumorphic cards with project screenshot frames, concise summary, role tag, and link triggers.
+---
 
-### 8. Contact Section (`ContactSection`)
-- **Layout**: 2-column interactive hub (`1fr_1.2fr`).
-- **Left Column**: Direct contact channels (Email, Phone, Location) with neumorphic icon buttons, response time SLA badge, and social link grid.
-- **Right Column**: Neumorphic interactive contact form with pressed inset inputs (`neumorphic-pressed`), focus rings, label titles, and submit button with status states (Idle, Submitting, Success, Error).
+## 6. Motion, Elevation, & Tactile Physics
 
-### 9. Site Footer (`SiteFooter`)
-- **Layout**: 3-column top grid with bottom copyright bar separated by a subtle gradient divider line.
-- **Top Grid**: Brand tagline & bio left, quick navigation links middle, and direct social links right.
-- **Bottom Bar**: Copyright text, "Built with Next.js & Tailwind", and a neumorphic "Back to Top" circular scroll trigger.
-
-
-## Elevation & Depth
-
-Soft circular containers, smooth matte digital surface, soft diffuse ambient lighting, gentle drop shadows (neumorphic effect).
-
-- **Physics:** Ease-out curves, 200-300ms duration. Smooth and predictable.
-- **Entry animations:** Fade + translate-Y (16px → 0) over 420ms ease-out. Staggered cascades for lists: 80ms between items.
-- **Hover states:** Subtle color shift + shadow adjustment over 200ms.
-- **Page transitions:** Fade only (200ms).
-- **Performance:** Only transform and opacity animated. No layout-triggering properties.
-
-
-## Shapes
-
-Base corner radius: 20px. See rounded tokens in front matter for the full scale.
-
-
-## Components
-
-- **Primary Button:** Rounded (20px) shape. Muted cyan accent fill. Hover: 8% darken + subtle lift shadow. Active: -1px translate tactile press. Font weight 600. No outer glows.
-- **Secondary / Ghost Button:** Neumorphic outline variant. 1.5px border in muted color. Text in primary color. Hover: subtle background fill.
-- **Cards:** Rounded (20px) corners. Neumorphic soft surface. Shadow (3px 3px 8px rgba(203, 213, 225, 0.65), -3px -3px 8px rgba(255, 255, 255, 0.9)). 1px border stroke.
-- **Inputs:** Label above input. 1px border stroke. Focus ring: 2px muted cyan accent offset 2px. Error text below in semantic red. No floating labels.
-- **Navigation:** Primary surface background with neumorphic depth. Active item: muted cyan accent indicator. Font weight 500 when active.
-- **Skeletons:** Shimmer animation matching component dimensions. No circular spinners.
-- **Empty States:** Icon-based composition with descriptive text and action button.
-
-
-## Do's and Don'ts
-
-- No emojis in UI — use icon system only (Lucide, Heroicons)
-- No pure black (#000000) — use deep slate charcoal (#0F172A)
-- No oversaturated accent colors (saturation cap: 80%)
-- No 3-column equal-width feature layouts — use zig-zag or asymmetric grid
-- No `h-screen` — use `min-h-[100dvh]`
-- No AI copywriting clichés: "Elevate", "Seamless", "Unleash", "Next-Gen"
-- No broken external image links — use picsum.photos or inline SVG
-- No generic lorem ipsum in demos
-
-- Do Neumorphic shadows (light/dark interact)
-- Do Soft rounded corners (20px)
-- Do Central hub layout
-- Do Tech blueprint flow lines
-- Do Minimalist icons
-
-
-## Use Case
-
-Landing pages, Modern websites
+- **Transition Timing**: Fast and responsive, 180ms to 240ms cubic-bezier(0.16, 1, 0.3, 1).
+- **Tactile Keys**: Active buttons exhibit -1px inset translate with soft inner shadows.
+- **No Layout Jumps**: View transitions preserve absolute spatial container bounds.

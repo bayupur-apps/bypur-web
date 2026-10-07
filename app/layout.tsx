@@ -61,9 +61,8 @@ export async function generateMetadata(): Promise<Metadata> {
     icons: {
       icon: [
         { url: "/favicon.svg", type: "image/svg+xml" },
-        { url: "/web-app-manifest-192x192.png", sizes: "192x192", type: "image/png" },
       ],
-      apple: [{ url: "/web-app-manifest-192x192.png", sizes: "192x192", type: "image/png" }],
+      apple: [{ url: "/favicon.svg", type: "image/svg+xml" }],
     },
     robots: {
       index: true,

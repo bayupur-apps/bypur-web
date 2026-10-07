@@ -1,10 +1,8 @@
 "use client";
 
 import { useMemo, useState } from "react";
-import { ChevronDown } from "lucide-react";
+import { ChevronDown, Award } from "lucide-react";
 import { FadeUp } from "@/components/ui/motion";
-import { SectionHeader } from "@/components/ui/section-header";
-import { HighlightedTitle } from "@/components/ui/highlighted-title";
 import { SectionContainer } from "@/components/ui/section-container";
 import { CertificateCard } from "./certificates/certificate-card";
 import { sortCertificates } from "./certificates/utils";
@@ -32,36 +30,42 @@ export default function CertificatesSection() {
   if (sorted.length === 0) return null;
 
   const certificatesConfig = profileData.certificates || {};
-  const label = certificatesConfig.label || "Certificates";
   const title = certificatesConfig.title || "Credentials that back it up.";
-  const titleHighlight = certificatesConfig.titleHighlight || "back it up.";
-  const description =
-    certificatesConfig.description ||
-    "Certifications earned along the way to validate hands-on skills.";
 
   const visible = showAll ? sorted : sorted.slice(0, INITIAL_VISIBLE);
   const hiddenCount = sorted.length - INITIAL_VISIBLE;
 
   return (
-    <SectionContainer id="certificates" background="default">
-      <FadeUp>
-        <SectionHeader
-          label={label}
-          title={<HighlightedTitle title={title} highlight={titleHighlight} />}
-          description={description}
-          className="mx-auto max-w-2xl text-center"
-        />
-      </FadeUp>
+    <SectionContainer id="certificates" background="default" className="py-1">
+      {/* Top Header Row */}
+      <div className="flex items-center justify-between border-b border-border/60 pb-2.5 mb-3">
+        <div className="flex items-center gap-2">
+          <div className="flex h-6 w-6 items-center justify-center rounded-lg bg-accent/10 text-accent">
+            <Award size={13} />
+          </div>
+          <h2 className="text-sm font-bold tracking-tight text-text-1">
+            {title}
+          </h2>
+          <span className="rounded-full bg-accent/10 px-2 py-0.5 text-[10px] font-semibold text-accent font-mono">
+            {sorted.length} Credentials
+          </span>
+        </div>
+        <span className="hidden sm:inline font-mono text-[11px] text-text-3">
+          Verified certifications &amp; industry credentials
+        </span>
+      </div>
 
-      <ul className={cn("mt-10 grid gap-5", gridForCount(sorted.length))}>
-        {visible.map((cert, i) => (
-          <li key={cert.id}>
-            <FadeUp delay={Math.min(i, INITIAL_VISIBLE) * 0.05} className="h-full">
-              <CertificateCard certificate={cert} />
-            </FadeUp>
-          </li>
-        ))}
-      </ul>
+      <div className="max-h-[390px] overflow-y-auto custom-workspace-scroll pr-1">
+        <ul className={cn("grid gap-3.5", gridForCount(sorted.length))}>
+          {visible.map((cert, i) => (
+            <li key={cert.id}>
+              <FadeUp delay={Math.min(i, INITIAL_VISIBLE) * 0.05} className="h-full">
+                <CertificateCard certificate={cert} />
+              </FadeUp>
+            </li>
+          ))}
+        </ul>
+      </div>
 
       {hiddenCount > 0 && (
         <div className="mt-8 flex justify-center">

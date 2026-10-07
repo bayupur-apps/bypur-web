@@ -1,3 +1,5 @@
+"use client";
+
 import { FadeUp } from "@/components/ui/motion";
 import { SectionHeader } from "@/components/ui/section-header";
 import { HighlightedTitle } from "@/components/ui/highlighted-title";

@@ -14,7 +14,6 @@ interface FilterPillsProps<T extends string> {
   className?: string;
 }
 
-/** Glass segmented filter; scrolls sideways on narrow screens. */
 export function FilterPills<T extends string>({ options, value, onChange, ariaLabel, className }: FilterPillsProps<T>) {
   return (
     <div
@@ -23,7 +22,7 @@ export function FilterPills<T extends string>({ options, value, onChange, ariaLa
         className
       )}
     >
-      <div className="inline-flex shrink-0 gap-1 rounded-full border border-border glass p-1" role="group" aria-label={ariaLabel}>
+      <div className="inline-flex shrink-0 gap-1 rounded-full neumorphic-pressed p-1" role="group" aria-label={ariaLabel}>
         {options.map((option) => {
           const active = value === option.key;
           return (
@@ -33,18 +32,18 @@ export function FilterPills<T extends string>({ options, value, onChange, ariaLa
               onClick={() => onChange(option.key)}
               aria-pressed={active}
               className={cn(
-                "inline-flex min-h-9 items-center gap-1.5 whitespace-nowrap rounded-full px-3.5 text-xs font-medium transition-all duration-200 sm:px-4 sm:text-sm",
+                "inline-flex min-h-8 items-center gap-1.5 whitespace-nowrap rounded-full px-3 text-xs font-semibold transition-all duration-200",
                 active
-                  ? "bg-accent text-accent-fg shadow-sm shadow-accent/25"
-                  : "text-text-2 hover:bg-bg-subtle hover:text-text-1"
+                  ? "bg-accent text-accent-fg shadow-sm"
+                  : "text-text-3 hover:text-text-1 hover:bg-bg-subtle/60"
               )}
             >
               {option.label}
               {typeof option.count === "number" && (
                 <span
                   className={cn(
-                    "rounded-full px-1.5 font-mono text-[10px] leading-4",
-                    active ? "bg-accent-fg/20" : "bg-bg-subtle text-text-3"
+                    "rounded-full px-1.5 font-mono text-[9px] leading-4",
+                    active ? "bg-accent-fg/20 text-accent-fg" : "bg-bg-card text-text-3"
                   )}
                 >
                   {option.count}

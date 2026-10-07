@@ -2,6 +2,12 @@
  * Data model types
  */
 
+export interface ProjectEndpoint {
+  method: "GET" | "POST" | "PUT" | "PATCH" | "DELETE" | "WS";
+  path: string;
+  description: string;
+}
+
 export interface Project {
   id: string;
   title: string;
@@ -12,6 +18,8 @@ export interface Project {
   liveUrl?: string;
   repoUrl?: string;
   featured?: boolean;
+  architectureHighlights?: string[];
+  endpoints?: ProjectEndpoint[];
 }
 
 export interface Skill {
