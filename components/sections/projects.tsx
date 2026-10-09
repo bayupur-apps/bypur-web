@@ -2,7 +2,7 @@
 
 import { useState, useMemo, useEffect, useCallback } from "react";
 import { FolderGit2, RotateCcw, ChevronLeft, ChevronRight } from "lucide-react";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion, AnimatePresence, type Variants } from "framer-motion";
 import { ProjectCard } from "./projects/project-card";
 import { ProjectDetailModal } from "./projects/project-detail-modal";
 import { generateTags, sortByFeatured } from "./projects/utils";
@@ -13,19 +13,53 @@ import type { Project } from "@/lib/types";
 
 const CARDS_PER_PAGE = 3;
 
-const slideVariants = {
-  enter: (direction: number) => ({
-    x: direction > 0 ? 30 : -30,
-    opacity: 0,
-  }),
-  center: {
-    x: 0,
+type TransitionType = "slide" | "filter";
+
+interface AnimationMeta {
+  type: TransitionType;
+  direction: number;
+}
+
+const containerVariants: Variants = {
+  initial: {
     opacity: 1,
   },
-  exit: (direction: number) => ({
-    x: direction > 0 ? -30 : 30,
+  enter: {
+    opacity: 1,
+    transition: {
+      staggerChildren: 0.04,
+      delayChildren: 0.01,
+    },
+  },
+  exit: ({ type, direction }: AnimationMeta) => ({
     opacity: 0,
+    x: type === "slide" ? (direction > 0 ? -24 : 24) : 0,
+    y: type === "filter" ? -4 : 0,
+    scale: type === "filter" ? 0.99 : 1,
+    transition: {
+      duration: 0.12,
+      ease: [0.4, 0, 1, 1] as const,
+    },
   }),
+};
+
+const cardVariants: Variants = {
+  initial: ({ type, direction }: AnimationMeta) => ({
+    opacity: 0,
+    x: type === "slide" ? (direction > 0 ? 30 : -30) : 0,
+    y: type === "filter" ? 10 : 0,
+    scale: type === "filter" ? 0.985 : 1,
+  }),
+  enter: {
+    opacity: 1,
+    x: 0,
+    y: 0,
+    scale: 1,
+    transition: {
+      duration: 0.26,
+      ease: [0.16, 1, 0.3, 1] as const,
+    },
+  },
 };
 
 export default function ProjectsSection() {
@@ -33,7 +67,13 @@ export default function ProjectsSection() {
   const [filter, setFilter] = useState("All");
   const [currentPage, setCurrentPage] = useState(0);
   const [direction, setDirection] = useState(1);
+  const [transitionType, setTransitionType] = useState<TransitionType>("filter");
   const [modalProject, setModalProject] = useState<Project | null>(null);
+
+  const animationMeta = useMemo<AnimationMeta>(
+    () => ({ type: transitionType, direction }),
+    [transitionType, direction]
+  );
 
   const tags = useMemo(() => generateTags(projects), [projects]);
   const counts = useMemo(() => {
@@ -58,12 +98,13 @@ export default function ProjectsSection() {
   const safePage = Math.min(currentPage, totalPages - 1);
 
   const handleFilterChange = (tag: string) => {
+    setTransitionType("filter");
     setFilter(tag);
     setCurrentPage(0);
-    setDirection(1);
   };
 
   const handlePageChange = useCallback((newPage: number, newDirection: number) => {
+    setTransitionType("slide");
     setDirection(newDirection);
     setCurrentPage(newPage);
   }, []);
@@ -160,48 +201,60 @@ export default function ProjectsSection() {
       </div>
 
       {/* 3-Card Stage: Display exactly 3 cards with smooth slide carousel (Zero Scroll) */}
-      <div className="relative min-h-[340px] flex flex-col justify-center">
-        {filtered.length === 0 ? (
-          <div className="flex flex-col items-center justify-center p-8 rounded-2xl neumorphic border border-border/70 text-center">
-            <FolderGit2 className="h-8 w-8 text-text-3 mb-2" />
-            <p className="text-xs font-semibold text-text-1">
-              No systems matching &quot;{activeFilter}&quot;
-            </p>
-            <p className="text-[11px] text-text-3 font-mono mt-1 mb-3">
-              Try switching technology filters to inspect other architecture builds.
-            </p>
-            <button
-              type="button"
-              onClick={() => handleFilterChange("All")}
-              className="inline-flex min-h-11 sm:min-h-9 items-center gap-1.5 rounded-xl neumorphic-chip px-3 text-xs font-semibold text-accent transition-all hover:border-accent/40 active:scale-95"
+      <div className="relative min-h-[340px] flex flex-col justify-center overflow-hidden">
+        <AnimatePresence mode="wait" custom={animationMeta}>
+          {filtered.length === 0 ? (
+            <motion.div
+              key="empty-state"
+              initial={{ opacity: 0, scale: 0.98, y: 8 }}
+              animate={{ opacity: 1, scale: 1, y: 0 }}
+              exit={{ opacity: 0, scale: 0.98, y: -4, transition: { duration: 0.12 } }}
+              transition={{ duration: 0.22, ease: [0.16, 1, 0.3, 1] }}
+              className="flex flex-col items-center justify-center p-8 rounded-2xl neumorphic border border-border/70 text-center"
             >
-              <RotateCcw size={12} />
-              Reset Filter
-            </button>
-          </div>
-        ) : (
-          <AnimatePresence mode="wait" custom={direction}>
+              <FolderGit2 className="h-8 w-8 text-text-3 mb-2" />
+              <p className="text-xs font-semibold text-text-1">
+                No systems matching &quot;{activeFilter}&quot;
+              </p>
+              <p className="text-[11px] text-text-3 font-mono mt-1 mb-3">
+                Try switching technology filters to inspect other architecture builds.
+              </p>
+              <button
+                type="button"
+                onClick={() => handleFilterChange("All")}
+                className="inline-flex min-h-11 sm:min-h-9 items-center gap-1.5 rounded-xl neumorphic-chip px-3 text-xs font-semibold text-accent transition-all hover:border-accent/40 active:scale-95"
+              >
+                <RotateCcw size={12} />
+                Reset Filter
+              </button>
+            </motion.div>
+          ) : (
             <motion.div
               key={`${activeFilter}-${safePage}`}
-              custom={direction}
-              variants={slideVariants}
-              initial="enter"
-              animate="center"
+              custom={animationMeta}
+              variants={containerVariants}
+              initial="initial"
+              animate="enter"
               exit="exit"
-              transition={{ duration: 0.22, ease: [0.16, 1, 0.3, 1] }}
               className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-3.5"
             >
               {visibleProjects.map((project, idx) => (
-                <ProjectCard
+                <motion.div
                   key={project.id}
-                  project={project}
-                  index={safePage * CARDS_PER_PAGE + idx}
-                  onOpenSpecs={setModalProject}
-                />
+                  custom={animationMeta}
+                  variants={cardVariants}
+                  className="h-full"
+                >
+                  <ProjectCard
+                    project={project}
+                    index={safePage * CARDS_PER_PAGE + idx}
+                    onOpenSpecs={setModalProject}
+                  />
+                </motion.div>
               ))}
             </motion.div>
-          </AnimatePresence>
-        )}
+          )}
+        </AnimatePresence>
       </div>
 
       {/* Slide Navigation Dock: Prev / Next, Dot Indicators, Telemetry Counter */}
@@ -237,7 +290,7 @@ export default function ProjectsSection() {
                     aria-label={`Go to slide ${i + 1}`}
                     onClick={() => handlePageChange(i, i > safePage ? 1 : -1)}
                     className={cn(
-                      "h-2 rounded-full transition-all duration-200 min-h-11 sm:min-h-0 flex items-center justify-center",
+                      "h-2 rounded-full transition-all duration-300 ease-out min-h-11 sm:min-h-0 flex items-center justify-center",
                       isActive
                         ? "w-6 bg-accent shadow-[0_0_8px_rgba(2,132,199,0.35)]"
                         : "w-2 bg-border/80 hover:bg-text-3"

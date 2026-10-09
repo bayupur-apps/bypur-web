@@ -30,15 +30,7 @@ const VIEW_TO_HASH_MAP: Record<string, string> = {
 
 function PortfolioDesktopShell() {
   const { certificates } = usePortfolio();
-  const [activeView, setActiveView] = useState<string>(() => {
-    if (typeof window !== "undefined") {
-      const hash = window.location.hash;
-      if (hash && HASH_TO_VIEW_MAP[hash]) {
-        return HASH_TO_VIEW_MAP[hash];
-      }
-    }
-    return "bio";
-  });
+  const [activeView, setActiveView] = useState<string>("bio");
 
   // If certificates are empty, exclude from dock
   const hasCertificates = certificates.length > 0;
@@ -48,7 +40,7 @@ function PortfolioDesktopShell() {
     );
   }, [hasCertificates]);
 
-  // Listen to hashchange events
+  // Sync hash on mount and listen to hashchange
   useEffect(() => {
     const onHashChange = () => {
       const hash = window.location.hash;
@@ -56,6 +48,7 @@ function PortfolioDesktopShell() {
         setActiveView(HASH_TO_VIEW_MAP[hash]);
       }
     };
+    onHashChange();
     window.addEventListener("hashchange", onHashChange);
     return () => window.removeEventListener("hashchange", onHashChange);
   }, []);

@@ -1,11 +1,21 @@
 "use client";
 
+import { useSyncExternalStore } from "react";
 import { useTheme } from "next-themes";
 import { Moon, Sun } from "lucide-react";
 import { cn } from "@/lib/helpers";
 
+const emptySubscribe = () => () => {};
+
 export function ThemeToggle() {
+  const mounted = useSyncExternalStore(
+    emptySubscribe,
+    () => true,
+    () => false
+  );
   const { resolvedTheme, setTheme } = useTheme();
+
+  const isDark = mounted && resolvedTheme === "dark";
 
   return (
     <button
@@ -18,7 +28,7 @@ export function ThemeToggle() {
         size={18}
         className={cn(
           "absolute transition-all duration-500",
-          resolvedTheme === "dark"
+          isDark
             ? "-rotate-90 scale-0 opacity-0"
             : "rotate-0 scale-100 opacity-100"
         )}
@@ -27,7 +37,7 @@ export function ThemeToggle() {
         size={18}
         className={cn(
           "absolute transition-all duration-500",
-          resolvedTheme === "dark"
+          isDark
             ? "rotate-0 scale-100 opacity-100"
             : "rotate-90 scale-0 opacity-0"
         )}
