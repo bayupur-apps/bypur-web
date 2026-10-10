@@ -61,7 +61,7 @@ export function AIChatbotLauncher({
               <Button
                 onClick={onOpen}
                 size="lg"
-                className="relative h-12 w-12 md:h-13 md:w-13 rounded-2xl bg-bg-card border border-border/80 text-accent hover:border-accent shadow-md transition-all flex items-center justify-center p-0"
+                className="relative h-12 w-12 md:h-13 md:w-13 rounded-xl bg-bg-card border border-border/80 text-accent hover:border-accent shadow-md transition-all flex items-center justify-center p-0"
                 aria-label="Open AI Assistant"
               >
                 <Bot className="h-5 w-5 md:h-6 md:w-6" />

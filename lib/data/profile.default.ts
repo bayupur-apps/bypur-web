@@ -10,7 +10,7 @@ export const profileDataDefault: Profile = {
   bio: "I'm a Full Stack Developer focused on building real-world business applications. Currently at PT Ethos Kreatif Indonesia, I work on enterprise systems, APIs, and database-driven applications. Additional experience as a freelancer building SaaS platforms and custom solutions.",
   email: "bayupurnomo.dev@gmail.com",
   phone: "+62 881 2785 635",
-  location: "Indonesia",
+  location: "Purwokerto, Indonesia",
   avatar: profileAssets.avatar,
   resumeUrl: profileAssets.resume,
   isCvVisible: true,

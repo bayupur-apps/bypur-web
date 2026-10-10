@@ -23,7 +23,7 @@ export function HeroActions({ profileData, className }: HeroActionsProps) {
   return (
     <div className={cn("flex flex-wrap items-center justify-center gap-3 lg:justify-start", className)}>
       {primary && (
-        <Button href={primary.href} variant="primary" icon={ArrowRight} iconPosition="right" className="rounded-full">
+        <Button href={primary.href} variant="primary" icon={ArrowRight} iconPosition="right" className="rounded-lg">
           {primary.text}
         </Button>
       )}
@@ -33,7 +33,7 @@ export function HeroActions({ profileData, className }: HeroActionsProps) {
           href={profileData.resumeUrl}
           target="_blank"
           rel="noopener noreferrer"
-          className="group inline-flex min-h-11 items-center gap-1.5 rounded-full border border-border glass px-5 text-sm font-medium text-text-1 transition-all hover:border-secondary/40"
+          className="group inline-flex min-h-11 items-center gap-1.5 rounded-lg border border-border/80 bg-bg-card px-5 text-sm font-medium text-text-1 shadow-xs transition-all hover:border-accent/40"
         >
           <Download size={15} className="transition-transform duration-200 group-hover:translate-y-0.5" />
           Download CV
@@ -41,7 +41,7 @@ export function HeroActions({ profileData, className }: HeroActionsProps) {
       )}
 
       {secondary && (
-        <Button href={secondary.href} variant="secondary" className="rounded-full">
+        <Button href={secondary.href} variant="secondary" className="rounded-lg">
           {secondary.text}
         </Button>
       )}
@@ -55,7 +55,7 @@ export function HeroActions({ profileData, className }: HeroActionsProps) {
                 aria-label={s.label}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="flex h-11 w-11 items-center justify-center rounded-full text-text-3 transition-colors hover:bg-bg-subtle hover:text-text-1"
+                className="flex h-11 w-11 items-center justify-center rounded-lg text-text-3 transition-colors hover:bg-bg-subtle hover:text-text-1"
               >
                 <svg viewBox="0 0 24 24" fill="currentColor" className="h-4.5 w-4.5" aria-hidden="true">
                   <path d={s.path ?? ""} />

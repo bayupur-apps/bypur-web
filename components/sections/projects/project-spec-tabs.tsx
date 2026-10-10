@@ -38,9 +38,9 @@ export function ProjectSpecTabs({ project }: ProjectSpecTabsProps) {
               type="button"
               onClick={() => setActiveTab(tab.key)}
               className={cn(
-                "inline-flex min-h-8 items-center gap-1.5 rounded-xl px-3 py-1 text-xs font-semibold transition-all duration-150",
+                "inline-flex min-h-8 items-center gap-1.5 rounded-md px-3 py-1 text-xs font-semibold transition-all duration-150",
                 isActive
-                  ? "neumorphic-pressed text-accent ring-1 ring-accent/30"
+                  ? "bg-accent/10 text-accent ring-1 ring-accent/30 font-bold"
                   : "text-text-3 hover:text-text-1 hover:bg-bg-subtle/60"
               )}
             >
@@ -49,7 +49,7 @@ export function ProjectSpecTabs({ project }: ProjectSpecTabsProps) {
               {typeof tab.count === "number" && tab.count > 0 && (
                 <span
                   className={cn(
-                    "rounded-full px-1.5 font-mono text-[9px] leading-4",
+                    "rounded-md px-1.5 font-mono text-[9px] leading-4",
                     isActive ? "bg-accent/15 text-accent font-bold" : "bg-bg-subtle text-text-3"
                   )}
                 >

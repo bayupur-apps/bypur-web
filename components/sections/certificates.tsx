@@ -4,6 +4,7 @@ import { useMemo, useState } from "react";
 import { ChevronDown, Award } from "lucide-react";
 import { FadeUp } from "@/components/ui/motion";
 import { SectionContainer } from "@/components/ui/section-container";
+import { SectionTopBar } from "@/components/ui/section-top-bar";
 import { CertificateCard } from "./certificates/certificate-card";
 import { sortCertificates } from "./certificates/utils";
 import { cn } from "@/lib/helpers";
@@ -36,24 +37,15 @@ export default function CertificatesSection() {
   const hiddenCount = sorted.length - INITIAL_VISIBLE;
 
   return (
-    <SectionContainer id="certificates" background="default" className="py-1">
+    <SectionContainer id="certificates" background="default" className="py-0 sm:py-0">
       {/* Top Header Row */}
-      <div className="flex items-center justify-between border-b border-border/60 pb-2.5 mb-3">
-        <div className="flex items-center gap-2">
-          <div className="flex h-6 w-6 items-center justify-center rounded-lg bg-accent/10 text-accent">
-            <Award size={13} />
-          </div>
-          <h2 className="text-sm font-bold tracking-tight text-text-1">
-            {title}
-          </h2>
-          <span className="rounded-full bg-accent/10 px-2 py-0.5 text-[10px] font-semibold text-accent font-mono">
-            {sorted.length} Credentials
-          </span>
-        </div>
-        <span className="hidden sm:inline font-mono text-[11px] text-text-3">
-          Verified certifications &amp; industry credentials
-        </span>
-      </div>
+      <SectionTopBar
+        icon={Award}
+        title={title}
+        subtitle="Verified certifications & industry credentials"
+        badge={`${sorted.length} CREDENTIALS`}
+        className="mb-3"
+      />
 
       <div className="max-h-[390px] overflow-y-auto custom-workspace-scroll pr-1">
         <ul className={cn("grid gap-3.5", gridForCount(sorted.length))}>
@@ -73,7 +65,7 @@ export default function CertificatesSection() {
             type="button"
             onClick={() => setShowAll((v) => !v)}
             aria-expanded={showAll}
-            className="inline-flex min-h-11 items-center gap-2 rounded-full border border-border glass px-5 text-sm font-medium text-text-2 transition-all hover:border-secondary/40 hover:text-text-1"
+            className="inline-flex min-h-11 items-center gap-2 rounded-lg border border-border/80 bg-bg-card px-5 text-sm font-medium text-text-2 shadow-xs transition-all hover:border-accent/40 hover:text-text-1"
           >
             {showAll ? "Show less" : `Show all certificates (${sorted.length})`}
             <ChevronDown

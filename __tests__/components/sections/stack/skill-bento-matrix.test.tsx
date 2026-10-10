@@ -42,7 +42,7 @@ describe("SkillBentoMatrix Architecture Console", () => {
     expect(nextjsButtons.length).toBeGreaterThan(0);
 
     fireEvent.click(nextjsButtons[0]);
-    expect(screen.getByText(/Personal Portfolio/i)).toBeInTheDocument();
+    expect(screen.getAllByText(/Personal Portfolio/i)[0]).toBeInTheDocument();
   });
 
   it("handles empty skills gracefully", () => {

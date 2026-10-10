@@ -19,7 +19,7 @@ export function AppWorkspaceCanvas({ activeView }: AppWorkspaceCanvasProps) {
       tabIndex={-1}
       className="relative flex-1 h-full w-full overflow-hidden focus:outline-none"
     >
-      <div className="h-full w-full overflow-y-auto px-2 sm:px-4 py-2 pb-24 md:pb-2 flex flex-col md:justify-center custom-workspace-scroll">
+      <div className="h-full w-full overflow-y-auto px-2 sm:px-4 pt-3.5 sm:pt-4 md:pt-0 pb-24 md:pb-0 flex flex-col md:justify-center custom-workspace-scroll">
         <AnimatePresence mode="wait">
           <motion.div
             key={activeView}
@@ -27,7 +27,7 @@ export function AppWorkspaceCanvas({ activeView }: AppWorkspaceCanvasProps) {
             animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
             exit={{ opacity: 0, y: -10, filter: "blur(4px)" }}
             transition={{ duration: 0.2, ease: [0.16, 1, 0.3, 1] }}
-            className="w-full my-auto py-1"
+            className="w-full my-auto"
           >
             {activeView === "bio" && <HeroSection />}
 

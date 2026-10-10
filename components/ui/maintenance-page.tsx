@@ -41,7 +41,7 @@ export function MaintenancePage({ profile, settingsMap }: MaintenancePageProps) 
 
         {/* Animated Icon Badge */}
         <div className="flex justify-center mb-6">
-          <div className="relative flex items-center justify-center h-20 w-20 rounded-2xl border border-accent/40 bg-accent/10 shadow-lg shadow-accent/10">
+          <div className="relative flex items-center justify-center h-20 w-20 rounded-xl border border-accent/40 bg-accent/10 shadow-lg shadow-accent/10">
             <Wrench className="h-10 w-10 text-accent-ink animate-bounce" />
           </div>
         </div>
@@ -57,7 +57,7 @@ export function MaintenancePage({ profile, settingsMap }: MaintenancePageProps) 
         </div>
 
         {/* Info Card Box */}
-        <div className="rounded-2xl border border-border/80 bg-muted/30 p-4 sm:p-5 space-y-3 mb-8 text-xs">
+        <div className="rounded-xl border border-border/80 bg-muted/30 p-4 sm:p-5 space-y-3 mb-8 text-xs">
           <div className="flex items-center justify-between">
             <span className="text-muted-foreground font-medium">Status Website:</span>
             <span className="font-semibold text-accent-ink flex items-center gap-1.5">

@@ -1,2 +1,1 @@
-// Stack section components
-export { SkillLogoGrid } from "./skill-logo-grid";
+export { SkillBentoMatrix } from "./skill-bento-matrix";

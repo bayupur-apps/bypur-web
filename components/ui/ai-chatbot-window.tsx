@@ -50,7 +50,7 @@ export function AIChatbotWindow({
         transition={{ duration: 0.18, ease: "easeOut" }}
         className="fixed inset-0 z-50 mx-auto w-full max-w-full md:inset-auto md:bottom-6 md:right-6 md:w-[380px] md:max-w-md"
       >
-        <div className="flex flex-col h-dvh md:h-[520px] bg-bg-card border border-border/80 md:rounded-2xl shadow-xl overflow-hidden">
+        <div className="flex flex-col h-dvh md:h-[520px] bg-bg-card border border-border/80 md:rounded-xl shadow-xl overflow-hidden">
           {/* Header */}
           <div className="px-4 py-3 border-b border-border/60 bg-bg-card flex items-center justify-between">
             <div className="flex items-center gap-2.5">
@@ -91,7 +91,7 @@ export function AIChatbotWindow({
                   className={`flex flex-col ${isUser ? 'items-end' : 'items-start'}`}
                 >
                   <div
-                    className={`max-w-[85%] rounded-2xl px-3.5 py-2.5 leading-relaxed ${
+                    className={`max-w-[85%] rounded-xl px-3.5 py-2.5 leading-relaxed ${
                       isUser
                         ? 'bg-accent text-accent-fg rounded-tr-xs font-medium'
                         : 'bg-bg-subtle/80 border border-border/60 text-text-1 rounded-tl-xs'
@@ -139,7 +139,7 @@ export function AIChatbotWindow({
             {/* Loading Indicator */}
             {isLoading && (
               <div className="flex items-start">
-                <div className="bg-bg-subtle/80 border border-border/60 rounded-2xl rounded-tl-xs px-3.5 py-2.5">
+                <div className="bg-bg-subtle/80 border border-border/60 rounded-xl rounded-tl-xs px-3.5 py-2.5">
                   <div className="flex gap-1.5 items-center">
                     <span className="w-1.5 h-1.5 rounded-full bg-accent animate-pulse" />
                     <span className="w-1.5 h-1.5 rounded-full bg-accent animate-pulse [animation-delay:200ms]" />
@@ -152,9 +152,9 @@ export function AIChatbotWindow({
             <div ref={messagesEndRef} />
           </div>
 
-          {/* 3D Neumorphic Slate Input Bar */}
+          {/* Input Bar */}
           <div className="p-3.5 border-t border-border/50 bg-bg-card">
-            <div className="neumorphic-pressed rounded-2xl px-3.5 py-1.5 flex items-center gap-2 focus-within:ring-2 focus-within:ring-accent/40 transition-all">
+            <div className="rounded-lg border border-border/70 bg-bg-subtle/50 px-3.5 py-1.5 flex items-center gap-2 focus-within:ring-2 focus-within:ring-accent/40 focus-within:bg-bg-card transition-all">
               <input
                 ref={inputRef}
                 value={input}

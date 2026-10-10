@@ -72,7 +72,7 @@ export function ProjectDetailModal({ project, isOpen, onClose }: ProjectDetailMo
           role="dialog"
           aria-modal="true"
           aria-labelledby="modal-project-title"
-          className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-4 overflow-hidden"
+          className="fixed inset-0 z-50 flex items-end sm:items-center justify-center p-0 sm:p-4 overflow-hidden"
         >
           {/* Backdrop */}
           <motion.div
@@ -84,23 +84,28 @@ export function ProjectDetailModal({ project, isOpen, onClose }: ProjectDetailMo
             className="fixed inset-0 bg-black/60 dark:bg-black/75 backdrop-blur-xs"
           />
 
-          {/* Modal Card */}
+          {/* Modal Card / Bottom Sheet on Mobile */}
           <motion.div
-            initial={{ opacity: 0, scale: 0.95, y: 10 }}
+            initial={{ opacity: 0, scale: 0.98, y: 20 }}
             animate={{ opacity: 1, scale: 1, y: 0 }}
-            exit={{ opacity: 0, scale: 0.95, y: 10 }}
+            exit={{ opacity: 0, scale: 0.98, y: 20 }}
             transition={{ duration: 0.22, ease: [0.16, 1, 0.3, 1] }}
-            className="relative w-full max-w-2xl max-h-[85vh] sm:max-h-[82vh] flex flex-col rounded-2xl sm:rounded-3xl border border-border/80 dark:border-white/10 neumorphic shadow-2xl z-10 overflow-hidden bg-bg-card"
+            className="relative w-full max-w-2xl max-h-[88dvh] sm:max-h-[82vh] flex flex-col rounded-t-2xl sm:rounded-xl border border-border/80 shadow-2xl z-10 overflow-hidden bg-bg-card"
           >
+            {/* Mobile Sheet Pull Bar Indicator */}
+            <div className="sm:hidden pt-2.5 pb-1 flex justify-center bg-bg-card">
+              <div className="h-1 w-10 rounded-full bg-border" />
+            </div>
+
             {/* Pinned Top Bar Header */}
-            <div className="shrink-0 flex items-start justify-between gap-3 border-b border-border/60 px-5 sm:px-6 pt-4 pb-3 bg-bg-card">
+            <div className="shrink-0 flex items-start justify-between gap-3 border-b border-border/60 px-4 sm:px-6 pt-3 sm:pt-4 pb-3 bg-bg-card">
               <div className="min-w-0 flex-1">
                 <div className="flex flex-wrap items-center gap-2 mb-0.5">
                   <span className="font-mono text-[10px] font-bold uppercase tracking-wider text-accent">
                     Technical Specification
                   </span>
                   {project.featured && (
-                    <span className="inline-flex items-center gap-1 rounded-md neumorphic-chip px-2 py-0.5 font-mono text-[9px] font-bold text-accent">
+                    <span className="inline-flex items-center gap-1 rounded-md bg-accent/10 border border-accent/30 px-2 py-0.5 font-mono text-[9px] font-bold text-accent">
                       <Sparkles size={9} />
                       Featured
                     </span>
@@ -114,14 +119,14 @@ export function ProjectDetailModal({ project, isOpen, onClose }: ProjectDetailMo
                 </h2>
               </div>
 
-              {/* Close Button */}
+              {/* Close Button: 44x44px touch target on mobile */}
               <button
                 type="button"
                 onClick={onClose}
                 aria-label="Close project overview"
-                className="flex h-7 w-7 shrink-0 items-center justify-center rounded-xl neumorphic text-text-3 transition-colors hover:text-text-1 hover:border-accent/40 focus:outline-none focus-visible:ring-2 focus-visible:ring-accent"
+                className="flex min-h-11 min-w-11 sm:min-h-8 sm:min-w-8 shrink-0 items-center justify-center rounded-lg border border-border/70 bg-bg-subtle/50 text-text-3 transition-colors hover:text-text-1 hover:border-accent/40 focus:outline-none focus-visible:ring-2 focus-visible:ring-accent active:scale-95"
               >
-                <X size={14} />
+                <X size={15} />
               </button>
             </div>
 
@@ -197,11 +202,11 @@ export function ProjectDetailModal({ project, isOpen, onClose }: ProjectDetailMo
                           >
                             {ep.method}
                           </span>
-                          <code className="text-text-1 text-[11px] font-semibold">
+                          <code className="text-text-1 text-[11px] font-semibold break-all">
                             {ep.path}
                           </code>
                         </div>
-                        <span className="text-[10px] sm:text-[11px] text-text-3">
+                        <span className="text-[10px] sm:text-[11px] text-text-3 break-words">
                           {ep.description}
                         </span>
                       </div>
@@ -226,18 +231,18 @@ export function ProjectDetailModal({ project, isOpen, onClose }: ProjectDetailMo
               </div>
             </div>
 
-            {/* Pinned Action Bar Footer */}
-            <div className="shrink-0 flex flex-wrap items-center justify-between gap-2.5 px-4 sm:px-5 py-3 border-t border-border/60 bg-bg-card">
-              <div className="flex items-center gap-2">
+            {/* Pinned Action Bar Footer: 44px tap targets on mobile */}
+            <div className="shrink-0 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2.5 px-4 sm:px-5 py-3 border-t border-border/60 bg-bg-card">
+              <div className="flex flex-wrap items-center gap-2">
                 {project.liveUrl && (
                   <a
                     href={project.liveUrl}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="inline-flex min-h-8 items-center gap-1.5 rounded-xl bg-accent px-3 py-1 text-xs font-semibold text-accent-fg shadow-sm transition-all duration-150 hover:bg-accent-hover active:scale-95"
+                    className="inline-flex min-h-11 sm:min-h-8 items-center gap-1.5 rounded-lg bg-accent px-3.5 py-1 text-xs font-semibold text-accent-fg shadow-xs transition-all hover:bg-accent-hover active:scale-95"
                   >
                     <span>Launch Live Demo</span>
-                    <ArrowUpRight size={12} />
+                    <ArrowUpRight size={13} />
                   </a>
                 )}
                 {project.repoUrl ? (
@@ -245,15 +250,15 @@ export function ProjectDetailModal({ project, isOpen, onClose }: ProjectDetailMo
                     href={project.repoUrl}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="inline-flex min-h-8 items-center gap-1.5 rounded-xl neumorphic-chip px-3 py-1 text-xs font-medium text-text-2 transition-all duration-150 hover:text-text-1 hover:border-accent/40 active:scale-95"
+                    className="inline-flex min-h-11 sm:min-h-8 items-center gap-1.5 rounded-lg border border-border/70 bg-bg-subtle/50 px-3.5 py-1 text-xs font-medium text-text-2 transition-all hover:text-text-1 hover:border-accent/40 active:scale-95"
                   >
-                    <Code2 size={12} />
+                    <Code2 size={13} />
                     <span>View Repository</span>
                   </a>
                 ) : (
-                  <span className="inline-flex min-h-8 items-center gap-1.5 rounded-xl neumorphic-pressed px-2.5 py-1 font-mono text-[10px] text-text-3">
+                  <span className="inline-flex min-h-11 sm:min-h-8 items-center gap-1.5 rounded-lg border border-border/50 bg-bg-subtle/40 px-3 py-1 font-mono text-[10px] text-text-3">
                     <Lock size={11} />
-                    <span>Private Enterprise Repository</span>
+                    <span>Private Repository</span>
                   </span>
                 )}
               </div>
@@ -261,7 +266,7 @@ export function ProjectDetailModal({ project, isOpen, onClose }: ProjectDetailMo
               <button
                 type="button"
                 onClick={onClose}
-                className="inline-flex min-h-8 items-center rounded-xl border border-border/70 bg-bg-subtle px-3.5 py-1 text-xs font-medium text-text-3 transition-colors hover:bg-bg-card hover:text-text-1"
+                className="inline-flex min-h-11 sm:min-h-8 items-center justify-center rounded-lg border border-border/70 bg-bg-subtle px-4 py-1 text-xs font-medium text-text-2 transition-colors hover:bg-bg-card hover:text-text-1 active:scale-95"
               >
                 Close Specs
               </button>

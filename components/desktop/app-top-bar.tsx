@@ -13,7 +13,7 @@ export function AppTopBar() {
     const updateTime = () => {
       const now = new Date();
       setTime(
-        now.toLocaleTimeString("en-GB", {
+        now.toLocaleTimeString("id-ID", {
           hour: "2-digit",
           minute: "2-digit",
           timeZone: "Asia/Jakarta",
@@ -26,11 +26,11 @@ export function AppTopBar() {
   }, []);
 
   return (
-    <div className="relative z-40 w-full shrink-0 pt-3 pb-1">
-      <header className="flex h-13 w-full items-center justify-between rounded-2xl neumorphic px-4 py-2 transition-all sm:px-5">
+    <div className="relative z-40 w-full shrink-0 pt-3 pb-2 md:pb-1">
+      <header className="flex h-13 w-full items-center justify-between rounded-xl border border-border/80 bg-bg-card px-4 py-2 shadow-xs transition-all sm:px-5">
         {/* LEFT: Brand Identity Monogram & Title */}
         <div className="flex items-center gap-3">
-          <div className="flex h-8 w-8 items-center justify-center rounded-xl bg-accent text-accent-fg font-bold text-xs tracking-wider shadow-sm">
+          <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-accent text-accent-fg font-bold text-xs tracking-wider shadow-xs">
             BP
           </div>
           <div className="flex flex-col">
@@ -47,7 +47,7 @@ export function AppTopBar() {
         <div className="flex items-center gap-2.5 sm:gap-3">
           {time && (
             <div className="hidden lg:flex items-center gap-1 font-mono text-[11px] text-text-3">
-              <span>Jakarta</span>
+              <span>Purwokerto</span>
               <span className="text-text-1 font-semibold">{time} WIB</span>
             </div>
           )}
@@ -55,7 +55,7 @@ export function AppTopBar() {
           {profile.email && (
             <a
               href={`mailto:${profile.email}`}
-              className="inline-flex items-center gap-1.5 rounded-xl neumorphic-chip px-3 py-1.5 text-xs font-medium text-text-2 transition-all hover:text-accent hover:-translate-y-0.5"
+              className="inline-flex items-center gap-1.5 rounded-lg border border-border/70 bg-bg-subtle/50 px-3 py-1.5 text-xs font-medium text-text-2 transition-all hover:border-accent/40 hover:text-accent hover:-translate-y-0.5"
             >
               <Mail size={13} className="text-accent" />
               <span className="hidden sm:inline">Get in Touch</span>

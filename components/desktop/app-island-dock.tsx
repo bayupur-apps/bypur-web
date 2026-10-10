@@ -52,8 +52,8 @@ export function AppIslandDock({ items, activeId, onSelect }: AppIslandDockProps)
       aria-label="Application Navigation Rail"
       className="hidden md:flex fixed left-3 lg:left-5 top-1/2 -translate-y-1/2 z-40 flex-col items-start justify-center select-none"
     >
-      {/* Outer Fixed-Width Neumorphic Capsule (Tidak ikut melebar) */}
-      <nav className="relative flex flex-col gap-2 w-14 items-center rounded-2xl neumorphic p-1.5">
+      {/* Outer Fixed-Width Capsule */}
+      <nav className="relative flex flex-col gap-2 w-14 items-center rounded-xl border border-border/80 bg-bg-card p-1.5 shadow-xs">
         {items.map((item) => {
           const isActive = activeId === item.id;
           const isHovered = hoveredId === item.id;
@@ -71,12 +71,12 @@ export function AppIslandDock({ items, activeId, onSelect }: AppIslandDockProps)
                 type="button"
                 onClick={() => onSelect(item.id)}
                 className={cn(
-                  "group flex h-11 items-center rounded-xl transition-all duration-200 ease-out focus-visible:ring-2 focus-visible:ring-accent",
+                  "group flex h-11 items-center rounded-lg transition-all duration-200 ease-out focus-visible:ring-2 focus-visible:ring-accent",
                   isHovered
-                    ? "absolute left-0 z-50 w-max px-3.5 neumorphic-lg translate-x-1 text-text-1"
+                    ? "absolute left-0 z-50 w-max px-3.5 border border-border/80 bg-bg-card shadow-md translate-x-1 text-text-1"
                     : "relative w-11 justify-center px-0",
-                  isActive && !isHovered && "neumorphic-pressed text-accent font-semibold",
-                  !isActive && !isHovered && "text-text-3 hover:text-text-1"
+                  isActive && !isHovered && "bg-accent/10 border border-accent/40 text-accent font-semibold",
+                  !isActive && !isHovered && "text-text-3 hover:text-text-1 hover:bg-bg-subtle/50"
                 )}
                 aria-label={`${item.label} (Shortcut: ${item.shortcut})`}
                 aria-current={isActive ? "page" : undefined}
@@ -85,7 +85,7 @@ export function AppIslandDock({ items, activeId, onSelect }: AppIslandDockProps)
                 {isActive && !isHovered && (
                   <motion.div
                     layoutId="activeDockIconPill"
-                    className="absolute inset-0 rounded-xl border border-accent/40 pointer-events-none"
+                    className="absolute inset-0 rounded-lg border border-accent/40 pointer-events-none"
                     transition={{ type: "spring", stiffness: 450, damping: 32 }}
                   />
                 )}

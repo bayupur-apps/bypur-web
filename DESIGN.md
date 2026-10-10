@@ -1,15 +1,15 @@
 ---
 version: "beta-desktop-app"
-name: "Neumorphic Slate & Technical Cyan (Zero-Scroll Desktop App)"
-description: "Desktop-first application shell, zero global page-scroll, viewport-locked 100dvh canvas, floating tactile island dock, technical schematic blueprint, soft neumorphic depth with technical cyan accents."
+name: "Tokyo Studio: Warm Solar Amber & Basalt Carbon (Zero-Scroll Desktop App)"
+description: "Desktop-first application shell, zero global page-scroll, viewport-locked 100dvh canvas, floating tactile island dock, matte engineering precision, Warm Solar Amber accents with Basalt Carbon surfaces. Fully verified for WCAG AA/AAA contrast."
 colors:
-  primary: "#CAD6E2"
-  secondary: "#0F172A"
-  tertiary: "#0284C7"
-  neutral: "#D8E2EC"
-  surface: "#A2B5C7"
-  accent: "#0284C7"
-  card: "#D8E2EC"
+  primary: "#0C0D10"
+  secondary: "#12141A"
+  tertiary: "#F59E0B"
+  neutral: "#212530"
+  surface: "#14161F"
+  accent: "#F59E0B"
+  card: "#12141A"
 typography:
   h1:
     fontFamily: Plus Jakarta Sans
@@ -24,15 +24,16 @@ typography:
     fontSize: 0.8125rem
     fontWeight: 500
 rounded:
-  sm: 16px
-  md: 24px
-  lg: 32px
+  sm: 6px
+  md: 10px
+  lg: 14px
+  xl: 18px
 components:
   button-primary:
     backgroundColor: "{colors.accent}"
-    textColor: "{colors.neutral}"
+    textColor: "{colors.primary}"
     rounded: "{rounded.sm}"
-    padding: 12px
+    padding: 10px 16px
 ---
 
 ## 1. Overview & Core Paradigm
@@ -64,22 +65,25 @@ This design system establishes a **Zero-Scroll Desktop Application Shell** for t
 │  ───────────  │  *(Content is dense, ergonomic, and fitted to screen; inner panel scroll only)* │
 │  [⌘K] [Theme] │                                                                                  │
 ├───────────────┴──────────────────────────────────────────────────────────────────────────────────┤
-│  ⚡ STATUS: OPEN FOR FULL-TIME / CONTRACT    •    JAKARTA (UTC+7) 21:15    •    LATENCY: 24ms    │
+│  ⚡ STATUS: OPEN FOR FULL-TIME / CONTRACT    •    PURWOKERTO (WIB) 21:15   •    LATENCY: 24ms    │
 └──────────────────────────────────────────────────────────────────────────────────────────────────┘
 ```
 
 ---
 
-## 2. Color Palette & Surface Tokens
+## 2. Color Palette & Surface Tokens (WCAG Contrast Verified)
 
-- **Background Canvas** (`#CAD6E2` light / `#0B0F19` dark): Primary muted slate surface, zero harsh glare.
-- **Card Surface** (`#D8E2EC` light / `#111827` dark): Soft matte elevated slate surface.
-- **Subtle Surface** (`#BFCCD9` light / `#131B2E` dark): Inset sunken depth, input wells, and chips.
-- **Text Primary** (`#0F172A` light / `#F8FAFC` dark): Deep slate charcoal high-contrast text.
-- **Text Secondary** (`#334155` light / `#CBD5E1` dark): Medium slate supporting text.
-- **Accent Cyan** (`#0284C7` light / `#38BDF8` dark): Technical cyan for active indicators, active keys, and focus outlines.
-- **Surface Elevation Light** (`rgba(230, 238, 246, 0.5)` light / `#1E293B` dark): Soft diffused light reflection for neumorphic bevel (no pure white `#FFFFFF` glare).
-- **Surface Shadow Dark** (`rgba(100, 120, 142, 0.35)` light / `#020617` dark): Soft depth shadow for neumorphic extrusions.
+- **Background Canvas** (`#F4F5F7` light / `#0C0D10` dark): Warm linen in light mode; Basalt Carbon in dark mode.
+- **Card Surface** (`#FFFFFF` light / `#12141A` dark): Solid Smoked Graphite plane with hairline borders (`#212530`).
+- **Subtle Surface** (`#E5E7EB` light / `#14161F` dark): Inset sunken depth, input wells, and chips.
+- **Text Primary** (`#0F172A` light / `#F8FAFC` dark): High-contrast crisp typography (18.6:1 contrast against dark background).
+- **Text Secondary** (`#334155` light / `#CBD5E1` dark): Readable supporting slate text (13.1:1 contrast against dark background).
+- **Text Tertiary / Muted** (`#526075` light / `#8B95A5` dark): Quiet captions and indices (5.85:1 light, 6.42:1 dark, exceeding WCAG AA).
+- **Accent Tokyo Solar Amber** (`#B45309` light / `#F59E0B` & `#FBBF24` dark):
+  - Primary button: `#F59E0B` with `#0C0D10` text (9.05:1 contrast in dark mode, passes WCAG AAA; `#B45309` with `#FFFFFF` text in light mode, 5.02:1 contrast, passes WCAG AA).
+  - Accent indicators / ink: `#FBBF24` on dark basalt canvas (11.64:1 contrast, passes WCAG AAA).
+- **Surface Elevation Light** (`rgba(255, 255, 255, 0.8)` light / `#212530` dark): Crisp hairline border and soft diffused reflection.
+- **Surface Shadow Dark** (`rgba(100, 116, 139, 0.16)` light / `rgba(0, 0, 0, 0.75)` dark): Soft depth shadow for subtle elevation.
 
 ---
 
@@ -111,7 +115,7 @@ This design system establishes a **Zero-Scroll Desktop Application Shell** for t
   - Internal panel scrolling (`overflow-y-auto`) enabled only where item volume exceeds viewport space.
 - **Bottom Status Bar (`AppStatusBar`)**:
   - Height: `36px`.
-  - Monospaced telemetry: Availability status, local time (Jakarta WIB), Next.js App Router engine tag, and quick GitHub link.
+  - Monospaced telemetry: Availability status, local time (Purwokerto WIB), Next.js App Router engine tag, and quick GitHub link.
 - **Mobile Adaptation**:
   - On viewports < 768px, the left Floating Island Dock automatically shifts to a **Floating Bottom Dock** (native iOS/Android app style).
 

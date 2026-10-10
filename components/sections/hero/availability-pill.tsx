@@ -9,7 +9,7 @@ export function AvailabilityPill({ label, className }: AvailabilityPillProps) {
   return (
     <span
       className={cn(
-        "inline-flex items-center gap-2 rounded-full border border-success/30 neumorphic-chip px-3 py-1 text-xs font-medium text-text-2",
+        "inline-flex items-center gap-2 rounded-md border border-success/30 neumorphic-chip px-3 py-1 text-xs font-medium text-text-2",
         className
       )}
     >

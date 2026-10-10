@@ -3,6 +3,7 @@
 import { useState, useMemo } from "react";
 import { Orbit, Compass } from "lucide-react";
 import { SectionContainer } from "@/components/ui/section-container";
+import { SectionTopBar } from "@/components/ui/section-top-bar";
 import { DesktopTimeline } from "./experience/desktop-timeline";
 import { MobileTimeline } from "./experience/mobile-timeline";
 import { ExperienceDetail } from "./experience/experience-detail";
@@ -32,36 +33,29 @@ export default function ExperienceSection() {
   if (!selected) return null;
 
   return (
-    <SectionContainer id="experience" background="default" className="py-1">
-      {/* Top Header Row with Orbital Telemetry */}
-      <div className="flex items-center justify-between border-b border-border/60 pb-2 mb-2.5">
-        <div className="flex items-center gap-2">
-          <div className="flex h-6 w-6 items-center justify-center rounded-lg bg-accent/10 text-accent ring-1 ring-accent/30 shadow-[0_0_8px_rgba(2,132,199,0.25)]">
-            <Orbit size={13} />
-          </div>
-          <div>
-            <h2 className="text-xs sm:text-sm font-bold tracking-tight text-text-1">
-              {experienceConfig.title || "Career Logs & Orbital Experience Hub"}
-            </h2>
-          </div>
-          <span className="rounded-full bg-accent/10 px-2 py-0.5 text-[10px] font-bold text-accent font-mono">
-            {experiences.length} STATIONS
+    <SectionContainer
+      id="experience"
+      variant="hero"
+      background="default"
+      className="py-0 sm:py-0 w-full flex flex-col justify-center my-auto"
+      innerClassName="w-full flex flex-col justify-center my-auto"
+    >
+      {/* Top Header Row: Career Timeline */}
+      <SectionTopBar
+        icon={Orbit}
+        title={experienceConfig.title || "Career Experience & Timeline"}
+        subtitle={
+          <span className="inline-flex items-center gap-1">
+            <Compass size={11} className="text-accent" /> FULL STACK TIMELINE
           </span>
-        </div>
+        }
+        badge={`${experiences.length} ROLES`}
+        className="mb-2"
+      />
 
-        <div className="flex items-center gap-2 font-mono text-[10px] text-text-3">
-          <span className="hidden sm:inline-flex items-center gap-1">
-            <Compass size={11} className="text-accent" /> ZERO-GRAVITY CANVAS
-          </span>
-          <span className="rounded-full bg-bg-subtle px-2 py-0.5 font-mono text-[9px] text-text-3">
-            SYS: STABLE
-          </span>
-        </div>
-      </div>
-
-      {/* Desktop: Orbital timeline + Floating Station detail panel */}
-      <div className="hidden lg:grid lg:grid-cols-12 gap-3 items-start">
-        <div className="lg:col-span-5 flex flex-col">
+      {/* Desktop: Orbital timeline + Station detail panel (Height matched with skills matrix) */}
+      <div className="hidden lg:grid lg:grid-cols-12 gap-3.5 items-stretch lg:h-[450px] xl:h-[470px]">
+        <div className="lg:col-span-5 flex flex-col h-full min-h-0">
           <DesktopTimeline
             experiences={experiences}
             selectedId={activeSelectedId}
@@ -69,12 +63,12 @@ export default function ExperienceSection() {
           />
         </div>
 
-        <div className="lg:col-span-7 flex flex-col">
+        <div className="lg:col-span-7 flex flex-col h-full min-h-0">
           <ExperienceDetail experience={selected} />
         </div>
       </div>
 
-      {/* Mobile: zero-gravity vertical timeline */}
+      {/* Mobile: vertical timeline */}
       <div className="lg:hidden">
         <MobileTimeline experiences={experiences} />
       </div>

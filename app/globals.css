@@ -37,17 +37,17 @@
   /* Max-width */
   --max-width-container: 68rem;
 
-  /* Border radius - Neumorphic Muted Slate (20px base) */
-  --radius: 20px;
-  --radius-sm: 12px;
-  --radius-md: 20px;
-  --radius-lg: 40px;
+  /* Border radius - Precision Scale */
+  --radius: 12px;
+  --radius-sm: 6px;
+  --radius-md: 10px;
+  --radius-lg: 14px;
 
-  /* Neumorphic Shadows - Refined & Subtle */
-  --shadow-xs: 1px 1px 3px var(--shadow-dark), -1px -1px 3px var(--shadow-light);
-  --shadow-sm: 2px 2px 6px var(--shadow-dark), -2px -2px 6px var(--shadow-light);
-  --shadow-md: 4px 4px 10px var(--shadow-dark), -4px -4px 10px var(--shadow-light);
-  --shadow-lg: 6px 6px 14px var(--shadow-dark), -6px -6px 14px var(--shadow-light);
+  /* Shadows - Crisp & Matte */
+  --shadow-xs: 1px 1px 2px var(--shadow-dark);
+  --shadow-sm: 1px 2px 4px var(--shadow-dark);
+  --shadow-md: 2px 4px 8px var(--shadow-dark);
+  --shadow-lg: 3px 6px 12px var(--shadow-dark);
 
   /* Animations */
   --animate-fade-up: fade-up 0.6s cubic-bezier(0.16, 1, 0.3, 1) both;
@@ -105,93 +105,93 @@ body {
 }
 
 :root {
-  /* Nordic Slate & Electric Cyan Theme Tokens (Completely Zero Pure White) */
-  --palette-primary: #CAD6E2;
+  /* Tokyo Studio Palette - Light (Warm Linen & Solar Amber) */
+  --palette-primary: #F4F5F7;
   --palette-secondary: #0F172A;
-  --palette-accent: #0284C7;
-  --palette-surface: #A2B5C7;
-  --palette-neutral: #D8E2EC;
-  --palette-card: #D8E2EC;
+  --palette-accent: #B45309;
+  --palette-surface: #E2E4E9;
+  --palette-neutral: #FFFFFF;
+  --palette-card: #FFFFFF;
 
   color-scheme: light;
-  --bg: var(--palette-primary);
-  --bg-subtle: #BFCCD9;
-  --bg-card: var(--palette-card);
-  --border: var(--palette-surface);
+  --bg: #F4F5F7;
+  --bg-subtle: #E5E7EB;
+  --bg-card: #FFFFFF;
+  --border: #E2E4E9;
 
   --text-1: #0F172A;
   --text-2: #334155;
-  --text-3: #50647A;
+  --text-3: #526075;
 
-  --accent: #0284C7;
-  --accent-hover: #0369A1;
-  --accent-muted: rgba(2, 132, 199, 0.14);
-  --accent-fg: #EAF2F8;
-  --accent-ink: #0284C7;
-  --accent-ink-hover: #0369A1;
+  --accent: #B45309;
+  --accent-hover: #92400E;
+  --accent-muted: rgba(180, 83, 9, 0.12);
+  --accent-fg: #FFFFFF;
+  --accent-ink: #B45309;
+  --accent-ink-hover: #92400E;
 
   --secondary: #0F172A;
   --secondary-hover: #020617;
   --secondary-muted: rgba(15, 23, 42, 0.08);
   --secondary-ink: #0F172A;
-  --tertiary: #0284C7;
+  --tertiary: #D97706;
   --success: #10B981;
   --success-ink: #047857;
   --error: #EF4444;
 
-  --shadow-light: rgba(230, 238, 246, 0.5);
-  --shadow-dark: rgba(100, 120, 142, 0.35);
+  --shadow-light: rgba(255, 255, 255, 0.8);
+  --shadow-dark: rgba(100, 116, 139, 0.16);
 
-  --neumorphic-outer: 4px 4px 12px rgba(100, 120, 142, 0.28), 1px 1px 4px rgba(100, 120, 142, 0.15), -4px -4px 12px rgba(230, 238, 246, 0.5), -1px -1px 4px rgba(230, 238, 246, 0.5);
-  --neumorphic-outer-lg: 7px 7px 18px rgba(100, 120, 142, 0.32), 2px 2px 6px rgba(100, 120, 142, 0.18), -7px -7px 18px rgba(230, 238, 246, 0.55), -2px -2px 6px rgba(230, 238, 246, 0.55);
-  --neumorphic-inner: inset 3px 3px 6px rgba(100, 120, 142, 0.32), inset -3px -3px 6px rgba(230, 238, 246, 0.45);
-  --neumorphic-accent: 3px 3px 10px rgba(2, 132, 199, 0.3), -3px -3px 10px rgba(230, 238, 246, 0.45);
-  --neumorphic-chip: 2px 2px 5px rgba(100, 120, 142, 0.25), -2px -2px 5px rgba(230, 238, 246, 0.45);
+  --neumorphic-outer: 4px 4px 12px rgba(100, 116, 139, 0.16), 1px 1px 4px rgba(100, 116, 139, 0.08), -4px -4px 12px rgba(255, 255, 255, 0.8), -1px -1px 4px rgba(255, 255, 255, 0.8);
+  --neumorphic-outer-lg: 7px 7px 18px rgba(100, 116, 139, 0.2), 2px 2px 6px rgba(100, 116, 139, 0.1), -7px -7px 18px rgba(255, 255, 255, 0.85), -2px -2px 6px rgba(255, 255, 255, 0.85);
+  --neumorphic-inner: inset 3px 3px 6px rgba(100, 116, 139, 0.2), inset -3px -3px 6px rgba(255, 255, 255, 0.7);
+  --neumorphic-accent: 3px 3px 10px rgba(180, 83, 9, 0.22), -3px -3px 10px rgba(255, 255, 255, 0.7);
+  --neumorphic-chip: 2px 2px 5px rgba(100, 116, 139, 0.15), -2px -2px 5px rgba(255, 255, 255, 0.7);
 
-  --glass-bg: rgba(202, 214, 226, 0.85);
-  --glass-bg-strong: rgba(216, 226, 236, 0.95);
-  --glass-sheen: rgba(230, 238, 246, 0.4);
+  --glass-bg: rgba(244, 245, 247, 0.88);
+  --glass-bg-strong: rgba(255, 255, 255, 0.96);
+  --glass-sheen: rgba(255, 255, 255, 0.5);
   --glass-blur: 8px;
 
   --gradient-from: #0F172A;
   --gradient-via: #0F172A;
-  --gradient-to: #0284C7;
+  --gradient-to: #B45309;
 }
 
 .dark {
   color-scheme: dark;
-  --bg: #0B0F17;
-  --bg-subtle: #131B2E;
-  --bg-card: #111827;
-  --border: #1E293B;
+  --bg: #0C0D10;
+  --bg-subtle: #14161F;
+  --bg-card: #12141A;
+  --border: #212530;
 
   --text-1: #F8FAFC;
   --text-2: #CBD5E1;
-  --text-3: #94A3B8;
+  --text-3: #8B95A5;
 
-  --accent: #38BDF8;
-  --accent-hover: #0EA5E9;
-  --accent-muted: rgba(56, 189, 248, 0.2);
-  --accent-fg: #0B0F17;
-  --accent-ink: #38BDF8;
-  --accent-ink-hover: #7DD3FC;
+  --accent: #F59E0B;
+  --accent-hover: #D97706;
+  --accent-muted: rgba(245, 158, 11, 0.16);
+  --accent-fg: #0C0D10;
+  --accent-ink: #FBBF24;
+  --accent-ink-hover: #FDE68A;
 
   --secondary: #F8FAFC;
   --secondary-hover: #F1F5F9;
   --secondary-muted: rgba(248, 250, 252, 0.1);
   --secondary-ink: #F8FAFC;
 
-  --shadow-light: rgba(30, 41, 59, 0.45);
-  --shadow-dark: rgba(0, 0, 0, 0.55);
+  --shadow-light: rgba(33, 37, 48, 0.45);
+  --shadow-dark: rgba(0, 0, 0, 0.75);
 
-  --neumorphic-outer: 6px 6px 18px rgba(0, 0, 0, 0.5), 2px 2px 6px rgba(0, 0, 0, 0.35), -6px -6px 18px rgba(30, 41, 59, 0.4), -2px -2px 6px rgba(30, 41, 59, 0.3);
-  --neumorphic-outer-lg: 10px 10px 26px rgba(0, 0, 0, 0.6), 3px 3px 8px rgba(0, 0, 0, 0.4), -10px -10px 26px rgba(30, 41, 59, 0.45), -3px -3px 8px rgba(30, 41, 59, 0.35);
-  --neumorphic-inner: inset 3px 3px 8px rgba(0, 0, 0, 0.65), inset -3px -3px 8px rgba(30, 41, 59, 0.35);
-  --neumorphic-accent: 4px 4px 14px rgba(56, 189, 248, 0.25), -4px -4px 14px rgba(30, 41, 59, 0.4);
-  --neumorphic-chip: 3px 3px 8px rgba(0, 0, 0, 0.45), -3px -3px 8px rgba(30, 41, 59, 0.35);
+  --neumorphic-outer: 6px 6px 18px rgba(0, 0, 0, 0.55), 2px 2px 6px rgba(0, 0, 0, 0.4), -6px -6px 18px rgba(33, 37, 48, 0.35), -2px -2px 6px rgba(33, 37, 48, 0.25);
+  --neumorphic-outer-lg: 10px 10px 26px rgba(0, 0, 0, 0.65), 3px 3px 8px rgba(0, 0, 0, 0.45), -10px -10px 26px rgba(33, 37, 48, 0.4), -3px -3px 8px rgba(33, 37, 48, 0.3);
+  --neumorphic-inner: inset 3px 3px 8px rgba(0, 0, 0, 0.7), inset -3px -3px 8px rgba(33, 37, 48, 0.3);
+  --neumorphic-accent: 4px 4px 14px rgba(245, 158, 11, 0.22), -4px -4px 14px rgba(33, 37, 48, 0.35);
+  --neumorphic-chip: 3px 3px 8px rgba(0, 0, 0, 0.45), -3px -3px 8px rgba(33, 37, 48, 0.3);
 
-  --glass-bg: rgba(11, 15, 23, 0.85);
-  --glass-bg-strong: rgba(17, 24, 39, 0.95);
+  --glass-bg: rgba(12, 13, 16, 0.88);
+  --glass-bg-strong: rgba(18, 20, 26, 0.96);
   --glass-sheen: rgba(255, 255, 255, 0.05);
   --glass-blur: 10px;
 
@@ -230,53 +230,53 @@ body {
   outline-offset: 3px;
 }
 
-/* ─── Neumorphic Utilities ─── */
+/* ─── Neumorphic Utilities: Precision Scale ─── */
 @utility neumorphic {
-  box-shadow: var(--neumorphic-outer);
+  box-shadow: var(--shadow-sm);
   background-color: var(--bg-card);
-  border: 1px solid rgba(162, 181, 199, 0.6);
-  border-radius: 20px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
 }
 
 .dark .neumorphic,
 .dark.neumorphic {
-  border-color: rgba(255, 255, 255, 0.06);
+  border-color: rgba(255, 255, 255, 0.08);
 }
 
 @utility neumorphic-lg {
-  box-shadow: var(--neumorphic-outer-lg);
+  box-shadow: var(--shadow-md);
   background-color: var(--bg-card);
-  border: 1px solid rgba(162, 181, 199, 0.7);
-  border-radius: 20px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
 }
 
 .dark .neumorphic-lg,
 .dark.neumorphic-lg {
-  border-color: rgba(255, 255, 255, 0.08);
+  border-color: rgba(255, 255, 255, 0.1);
 }
 
 @utility neumorphic-pressed {
-  box-shadow: var(--neumorphic-inner);
+  box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.4);
   background-color: var(--bg-card);
-  border: 1px solid rgba(162, 181, 199, 0.5);
-  border-radius: 20px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
 }
 
 .dark .neumorphic-pressed,
 .dark.neumorphic-pressed {
-  border-color: rgba(0, 0, 0, 0.3);
+  border-color: rgba(255, 255, 255, 0.08);
 }
 
 @utility neumorphic-chip {
-  box-shadow: var(--neumorphic-chip);
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.25);
   background-color: var(--bg-card);
-  border: 1px solid rgba(162, 181, 199, 0.6);
-  border-radius: 12px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
 }
 
 .dark .neumorphic-chip,
 .dark.neumorphic-chip {
-  border-color: rgba(255, 255, 255, 0.05);
+  border-color: rgba(255, 255, 255, 0.07);
 }
 
 @utility neumorphic-accent {

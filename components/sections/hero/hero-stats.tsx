@@ -61,7 +61,7 @@ export function HeroStats({ stats, className }: HeroStatsProps) {
   if (!stats?.length) return null;
 
   return (
-    <dl className={cn("grid grid-flow-col auto-cols-fr divide-x divide-border border-t border-border pt-6", className)}>
+    <dl className={cn("grid grid-flow-col auto-cols-fr divide-x divide-border border-t border-border pt-3 sm:pt-6", className)}>
       {stats.slice(0, 3).map((stat) => (
         // dt/dd order kept for semantics; column-reverse + justify-end puts
         // the number on top and aligns all numbers regardless of label length.

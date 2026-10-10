@@ -5,6 +5,7 @@ import {
   useContext,
   useState,
   useEffect,
+  useCallback,
   ReactNode,
 } from "react";
 import { portfolioApi } from "@/lib/api/portfolio";
@@ -16,95 +17,66 @@ import { projectsDefault } from "@/lib/data/projects.default";
 import { certificatesDefault } from "@/lib/data/certificates.default";
 import type { Profile, Service, Skill, Experience, Project, Certificate } from "@/lib/types";
 
-interface PortfolioContextType {
+interface PortfolioData {
   profile: Profile;
   services: Service[];
   skills: Skill[];
   experiences: Experience[];
   projects: Project[];
   certificates: Certificate[];
+}
+
+interface PortfolioContextType extends PortfolioData {
   loading: boolean;
   refetch: () => Promise<void>;
 }
 
-const PortfolioContext = createContext<PortfolioContextType | undefined>(
-  undefined,
-);
+const DEFAULT_DATA: PortfolioData = {
+  profile: profileDataDefault,
+  services: servicesDefault,
+  skills: skillsDefault,
+  experiences: experiencesDefault,
+  projects: projectsDefault,
+  certificates: certificatesDefault,
+};
+
+const PortfolioContext = createContext<PortfolioContextType | undefined>(undefined);
 
 export function PortfolioProvider({ children }: { children: ReactNode }) {
-  const [profile, setProfile] = useState<Profile>(profileDataDefault);
-  const [services, setServices] = useState<Service[]>(servicesDefault);
-  const [skills, setSkills] = useState<Skill[]>(skillsDefault);
-  const [experiences, setExperiences] =
-    useState<Experience[]>(experiencesDefault);
-  const [projects, setProjects] = useState<Project[]>(projectsDefault);
-  const [certificates, setCertificates] =
-    useState<Certificate[]>(certificatesDefault);
+  const [data, setData] = useState<PortfolioData>(DEFAULT_DATA);
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
-    let cancelled = false;
+    let active = true;
 
-    const fetchData = async () => {
-      try {
-        // Use portfolioApi for unified fetching with automatic fallback
-        const data = await portfolioApi.getAllPortfolioData();
-
-        if (!cancelled) {
-          setProfile(data.profile);
-          setServices(data.services);
-          setSkills(data.skills);
-          setExperiences(data.experiences);
-          setProjects(data.projects);
-          setCertificates(data.certificates);
-        }
-      } catch (error) {
+    portfolioApi
+      .getAllPortfolioData()
+      .then((res) => {
+        if (active) setData(res);
+      })
+      .catch((error) => {
         console.error("Failed to fetch portfolio data:", error);
-        // Already using defaults from initial state
-      } finally {
-        if (!cancelled) {
-          setLoading(false);
-        }
-      }
-    };
-
-    fetchData();
+      });
 
     return () => {
-      cancelled = true;
+      active = false;
     };
   }, []);
 
-  const refetch = async () => {
+  const refetch = useCallback(async () => {
+    setLoading(true);
     try {
-      setLoading(true);
-      const data = await portfolioApi.getAllPortfolioData();
-      setProfile(data.profile);
-      setServices(data.services);
-      setSkills(data.skills);
-      setExperiences(data.experiences);
-      setProjects(data.projects);
-      setCertificates(data.certificates);
+      const res = await portfolioApi.getAllPortfolioData();
+      setData(res);
     } catch (error) {
       console.error("Failed to fetch portfolio data:", error);
     } finally {
       setLoading(false);
     }
-  };
+  }, []);
 
   return (
-    <PortfolioContext.Provider
-      value={{
-        profile,
-        services,
-        skills,
-        experiences,
-        projects,
-        certificates,
-        loading,
-        refetch,
-      }}
-    >
+    <PortfolioContext.Provider value={{ ...data, loading, refetch }}>
       {children}
     </PortfolioContext.Provider>
   );
@@ -112,7 +84,7 @@ export function PortfolioProvider({ children }: { children: ReactNode }) {
 
 export function usePortfolio() {
   const context = useContext(PortfolioContext);
-  if (context === undefined) {
+  if (!context) {
     throw new Error("usePortfolio must be used within a PortfolioProvider");
   }
   return context;

@@ -26,11 +26,11 @@ export function Button({
   disabled = false,
 }: ButtonProps) {
   const baseStyles =
-    "inline-flex items-center justify-center gap-1.5 rounded-full font-medium transition-all disabled:opacity-50 disabled:cursor-not-allowed";
+    "inline-flex items-center justify-center gap-1.5 rounded-lg font-medium transition-all disabled:opacity-50 disabled:cursor-not-allowed";
 
   const variantStyles = {
     primary:
-      "group bg-accent text-accent-fg shadow-[0_2px_4px_rgba(2,132,199,0.18)] hover:bg-accent-hover hover:shadow-[0_4px_8px_rgba(2,132,199,0.25)] active:scale-[0.99]",
+      "group bg-accent text-accent-fg shadow-xs hover:bg-accent-hover hover:shadow-sm active:scale-[0.99]",
     secondary:
       "border border-border/80 neumorphic text-text-1 hover:bg-bg-subtle hover:border-accent/40 active:scale-[0.99]",
     outline:

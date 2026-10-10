@@ -3,14 +3,14 @@ import ExperienceSection from "@/components/sections/experience";
 import { PortfolioProvider } from "@/contexts/portfolio-context";
 
 describe("ExperienceSection Zero-Gravity Timeline", () => {
-  it("renders the orbital experience hub header and stations", () => {
+  it("renders the career experience hub header and timeline", () => {
     render(
       <PortfolioProvider>
         <ExperienceSection />
       </PortfolioProvider>
     );
-    expect(screen.getByText(/ZERO-GRAVITY CANVAS/i)).toBeInTheDocument();
-    expect(screen.getByText(/ORBITAL STATIONS/i)).toBeInTheDocument();
+    expect(screen.getByText(/FULL STACK TIMELINE/i)).toBeInTheDocument();
+    expect(screen.getByText(/EXPERIENCE TIMELINE/i)).toBeInTheDocument();
   });
 
   it("switches orbital station when clicking timeline item", () => {
