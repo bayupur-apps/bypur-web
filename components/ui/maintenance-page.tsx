@@ -12,7 +12,7 @@ export function MaintenancePage({ profile, settingsMap }: MaintenancePageProps) 
   const siteName = settingsMap?.site_name || profile?.name || "Bayu Purnomo";
   const ownerEmail = settingsMap?.owner_email || profile?.email || "bayupurnomo.dev@gmail.com";
   const githubUrl = settingsMap?.social_github || profile?.socials?.github || "https://github.com/bayupaths";
-  const linkedinUrl = settingsMap?.social_linkedin || profile?.socials?.linkedin || "https://linkedin.com/in/bayupurnomo1710";
+  const linkedinUrl = settingsMap?.social_linkedin || profile?.socials?.linkedin || "https://www.linkedin.com/in/bayupurnomo1710";
   const whatsappUrl = settingsMap?.social_whatsapp || profile?.socials?.whatsapp || "https://wa.me/628812785635";
 
   return (

@@ -8,6 +8,7 @@
  */
 
 import type { Certificate, Experience, Profile, Project, Service, Skill } from "@/lib/types";
+import { normalizeExternalUrl } from "@/lib/helpers/social-links";
 
 // ─── Backend response shapes (only the fields we consume) ──────────────────
 
@@ -175,7 +176,7 @@ export function mapProfile(be: BackendProfile, fallback: Profile): Profile {
   for (const link of links) {
     const key = link.platform?.toLowerCase();
     if (key && isSocialLinkKey(key)) {
-      socials[key] = link.url;
+      socials[key] = normalizeExternalUrl(link.url);
     }
   }
 

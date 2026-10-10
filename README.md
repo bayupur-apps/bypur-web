@@ -188,7 +188,7 @@ Personal portfolio © 2026 Bayu Purnomo
 
 - **Email**: bayupurnomo.dev@gmail.com
 - **GitHub**: [@bayupaths](https://github.com/bayupaths)
-- **LinkedIn**: [Bayu Purnomo](https://www.linkedin.com/in/bayupaths)
+- **LinkedIn**: [Bayu Purnomo](https://www.linkedin.com/in/bayupurnomo1710)
 
 ---
 

@@ -54,6 +54,14 @@ export async function fetchFromAPI<T>(
  * whether the submission actually succeeded.
  */
 export async function postToAPI<T, B>(endpoint: string, body: B): Promise<T> {
-  const response = await apiClient.post<ApiEnvelope<T>>(endpoint, body);
-  return response.data.data;
+  try {
+    const response = await apiClient.post<ApiEnvelope<T>>(endpoint, body);
+    return response.data.data;
+  } catch (error) {
+    if (axios.isAxiosError(error) && error.response?.data) {
+      const data = error.response.data as { error?: string; message?: string };
+      throw new Error(data.error || data.message || error.message);
+    }
+    throw error;
+  }
 }

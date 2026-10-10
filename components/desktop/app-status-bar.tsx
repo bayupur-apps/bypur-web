@@ -2,15 +2,16 @@
 
 import { usePortfolio } from "@/contexts/portfolio-context";
 import { SOCIAL_SVG_PATHS } from "@/lib/config/constants";
+import { normalizeExternalUrl } from "@/lib/helpers";
 
 export function AppStatusBar() {
   const { profile } = usePortfolio();
   const socials = profile.socials || {};
 
   const socialLinks: { key: keyof typeof SOCIAL_SVG_PATHS; label: string; href: string }[] = [
-    ...(socials.github ? [{ key: "github" as const, label: "GitHub", href: socials.github }] : []),
-    ...(socials.linkedin ? [{ key: "linkedin" as const, label: "LinkedIn", href: socials.linkedin }] : []),
-    ...(socials.whatsapp ? [{ key: "whatsapp" as const, label: "WhatsApp", href: socials.whatsapp }] : []),
+    ...(socials.github ? [{ key: "github" as const, label: "GitHub", href: normalizeExternalUrl(socials.github) }] : []),
+    ...(socials.linkedin ? [{ key: "linkedin" as const, label: "LinkedIn", href: normalizeExternalUrl(socials.linkedin) }] : []),
+    ...(socials.whatsapp ? [{ key: "whatsapp" as const, label: "WhatsApp", href: normalizeExternalUrl(socials.whatsapp) }] : []),
   ];
 
   return (

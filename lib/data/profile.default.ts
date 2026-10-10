@@ -198,7 +198,7 @@ export const profileDataDefault: Profile = {
 
   socials: {
     github: "https://github.com/bayupaths",
-    linkedin: "https://linkedin.com/in/bayupurnomo1710",
+    linkedin: "https://www.linkedin.com/in/bayupurnomo1710",
     instagram: "https://instagram.com/bayuuu.p",
     whatsapp: "https://wa.me/628812785635",
   },

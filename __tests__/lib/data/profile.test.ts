@@ -18,6 +18,7 @@ describe("Profile Data", () => {
   it("should have social media links", () => {
     expect(profile.socials).toBeDefined();
     expect(typeof profile.socials).toBe("object");
+    expect(profile.socials.linkedin).toBe("https://www.linkedin.com/in/bayupurnomo1710");
   });
 
   it("should have stats array", () => {
