@@ -5,71 +5,67 @@ export const profileDataDefault: Profile = {
   // Avatar dan Resume URLs dari CDN
   name: "Bayu Purnomo",
   title: "Full Stack Developer",
-  tagline: "I build practical and scalable web applications.",
-  taglineHighlight: "scalable web applications",
-  bio: "I'm a Full Stack Developer focused on building real-world business applications. Currently at PT Ethos Kreatif Indonesia, I work on enterprise systems, APIs, and database-driven applications. Additional experience as a freelancer building SaaS platforms and custom solutions.",
+  tagline: "I build secure APIs and backend systems for business applications.",
+  taglineHighlight: "secure APIs and backend systems",
+  bio: "Full Stack Developer who designs and builds secure, well-architected REST APIs and backend systems for enterprise business applications, including ERP and OMS platforms. Strong across the stack in Go, Node.js/TypeScript, React/Next.js, and PHP (Laravel), with hands-on depth in PostgreSQL/MySQL schema design and query optimization, Domain-Driven Design, and background-worker processing for services that stay correct under concurrency. Experienced setting up CI/CD pipelines with Docker and Jenkins, and increasingly applies AI-assisted development tools and LLM integrations to ship faster without cutting corners on architecture. Comfortable translating complex business logic into maintainable, secure systems within Agile teams.",
   email: "bayupurnomo.dev@gmail.com",
   phone: "+62 881 2785 635",
-  location: "Purwokerto, Indonesia",
+  location: "Banyumas, Central Java, Indonesia",
   avatar: profileAssets.avatar,
   resumeUrl: profileAssets.resume,
   isCvVisible: true,
-  roles: [
-    "Full Stack Developer",
-    "Laravel Developer",
-    "Backend Developer",
-  ],
+  roles: ["Full Stack Developer"],
   rolesLabel: "Currently working as",
-  availability: "Open to freelance projects",
   techStack: [
-    "Laravel",
+    "Go",
     "Node.js",
+    "TypeScript",
+    "React",
+    "Next.js",
+    "PHP",
+    "Laravel",
     "PostgreSQL",
     "MySQL",
-    "Vue.js",
-    "Next.js",
-    "Docker",
-    "AI Integration",
   ],
 
   stats: [
-    { value: "4+", label: "Production systems delivered" },
-    { value: "2+", label: "Years professional experience" },
-    { value: "10+", label: "Web applications built" },
+    { value: "3", label: "Selected projects" },
+    { value: "2+", label: "Years in current role" },
+    { value: "2", label: "SQL databases" },
   ],
 
   mobileStats: [
     {
       value: "2+",
-      label: "years in production",
+      label: "years at PT Ethos",
       accent: true,
       icon: "ti-briefcase",
     },
     {
-      value: "4+",
-      label: "systems deployed",
+      value: "3",
+      label: "selected projects",
       accent: true,
       icon: "ti-rocket",
     },
     {
-      value: "Full Stack",
-      label: "expertise",
+      value: "Go",
+      label: "primary backend language",
       accent: false,
       icon: "ti-server",
     },
     {
-      value: "Enterprise",
-      label: "focused",
+      value: "DDD",
+      label: "architecture approach",
       accent: false,
       icon: "ti-world",
     },
   ],
 
   highlights: [
-    { label: "Full Stack Developer", icon: "Server" },
-    { label: "REST API Design", icon: "Code2" },
-    { label: "Database Architecture", icon: "Database" },
-    { label: "System Integration", icon: "Zap" },
+    { label: "Go & backend systems", icon: "Server" },
+    { label: "REST API design", icon: "Code2" },
+    { label: "PostgreSQL & MySQL", icon: "Database" },
+    { label: "DDD & background workers", icon: "Zap" },
   ],
 
   skills: {
@@ -77,7 +73,7 @@ export const profileDataDefault: Profile = {
     title: "Tools I use to build applications.",
     titleHighlight: "build applications.",
     description:
-      "Technologies used to build production and freelance projects.",
+      "Languages, databases, and tools used across backend systems and full-stack applications.",
 
     cta: {
       label: "Projects",
@@ -109,25 +105,25 @@ export const profileDataDefault: Profile = {
     titleHighlight: "real systems.",
 
     description:
-      "Experience from production system development and freelance projects focused on backend and full stack implementation.",
+      "Enterprise applications, backend systems, and internal workflows.",
 
     stats: {
       yearsExp: "2+",
       positions: "Roles",
       highlight: {
-        value: "Production",
-        label: "system experience",
+        value: "Enterprise",
+        label: "application experience",
       },
     },
   },
 
   projects: {
     label: "Projects",
-    title: "Systems I've worked on.",
+    title: "Selected projects from my CV.",
     titleHighlight: "I've worked on.",
 
     description:
-      "Real-world applications including business systems and freelance project implementations.",
+      "Workflow automation, portfolio systems, and order management work.",
   },
 
   certificates: {
@@ -145,7 +141,7 @@ export const profileDataDefault: Profile = {
     titleHighlight: "together.",
 
     description:
-      "Open to freelance projects, full stack development, and system collaboration.",
+      "Contact me about backend systems, full-stack applications, or API work.",
 
     info: [
       {
@@ -165,7 +161,7 @@ export const profileDataDefault: Profile = {
       {
         icon: "MapPin",
         label: "Location",
-      value: "Indonesia - UTC+7",
+        value: "Banyumas, Central Java, Indonesia",
         href: "#",
         copyable: false,
       },
@@ -201,5 +197,6 @@ export const profileDataDefault: Profile = {
     linkedin: "https://www.linkedin.com/in/bayupurnomo1710",
     instagram: "https://instagram.com/bayuuu.p",
     whatsapp: "https://wa.me/628812785635",
+    website: "https://bypur.my.id",
   },
 };

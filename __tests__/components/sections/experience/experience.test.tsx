@@ -13,16 +13,15 @@ describe("ExperienceSection Zero-Gravity Timeline", () => {
     expect(screen.getByText(/EXPERIENCE TIMELINE/i)).toBeInTheDocument();
   });
 
-  it("switches orbital station when clicking timeline item", () => {
+  it("selects a timeline item when one is available", () => {
     render(
       <PortfolioProvider>
         <ExperienceSection />
       </PortfolioProvider>
     );
-    const freelanceTabs = screen.getAllByRole("tab", { name: /Freelance/i });
-    if (freelanceTabs.length > 0) {
-      fireEvent.click(freelanceTabs[0]);
-      expect(freelanceTabs[0]).toHaveAttribute("aria-selected", "true");
-    }
+    const timelineTabs = screen.getAllByRole("tab");
+    const selectedTab = timelineTabs[timelineTabs.length - 1];
+    fireEvent.click(selectedTab);
+    expect(selectedTab).toHaveAttribute("aria-selected", "true");
   });
 });

@@ -1,58 +1,56 @@
 /**
- * Services Data (Default/Static)
- * Fallback untuk jika API tidak tersedia
- * Dapat juga digunakan untuk testing & development
+ * Service fallback based on work and skills listed in the current resume.
  */
 
 import type { Service } from "@/lib/types";
 
 export const servicesDefault: Service[] = [
   {
-    id: "web-applications",
-    title: "Web Applications",
-    slug: "web-applications",
-    icon: "Layout",
-    description:
-      "Modern, responsive web apps with Next.js and Vue.js. Clean architecture and optimal performance.",
-  },
-  {
-    id: "backend-systems",
-    title: "Backend & APIs",
-    slug: "backend-systems",
+    id: "backend-api-systems",
+    title: "Backend Systems & REST APIs",
+    slug: "backend-api-systems",
     icon: "Server",
     description:
-      "Scalable backend systems with Laravel and Node.js. Database design, API development, and integration.",
+      "REST APIs and backend systems for business applications, built with Go, Node.js, or Laravel.",
   },
   {
-    id: "enterprise-apps",
-    title: "Enterprise Solutions",
-    slug: "enterprise-apps",
-    icon: "Building2",
+    id: "full-stack-applications",
+    title: "Full-Stack Applications",
+    slug: "full-stack-applications",
+    icon: "Layout",
     description:
-      "Full-stack enterprise systems with RBAC, audit logs, and multi-layer architecture.",
+      "Web applications using React, Next.js, TypeScript, and PHP with Laravel.",
+  },
+  {
+    id: "database-design",
+    title: "Database Design & Optimization",
+    slug: "database-design",
+    icon: "Database",
+    description:
+      "PostgreSQL and MySQL schema design, indexing, transactions, and query optimization.",
+  },
+  {
+    id: "workflow-integrations",
+    title: "Workflow & Webhook Integrations",
+    slug: "workflow-integrations",
+    icon: "Workflow",
+    description:
+      "Business workflow integrations with idempotent webhook processing, retries, and background workers.",
   },
   {
     id: "ci-cd-deployment",
-    title: "DevOps & CI/CD",
+    title: "CI/CD & Deployment",
     slug: "ci-cd-deployment",
     icon: "Workflow",
     description:
-      "Production-ready CI/CD pipelines, Docker containerization, and automated deployment workflows.",
+      "Docker-based deployments and CI/CD pipelines using Jenkins or GitHub Actions.",
   },
   {
-    id: "database-solutions",
-    title: "Database Solutions",
-    slug: "database-solutions",
-    icon: "Database",
-    description:
-      "Database architecture, optimization, and migration. PostgreSQL, MySQL, and MongoDB expertise.",
-  },
-  {
-    id: "ai-integration",
-    title: "AI Integration",
-    slug: "ai-integration",
+    id: "llm-integration",
+    title: "LLM Integration",
+    slug: "llm-integration",
     icon: "Sparkles",
     description:
-      "AI-powered features and intelligent automation. LLM integration, chatbots, and smart workflows.",
+      "LLM API integrations, prompt engineering, and AI agent workflows.",
   },
 ];

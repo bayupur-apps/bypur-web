@@ -58,12 +58,6 @@ export async function generateMetadata(): Promise<Metadata> {
       creator: profile.socials.twitter ? `@${profile.socials.twitter.split("/").pop()}` : undefined,
       images: [ogImage],
     },
-    icons: {
-      icon: [
-        { url: "/favicon.svg", type: "image/svg+xml" },
-      ],
-      apple: [{ url: "/favicon.svg", type: "image/svg+xml" }],
-    },
     robots: {
       index: true,
       follow: true,
