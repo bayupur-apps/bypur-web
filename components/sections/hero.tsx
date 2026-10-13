@@ -11,7 +11,7 @@ export default function HeroSection() {
   const { profile: profileData } = usePortfolio();
 
   // Derived data
-  const tagline = profileData.tagline || "I craft scalable digital products.";
+  const tagline = profileData.tagline ?? "I craft scalable digital products.";
   const mobileStats = profileData.mobileStats || getDefaultMobileStats(profileData);
 
   return (

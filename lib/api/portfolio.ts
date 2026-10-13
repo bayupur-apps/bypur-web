@@ -38,8 +38,7 @@ export interface ContactSubmission {
 /** Get Profile - hybrid merge of backend bio fields onto the static default */
 export async function getProfile(): Promise<Profile> {
   const be = await fetchFromAPI<BackendProfile | null>("/profile", null);
-  const profile = be ? mapProfile(be, profileDataDefault) : profileDataDefault;
-  return { ...profile, avatar: profileDataDefault.avatar };
+  return be ? mapProfile(be, profileDataDefault) : profileDataDefault;
 }
 
 /** Get Services (backed by the be's "offerings") - fallback to static data if API unavailable */

@@ -180,14 +180,14 @@ export function mapProfile(be: BackendProfile, fallback: Profile): Profile {
     }
   }
 
-  const resumeUrl = be.resume_url || be.resumeUrl;
+  const resumeUrl = be.resume_url ?? be.resumeUrl;
   const isCvVisible = be.is_cv_visible ?? be.isCvVisible;
-  const rolesLabel = be.roles_label || be.rolesLabel;
-  const taglineHighlight = be.tagline_highlight || be.taglineHighlight;
-  const ctaPrimaryText = be.cta_primary_text || be.ctaPrimaryText;
-  const ctaPrimaryHref = be.cta_primary_href || be.ctaPrimaryHref;
-  const ctaSecondaryText = be.cta_secondary_text || be.ctaSecondaryText;
-  const ctaSecondaryHref = be.cta_secondary_href || be.ctaSecondaryHref;
+  const rolesLabel = be.roles_label ?? be.rolesLabel;
+  const taglineHighlight = be.tagline_highlight ?? be.taglineHighlight;
+  const ctaPrimaryText = be.cta_primary_text ?? be.ctaPrimaryText;
+  const ctaPrimaryHref = be.cta_primary_href ?? be.ctaPrimaryHref;
+  const ctaSecondaryText = be.cta_secondary_text ?? be.ctaSecondaryText;
+  const ctaSecondaryHref = be.cta_secondary_href ?? be.ctaSecondaryHref;
 
   return {
     ...fallback,
@@ -197,23 +197,23 @@ export function mapProfile(be: BackendProfile, fallback: Profile): Profile {
     email: be.email || fallback.email,
     phone: be.phone || fallback.phone,
     location: be.location || fallback.location,
-    avatar: be.avatar || fallback.avatar,
-    resumeUrl: resumeUrl || fallback.resumeUrl,
+    avatar: be.avatar ?? fallback.avatar,
+    resumeUrl: resumeUrl ?? fallback.resumeUrl,
     isCvVisible: isCvVisible ?? fallback.isCvVisible ?? true,
     socials,
-    roles: be.roles?.length ? be.roles : fallback.roles,
-    rolesLabel: rolesLabel || fallback.rolesLabel,
-    tagline: be.tagline || fallback.tagline,
-    taglineHighlight: taglineHighlight || fallback.taglineHighlight,
-    highlights: be.highlights?.length ? be.highlights : fallback.highlights,
+    roles: be.roles ?? [],
+    rolesLabel: rolesLabel ?? (be.roles != null ? fallback.rolesLabel : undefined),
+    tagline: be.tagline ?? fallback.tagline,
+    taglineHighlight: taglineHighlight ?? fallback.taglineHighlight,
+    highlights: be.highlights?.length ? be.highlights : be.highlights_?.length ? be.highlights_ : fallback.highlights,
     cta: {
       primary: {
-        text: ctaPrimaryText || fallback.cta?.primary?.text || "",
-        href: ctaPrimaryHref || fallback.cta?.primary?.href || "",
+        text: ctaPrimaryText ?? fallback.cta?.primary?.text ?? "",
+        href: ctaPrimaryHref ?? fallback.cta?.primary?.href ?? "",
       },
       secondary: {
-        text: ctaSecondaryText || fallback.cta?.secondary?.text || "",
-        href: ctaSecondaryHref || fallback.cta?.secondary?.href || "",
+        text: ctaSecondaryText ?? fallback.cta?.secondary?.text ?? "",
+        href: ctaSecondaryHref ?? fallback.cta?.secondary?.href ?? "",
       },
     },
   };

@@ -1,26 +1,9 @@
 import { AvailabilityPill } from "./availability-pill";
 import { HeroActions } from "./hero-actions";
 import { HeroStats } from "./hero-stats";
-import { escapeRegExp } from "./utils";
+import { HeroTagline } from "./hero-tagline";
+import { RoleLine } from "./role-line";
 import type { Profile } from "@/lib/types";
-
-// Helper to render tagline with dynamic highlight
-const renderTagline = (tagline: string, highlight?: string) => {
-  if (!highlight) return tagline;
-
-  const regex = new RegExp(`(${escapeRegExp(highlight)})`, "i");
-  const parts = tagline.split(regex);
-
-  return parts.map((part, idx) =>
-    part.toLowerCase() === highlight.toLowerCase() ? (
-      <span key={idx} className="gradient-text font-semibold">
-        {part}
-      </span>
-    ) : (
-      part
-    ),
-  );
-};
 
 const getShortBio = (bio: string) => {
   const sentences = bio.match(/[^.!?]+[.!?]+/g);
@@ -59,9 +42,11 @@ export function ContentSection({
       <h1 className="mb-4 text-3xl font-bold leading-[1.08] tracking-tight text-text-1 sm:text-4xl lg:text-[2.75rem]">
         Hi, I&apos;m {profileData.name.split(" ")[0]}
         <span className="mt-1.5 block text-lg font-normal leading-snug tracking-normal text-text-2 sm:text-xl lg:text-2xl">
-          {renderTagline(tagline, profileData.taglineHighlight)}
+          <HeroTagline tagline={tagline} highlight={profileData.taglineHighlight} />
         </span>
       </h1>
+
+      <RoleLine profileData={profileData} className={`mb-4 ${stagger(80)}`} />
 
       {/* Bio - short version */}
       <p className={`mb-5 max-w-lg text-sm leading-[1.7] text-text-2 ${stagger(80)}`}>

@@ -12,19 +12,24 @@ interface HeroActionsProps {
 // every other channel lives in Contact and the footer.
 const PROFESSIONAL_SOCIALS = new Set(["GitHub", "LinkedIn"]);
 
-/** Primary CTA, CV download and GitHub/LinkedIn in a single row. */
+/** The configured hero CTAs, optional CV download, and GitHub/LinkedIn links. */
 export function HeroActions({ profileData, className }: HeroActionsProps) {
   const primary = profileData.cta?.primary;
+  const secondary = profileData.cta?.secondary;
   const showCv = profileData.isCvVisible !== false && Boolean(profileData.resumeUrl);
-  // Without a CV, fall back to the secondary CTA so the row keeps two buttons.
-  const secondary = showCv ? undefined : profileData.cta?.secondary;
   const socials = getSocialLinks(profileData.socials).filter((s) => PROFESSIONAL_SOCIALS.has(s.label));
 
   return (
     <div className={cn("flex flex-wrap items-center justify-center gap-3 lg:justify-start", className)}>
-      {primary && (
+      {primary?.text && primary.href && (
         <Button href={primary.href} variant="primary" icon={ArrowRight} iconPosition="right" className="rounded-lg">
           {primary.text}
+        </Button>
+      )}
+
+      {secondary?.text && secondary.href && (
+        <Button href={secondary.href} variant="secondary" className="rounded-lg">
+          {secondary.text}
         </Button>
       )}
 
@@ -38,12 +43,6 @@ export function HeroActions({ profileData, className }: HeroActionsProps) {
           <Download size={15} className="transition-transform duration-200 group-hover:translate-y-0.5" />
           Download CV
         </a>
-      )}
-
-      {secondary && (
-        <Button href={secondary.href} variant="secondary" className="rounded-lg">
-          {secondary.text}
-        </Button>
       )}
 
       {socials.length > 0 && (

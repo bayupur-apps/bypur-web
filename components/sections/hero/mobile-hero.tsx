@@ -3,28 +3,14 @@
 import { HeroActions } from "./hero-actions";
 import { HeroStats } from "./hero-stats";
 import { HeroPortrait } from "./hero-portrait";
-import { escapeRegExp } from "./utils";
+import { HeroTagline } from "./hero-tagline";
+import { RoleLine } from "./role-line";
 import type { Profile } from "@/lib/types";
 
 interface MobileHeroProps {
   profileData: Profile;
   tagline: string;
 }
-
-const renderTagline = (tagline: string, highlight?: string) => {
-  if (!highlight) return tagline;
-  const regex = new RegExp(`(${escapeRegExp(highlight)})`, "i");
-  const parts = tagline.split(regex);
-  return parts.map((part, idx) =>
-    part.toLowerCase() === highlight.toLowerCase() ? (
-      <span key={idx} className="gradient-text font-semibold">
-        {part}
-      </span>
-    ) : (
-      part
-    )
-  );
-};
 
 export function MobileHero({ profileData, tagline }: MobileHeroProps) {
   return (
@@ -53,9 +39,11 @@ export function MobileHero({ profileData, tagline }: MobileHeroProps) {
         <h1 className="text-2xl sm:text-3xl font-bold tracking-tight text-text-1 mb-1">
           Hi, I&apos;m {profileData.name.split(" ")[0]}
           <span className="mt-1 block text-sm sm:text-base font-normal leading-snug tracking-normal text-text-2">
-            {renderTagline(tagline, profileData.taglineHighlight)}
+            <HeroTagline tagline={tagline} highlight={profileData.taglineHighlight} />
           </span>
         </h1>
+
+        <RoleLine profileData={profileData} className="mb-1.5" />
 
         {profileData.bio && (
           <p className="text-xs leading-relaxed text-text-2 mt-1.5 max-w-sm mx-auto line-clamp-3 sm:line-clamp-none">

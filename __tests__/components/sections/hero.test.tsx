@@ -15,9 +15,16 @@ const mockProfile = {
   location: "Indonesia",
   avatar: "/images/avatar/avatar.png",
   socials: {},
-  roles: ["Backend Engineer", "Systems Architect"],
-  tagline: "I craft scalable digital products.",
-  rolesLabel: "Currently working as",
+  roles: [],
+  tagline: "Engineering Ideas Into Reality.",
+  taglineHighlight: "Scalable Web Applications",
+  rolesLabel: "Fullstack Developer",
+  cta: {
+    primary: { text: "View Projects", href: "#projects" },
+    secondary: { text: "Get in touch", href: "#contact" },
+  },
+  resumeUrl: "/resume.pdf",
+  isCvVisible: true,
   mobileStats: [
     { value: "5+", label: "years experience", accent: true, icon: "ti-briefcase" },
   ],
@@ -63,7 +70,49 @@ describe("HeroSection Component", () => {
     render(<HeroSection />, { wrapper });
     
     await waitFor(() => {
-      expect(screen.getAllByText(/I craft scalable digital products/i)[0]).toBeInTheDocument();
+      expect(screen.getAllByText(/Engineering Ideas Into Reality\./i)[0]).toBeInTheDocument();
+    });
+  });
+
+  it("shows the CMS highlight and role label when the role list is empty", async () => {
+    render(<HeroSection />, { wrapper });
+
+    await waitFor(() => {
+      expect(screen.getAllByText("Scalable Web Applications")[0]).toBeInTheDocument();
+      expect(screen.getAllByText("Fullstack Developer")[0]).toBeInTheDocument();
+    });
+  });
+
+  it("renders both configured hero calls to action", async () => {
+    render(<HeroSection />, { wrapper });
+
+    await waitFor(() => {
+      expect(screen.getAllByRole("link", { name: "View Projects" })[0]).toHaveAttribute("href", "#projects");
+      expect(screen.getAllByRole("link", { name: "Get in touch" })[0]).toHaveAttribute("href", "#contact");
+    });
+  });
+
+  it("shows the CV action when enabled", async () => {
+    render(<HeroSection />, { wrapper });
+
+    await waitFor(() => {
+      expect(screen.getAllByRole("link", { name: "Download CV" })[0]).toHaveAttribute("href", "/resume.pdf");
+    });
+  });
+
+  it("hides the CV action when disabled", async () => {
+    (portfolioApiModule.portfolioApi.getAllPortfolioData as jest.Mock).mockResolvedValueOnce({
+      profile: { ...mockProfile, isCvVisible: false },
+      services: [],
+      skills: [],
+      experiences: [],
+      projects: [],
+    });
+
+    render(<HeroSection />, { wrapper });
+
+    await waitFor(() => {
+      expect(screen.queryByRole("link", { name: "Download CV" })).not.toBeInTheDocument();
     });
   });
 
