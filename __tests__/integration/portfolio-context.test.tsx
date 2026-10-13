@@ -1,13 +1,23 @@
 // Integration Tests for PortfolioContext
-import { renderHook, waitFor } from "@testing-library/react";
+import { act, renderHook } from "@testing-library/react";
 import { PortfolioProvider, usePortfolio } from "@/contexts/portfolio-context";
 import { ReactNode } from "react";
 import * as portfolioApiModule from "@/lib/api/portfolio";
+import { profileDataDefault } from "@/lib/data/profile.default";
 
 // Mock the portfolio API
 jest.mock("@/lib/api/portfolio");
 
 describe("PortfolioContext Integration", () => {
+  const initialData = {
+    profile: profileDataDefault,
+    services: [],
+    skills: [],
+    experiences: [],
+    projects: [],
+    certificates: [],
+  };
+
   beforeEach(() => {
     jest.clearAllMocks();
     (portfolioApiModule.portfolioApi.getAllPortfolioData as jest.Mock).mockResolvedValue({
@@ -20,10 +30,10 @@ describe("PortfolioContext Integration", () => {
   });
 
   const wrapper = ({ children }: { children: ReactNode }) => (
-    <PortfolioProvider>{children}</PortfolioProvider>
+    <PortfolioProvider initialData={initialData}>{children}</PortfolioProvider>
   );
 
-  it("should provide default data immediately", async () => {
+  it("provides server data immediately without fetching again", () => {
     (portfolioApiModule.portfolioApi.getAllPortfolioData as jest.Mock).mockImplementation(
       () => new Promise(() => {}),
     );
@@ -31,10 +41,11 @@ describe("PortfolioContext Integration", () => {
     const { result } = renderHook(() => usePortfolio(), { wrapper });
 
     expect(result.current.loading).toBe(false);
-    expect(result.current.profile.name).toBe("Bayu Purnomo");
+    expect(result.current.profile.name).toBe(profileDataDefault.name);
+    expect(portfolioApiModule.portfolioApi.getAllPortfolioData).not.toHaveBeenCalled();
   });
 
-  it("should fetch all data in parallel", async () => {
+  it("refetches all data on demand", async () => {
     const mockData = {
       profile: { name: "Test", email: "test@test.com" },
       services: [{ title: "Service 1", slug: "service-1" }],
@@ -47,16 +58,36 @@ describe("PortfolioContext Integration", () => {
 
     const { result } = renderHook(() => usePortfolio(), { wrapper });
 
-    await waitFor(() => {
-      expect(result.current.profile.name).toBe("Test");
+    await act(async () => {
+      await result.current.refetch();
     });
 
-    expect(portfolioApiModule.portfolioApi.getAllPortfolioData).toHaveBeenCalled();
+    expect(portfolioApiModule.portfolioApi.getAllPortfolioData).toHaveBeenCalledTimes(1);
+    expect(result.current.profile.name).toBe("Test");
     expect(result.current.services[0].title).toBe("Service 1");
     expect(result.current.skills[0].name).toBe("React");
   });
 
-  it("should handle API failures gracefully and use fallback data", async () => {
+  it("uses server-provided data without showing defaults or fetching again", () => {
+    const serverData = {
+      profile: { ...profileDataDefault, name: "Server Profile" },
+      services: [],
+      skills: [],
+      experiences: [],
+      projects: [],
+      certificates: [],
+    };
+    const serverWrapper = ({ children }: { children: ReactNode }) => (
+      <PortfolioProvider initialData={serverData}>{children}</PortfolioProvider>
+    );
+
+    const { result } = renderHook(() => usePortfolio(), { wrapper: serverWrapper });
+
+    expect(result.current.profile.name).toBe("Server Profile");
+    expect(portfolioApiModule.portfolioApi.getAllPortfolioData).not.toHaveBeenCalled();
+  });
+
+  it("keeps server data when a refetch fails", async () => {
     // Suppress console.error for this test since we expect it
     const consoleErrorSpy = jest.spyOn(console, "error").mockImplementation();
 
@@ -66,16 +97,12 @@ describe("PortfolioContext Integration", () => {
 
     const { result } = renderHook(() => usePortfolio(), { wrapper });
 
-    await waitFor(() => {
-      expect(portfolioApiModule.portfolioApi.getAllPortfolioData).toHaveBeenCalled();
+    await act(async () => {
+      await result.current.refetch();
     });
 
-    // Should still have fallback static data
-    expect(result.current.profile).toBeDefined();
-    expect(result.current.services).toBeDefined();
-    expect(result.current.skills).toBeDefined();
-    expect(result.current.experiences).toBeDefined();
-    expect(result.current.projects).toBeDefined();
+    expect(result.current.profile).toBe(profileDataDefault);
+    expect(portfolioApiModule.portfolioApi.getAllPortfolioData).toHaveBeenCalledTimes(1);
 
     consoleErrorSpy.mockRestore();
   });
@@ -101,10 +128,11 @@ describe("PortfolioContext Integration", () => {
 
     const { result } = renderHook(() => usePortfolio(), { wrapper });
 
-    await waitFor(() => {
-      expect(result.current.profile.name).toBe("Bayu Purnomo Updated");
+    await act(async () => {
+      await result.current.refetch();
     });
 
+    expect(result.current.profile.name).toBe("Bayu Purnomo Updated");
     expect(result.current.profile.title).toBe("Senior Backend Engineer");
   });
 

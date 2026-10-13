@@ -1,11 +1,12 @@
 import { render, screen, fireEvent } from "@testing-library/react";
 import ExperienceSection from "@/components/sections/experience";
 import { PortfolioProvider } from "@/contexts/portfolio-context";
+import { portfolioDataFixture } from "@/__tests__/fixtures/portfolio-data";
 
 describe("ExperienceSection Zero-Gravity Timeline", () => {
   it("renders the career experience hub header and timeline", () => {
     render(
-      <PortfolioProvider>
+      <PortfolioProvider initialData={portfolioDataFixture}>
         <ExperienceSection />
       </PortfolioProvider>
     );
@@ -15,7 +16,7 @@ describe("ExperienceSection Zero-Gravity Timeline", () => {
 
   it("selects a timeline item when one is available", () => {
     render(
-      <PortfolioProvider>
+      <PortfolioProvider initialData={portfolioDataFixture}>
         <ExperienceSection />
       </PortfolioProvider>
     );

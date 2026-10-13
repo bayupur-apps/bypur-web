@@ -1,18 +1,20 @@
-import { getProfile, getSettingsMap } from "@/lib/api/portfolio";
+import { getAllPortfolioData, getSettingsMap } from "@/lib/api/portfolio";
 import { MaintenancePage } from "@/components/ui/maintenance-page";
 import PortfolioPage from "./portfolio-page";
 
+export const dynamic = "force-dynamic";
+
 export default async function Home() {
-  const [profile, settingsMap] = await Promise.all([
-    getProfile(),
+  const [initialData, settingsMap] = await Promise.all([
+    getAllPortfolioData(),
     getSettingsMap(),
   ]);
 
   const isMaintenance = settingsMap.site_maintenance_mode === "true";
 
   if (isMaintenance) {
-    return <MaintenancePage profile={profile} settingsMap={settingsMap} />;
+    return <MaintenancePage profile={initialData.profile} settingsMap={settingsMap} />;
   }
 
-  return <PortfolioPage />;
+  return <PortfolioPage initialData={initialData} />;
 }

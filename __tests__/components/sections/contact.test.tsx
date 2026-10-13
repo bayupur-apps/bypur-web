@@ -3,11 +3,12 @@ import ContactSection from "@/components/sections/contact";
 import { PortfolioProvider } from "@/contexts/portfolio-context";
 import * as portfolioApiModule from "@/lib/api/portfolio";
 import { ReactNode } from "react";
+import { portfolioDataFixture } from "@/__tests__/fixtures/portfolio-data";
 
 jest.mock("@/lib/api/portfolio");
 
 const wrapper = ({ children }: { children: ReactNode }) => (
-  <PortfolioProvider>{children}</PortfolioProvider>
+  <PortfolioProvider initialData={{ ...portfolioDataFixture, profile: { ...portfolioDataFixture.profile, email: "test@example.com", location: "Purwokerto", availability: "Open to work", socials: {}, contact: { title: "Get in touch" } } }}>{children}</PortfolioProvider>
 );
 
 describe("ContactSection", () => {

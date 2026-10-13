@@ -7,6 +7,7 @@ import { AppMobileDock } from "@/components/desktop/app-mobile-dock";
 import { AppStatusBar } from "@/components/desktop/app-status-bar";
 import { AppWorkspaceCanvas } from "@/components/desktop/app-workspace-canvas";
 import { PortfolioProvider, usePortfolio } from "@/contexts/portfolio-context";
+import type { PortfolioData } from "@/contexts/portfolio-context";
 
 const HASH_TO_VIEW_MAP: Record<string, string> = {
   "#about": "bio",
@@ -92,9 +93,9 @@ function PortfolioDesktopShell() {
   );
 }
 
-export default function PortfolioPage() {
+export default function PortfolioPage({ initialData }: Readonly<{ initialData: PortfolioData }>) {
   return (
-    <PortfolioProvider>
+    <PortfolioProvider initialData={initialData}>
       <PortfolioDesktopShell />
     </PortfolioProvider>
   );

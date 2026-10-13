@@ -1,11 +1,8 @@
 import { render, screen, waitFor } from "@testing-library/react";
 import HeroSection from "@/components/sections/hero";
 import { PortfolioProvider } from "@/contexts/portfolio-context";
-import * as portfolioApiModule from "@/lib/api/portfolio";
 import { ReactNode } from "react";
-
-// Mock the portfolio API
-jest.mock("@/lib/api/portfolio");
+import { portfolioDataFixture } from "@/__tests__/fixtures/portfolio-data";
 
 const mockProfile = {
   name: "Bayu Purnomo",
@@ -31,23 +28,24 @@ const mockProfile = {
   techStack: ["Go", "Laravel", "Vue / Nuxt", "PostgreSQL", "REST API"],
 };
 
-const wrapper = ({ children }: { children: ReactNode }) => (
-  <PortfolioProvider>{children}</PortfolioProvider>
-);
+const createWrapper = (isCvVisible = true) => {
+  const PortfolioTestWrapper = ({ children }: { children: ReactNode }) => (
+    <PortfolioProvider
+      initialData={{
+        ...portfolioDataFixture,
+        profile: { ...portfolioDataFixture.profile, ...mockProfile, isCvVisible },
+      }}
+    >
+      {children}
+    </PortfolioProvider>
+  );
+  PortfolioTestWrapper.displayName = "PortfolioTestWrapper";
+  return PortfolioTestWrapper;
+};
+
+const wrapper = createWrapper();
 
 describe("HeroSection Component", () => {
-  beforeEach(() => {
-    jest.clearAllMocks();
-    
-    // Mock successful API responses
-    (portfolioApiModule.portfolioApi.getAllPortfolioData as jest.Mock).mockResolvedValue({
-      profile: mockProfile,
-      services: [],
-      skills: [],
-      experiences: [],
-      projects: [],
-    });
-  });
 
   it("should render without crashing", async () => {
     const { container } = render(<HeroSection />, { wrapper });
@@ -101,15 +99,7 @@ describe("HeroSection Component", () => {
   });
 
   it("hides the CV action when disabled", async () => {
-    (portfolioApiModule.portfolioApi.getAllPortfolioData as jest.Mock).mockResolvedValueOnce({
-      profile: { ...mockProfile, isCvVisible: false },
-      services: [],
-      skills: [],
-      experiences: [],
-      projects: [],
-    });
-
-    render(<HeroSection />, { wrapper });
+    render(<HeroSection />, { wrapper: createWrapper(false) });
 
     await waitFor(() => {
       expect(screen.queryByRole("link", { name: "Download CV" })).not.toBeInTheDocument();
