@@ -1,7 +1,7 @@
 import { render, screen, fireEvent } from "@testing-library/react";
 import ExperienceSection from "@/components/sections/experience";
 import { PortfolioProvider } from "@/contexts/portfolio-context";
-import { portfolioDataFixture } from "@/__tests__/fixtures/portfolio-data";
+import { portfolioDataFixture } from "@/test-fixtures/portfolio-data";
 
 describe("ExperienceSection Zero-Gravity Timeline", () => {
   it("renders the career experience hub header and timeline", () => {

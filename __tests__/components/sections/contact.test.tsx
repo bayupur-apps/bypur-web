@@ -3,7 +3,7 @@ import ContactSection from "@/components/sections/contact";
 import { PortfolioProvider } from "@/contexts/portfolio-context";
 import * as portfolioApiModule from "@/lib/api/portfolio";
 import { ReactNode } from "react";
-import { portfolioDataFixture } from "@/__tests__/fixtures/portfolio-data";
+import { portfolioDataFixture } from "@/test-fixtures/portfolio-data";
 
 jest.mock("@/lib/api/portfolio");
 

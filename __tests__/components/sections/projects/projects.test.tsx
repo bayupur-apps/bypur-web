@@ -1,7 +1,7 @@
 import { render, screen, fireEvent, within } from "@testing-library/react";
 import ProjectsSection from "@/components/sections/projects";
 import { PortfolioProvider } from "@/contexts/portfolio-context";
-import { portfolioDataFixture } from "@/__tests__/fixtures/portfolio-data";
+import { portfolioDataFixture } from "@/test-fixtures/portfolio-data";
 
 const renderSection = () =>
   render(

@@ -2,7 +2,7 @@ import { render, screen, waitFor } from "@testing-library/react";
 import HeroSection from "@/components/sections/hero";
 import { PortfolioProvider } from "@/contexts/portfolio-context";
 import { ReactNode } from "react";
-import { portfolioDataFixture } from "@/__tests__/fixtures/portfolio-data";
+import { portfolioDataFixture } from "@/test-fixtures/portfolio-data";
 
 const mockProfile = {
   name: "Bayu Purnomo",

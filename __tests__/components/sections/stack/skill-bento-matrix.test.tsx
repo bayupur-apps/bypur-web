@@ -2,7 +2,7 @@ import { render, screen, fireEvent } from "@testing-library/react";
 import { SkillBentoMatrix } from "@/components/sections/stack/skill-bento-matrix";
 import { PortfolioProvider } from "@/contexts/portfolio-context";
 import type { Skill } from "@/lib/types";
-import { portfolioDataFixture } from "@/__tests__/fixtures/portfolio-data";
+import { portfolioDataFixture } from "@/test-fixtures/portfolio-data";
 
 const mockSkills: Skill[] = [
   { name: "Next.js", category: "frontend", level: 5 },
