@@ -8,7 +8,7 @@ import { portfolioDataFixture } from "@/test-fixtures/portfolio-data";
 jest.mock("@/lib/api/portfolio");
 
 const wrapper = ({ children }: { children: ReactNode }) => (
-  <PortfolioProvider initialData={{ ...portfolioDataFixture, profile: { ...portfolioDataFixture.profile, email: "test@example.com", location: "Purwokerto", availability: "Open to work", socials: {}, contact: { title: "Get in touch" } } }}>{children}</PortfolioProvider>
+  <PortfolioProvider initialData={{ ...portfolioDataFixture, profile: { ...portfolioDataFixture.profile, email: "test@example.com", location: "Purwokerto", socials: {}, contact: { title: "Get in touch" } } }}>{children}</PortfolioProvider>
 );
 
 describe("ContactSection", () => {
@@ -18,7 +18,6 @@ describe("ContactSection", () => {
       profile: {
         email: "test@example.com",
         location: "Purwokerto",
-        availability: "Open to work",
         socials: {},
         contact: { title: "Get in touch" },
       },

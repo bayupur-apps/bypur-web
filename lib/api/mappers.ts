@@ -29,6 +29,10 @@ export interface BackendProfile {
   resume_url?: string | null;
   isCvVisible?: boolean | null;
   is_cv_visible?: boolean | null;
+  isAvailable?: boolean | null;
+  is_available?: boolean | null;
+  availabilityType?: "projects" | "hiring" | null;
+  availability_type?: "projects" | "hiring" | null;
   socialLinks?: BackendSocialLink[];
   social_links?: BackendSocialLink[];
   // Hero section content
@@ -182,6 +186,8 @@ export function mapProfile(be: BackendProfile, fallback: Profile): Profile {
 
   const resumeUrl = be.resume_url ?? be.resumeUrl;
   const isCvVisible = be.is_cv_visible ?? be.isCvVisible;
+  const isAvailable = be.is_available ?? be.isAvailable;
+  const availabilityType = be.availability_type ?? be.availabilityType;
   const rolesLabel = be.roles_label ?? be.rolesLabel;
   const taglineHighlight = be.tagline_highlight ?? be.taglineHighlight;
   const ctaPrimaryText = be.cta_primary_text ?? be.ctaPrimaryText;
@@ -200,6 +206,8 @@ export function mapProfile(be: BackendProfile, fallback: Profile): Profile {
     avatar: be.avatar ?? fallback.avatar,
     resumeUrl: resumeUrl ?? fallback.resumeUrl,
     isCvVisible: isCvVisible ?? fallback.isCvVisible ?? true,
+    isAvailable: isAvailable ?? fallback.isAvailable,
+    availabilityType: availabilityType ?? fallback.availabilityType ?? "projects",
     socials,
     roles: be.roles ?? [],
     rolesLabel: rolesLabel ?? (be.roles != null ? fallback.rolesLabel : undefined),

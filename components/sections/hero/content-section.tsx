@@ -1,8 +1,8 @@
-import { AvailabilityPill } from "./availability-pill";
 import { HeroActions } from "./hero-actions";
 import { HeroStats } from "./hero-stats";
 import { HeroTagline } from "./hero-tagline";
 import { RoleLine } from "./role-line";
+import { AvailabilityPill } from "@/components/ui/availability-pill";
 import type { Profile } from "@/lib/types";
 
 const getShortBio = (bio: string) => {
@@ -34,10 +34,6 @@ export function ContentSection({
 
   return (
     <div className="flex flex-col items-center text-center lg:items-start lg:text-left">
-      {profileData.availability && (
-        <AvailabilityPill label={profileData.availability} className={`mb-5 ${stagger(0)}`} />
-      )}
-
       {/* Headline */}
       <h1 className="mb-4 text-3xl font-bold leading-[1.08] tracking-tight text-text-1 sm:text-4xl lg:text-[2.75rem]">
         Hi, I&apos;m {profileData.name.split(" ")[0]}
@@ -52,6 +48,14 @@ export function ContentSection({
       <p className={`mb-5 max-w-lg text-sm leading-[1.7] text-text-2 ${stagger(80)}`}>
         {shortBio}
       </p>
+
+      {profileData.isAvailable !== undefined && (
+        <AvailabilityPill
+          isAvailable={profileData.isAvailable}
+          mode={profileData.availabilityType}
+          className={`mb-4 ${stagger(160)}`}
+        />
+      )}
 
       {/* CTA + CV + GitHub/LinkedIn */}
       <HeroActions profileData={profileData} className={stagger(160)} />

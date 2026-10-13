@@ -17,10 +17,10 @@ export interface Profile {
   avatar: string;
   resumeUrl?: string;
   isCvVisible?: boolean;
+  isAvailable?: boolean;
+  availabilityType?: "projects" | "hiring";
   roles?: string[];
   rolesLabel?: string;
-  /** Short availability note shown as a pill above the hero headline; hidden when empty. */
-  availability?: string;
   techStack?: string[];
   stats?: ProfileStat[];
   mobileStats?: MobileStat[];

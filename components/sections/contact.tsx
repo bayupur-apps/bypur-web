@@ -136,20 +136,14 @@ export default function ContactSection() {
           </span>
         </div>
 
-        <div className="flex items-center gap-2">
-          {profileData.availability && (
-            <div className="inline-flex items-center gap-1.5 rounded-md border border-border/60 bg-bg-card px-2.5 py-0.5 text-[10px] font-semibold text-text-2">
-              <span className="relative flex h-2 w-2" aria-hidden="true">
-                <span className="relative inline-flex h-2 w-2 rounded-full bg-success" />
-              </span>
-              <span>{profileData.availability}</span>
-            </div>
-          )}
-          <div className="hidden sm:inline-flex items-center gap-1.5 rounded-md border border-border/60 bg-bg-card px-2.5 py-0.5 text-[10px] font-mono text-text-3">
-            <span>Purwokerto</span>
-            <span className="text-accent font-semibold">{time ? `${time} WIB` : "--:--"}</span>
+        {profileData.location && (
+          <div className="hidden items-center gap-1.5 rounded-md border border-border/60 bg-bg-card px-2.5 py-0.5 font-mono text-[10px] text-text-3 sm:inline-flex">
+            <span>{profileData.location}</span>
+            <span className="font-semibold text-accent">
+              {time ? `${time} WIB` : "--:--"}
+            </span>
           </div>
-        </div>
+        )}
       </div>
 
       {/* Split-Stage Console: 7 cols Dispatch + 5 cols Comms */}

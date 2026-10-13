@@ -38,4 +38,13 @@ describe("mapProfile hero fields", () => {
     expect(profile.cta?.primary?.text).toBe("");
     expect(profile.cta?.secondary?.text).toBe("");
   });
+
+  it("maps availability from the backend without turning false into true", () => {
+    const profile = mapProfile(
+      { ...backendProfile, is_available: false },
+      profileDataDefault,
+    );
+
+    expect(profile.isAvailable).toBe(false);
+  });
 });
