@@ -34,7 +34,7 @@ const METHOD_STYLES: Record<ProjectEndpoint["method"], string> = {
   WS: "bg-purple-500/10 text-purple-600 dark:text-purple-400 border-purple-500/20",
 };
 
-export function ProjectDetailModal({ project, isOpen, onClose }: ProjectDetailModalProps) {
+export function ProjectDetailModal({ project, isOpen, onClose }: Readonly<ProjectDetailModalProps>) {
   const mounted = useSyncExternalStore(
     () => () => {},
     () => true,

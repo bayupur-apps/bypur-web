@@ -7,7 +7,7 @@ interface BadgeProps {
   className?: string;
 }
 
-export function Badge({ children, variant = "default", className }: BadgeProps) {
+export function Badge({ children, variant = "default", className }: Readonly<BadgeProps>) {
   const variants = {
     default: "rounded-md border border-border bg-bg px-2 py-0.5 font-mono text-[10px] text-text-3",
     tech: "rounded-md border border-border glass px-2.5 py-1 text-[11px] text-text-2 transition-colors hover:border-accent/40 hover:bg-accent/5 hover:text-accent-ink",

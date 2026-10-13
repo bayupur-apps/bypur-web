@@ -30,7 +30,7 @@ interface HighlightedTitleProps {
   highlight?: string;
 }
 
-export function HighlightedTitle({ title, highlight }: HighlightedTitleProps) {
+export function HighlightedTitle({ title, highlight }: Readonly<HighlightedTitleProps>) {
   const [before, match, after] = splitTitle(title, highlight);
   return (
     <Fragment>

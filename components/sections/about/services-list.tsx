@@ -20,7 +20,7 @@ const toIconName = (icon?: string): IconName => {
   return (ICON_NAMES.has(kebab) ? kebab : "box") as IconName;
 };
 
-function ServiceIcon({ name }: { name?: string }) {
+function ServiceIcon({ name }: Readonly<{ name?: string }>) {
   return (
     <DynamicIcon
       name={toIconName(name)}
@@ -31,7 +31,7 @@ function ServiceIcon({ name }: { name?: string }) {
   );
 }
 
-export function ServicesList({ services }: ServicesListProps) {
+export function ServicesList({ services }: Readonly<ServicesListProps>) {
   return (
     <div className="grid auto-rows-fr grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3">
       {services.map((service, index) => (

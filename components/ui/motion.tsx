@@ -9,7 +9,7 @@ type FadeUpProps = {
   delay?: number;
 };
 
-export function FadeUp({ children, className, delay = 0 }: FadeUpProps) {
+export function FadeUp({ children, className, delay = 0 }: Readonly<FadeUpProps>) {
   return (
     <motion.div
       initial={{ opacity: 0, y: 16 }}
@@ -23,7 +23,7 @@ export function FadeUp({ children, className, delay = 0 }: FadeUpProps) {
   );
 }
 
-export function FadeIn({ children, className, delay = 0 }: FadeUpProps) {
+export function FadeIn({ children, className, delay = 0 }: Readonly<FadeUpProps>) {
   return (
     <motion.div
       initial={{ opacity: 0 }}

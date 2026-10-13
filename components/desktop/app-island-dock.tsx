@@ -28,7 +28,7 @@ export const BASE_DOCK_ITEMS: DockItem[] = [
   { id: "contact", index: "06", label: "Contact", shortcut: "6", icon: Send },
 ];
 
-export function AppIslandDock({ items, activeId, onSelect }: AppIslandDockProps) {
+export function AppIslandDock({ items, activeId, onSelect }: Readonly<AppIslandDockProps>) {
   const [hoveredId, setHoveredId] = useState<string | null>(null);
 
   // Keyboard shortcut listener: pressing 1-6 switches views

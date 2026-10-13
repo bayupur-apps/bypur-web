@@ -38,7 +38,7 @@ export function AIChatbotWindow({
   inputRef,
   messagesEndRef,
   onSuggestionSelect,
-}: AIChatbotWindowProps) {
+}: Readonly<AIChatbotWindowProps>) {
   const showSuggestions = messages.length <= 1 && !isLoading;
 
   return (

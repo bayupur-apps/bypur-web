@@ -8,7 +8,7 @@ interface MaintenancePageProps {
   settingsMap?: Record<string, string>;
 }
 
-export function MaintenancePage({ profile, settingsMap }: MaintenancePageProps) {
+export function MaintenancePage({ profile, settingsMap }: Readonly<MaintenancePageProps>) {
   const siteName = settingsMap?.site_name || profile?.name || "Bayu Purnomo";
   const ownerEmail = settingsMap?.owner_email || profile?.email || "bayupurnomo.dev@gmail.com";
   const githubUrl = settingsMap?.social_github || profile?.socials?.github || "https://github.com/bayupaths";

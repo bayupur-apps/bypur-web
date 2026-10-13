@@ -12,7 +12,7 @@ const COUNT_DURATION_MS = 1400;
  * Counts a numeric stat up from 0 the first time it scrolls into view.
  * Server HTML and no-JS / reduced-motion visitors get the final value.
  */
-function CountUp({ value }: { value: string }) {
+function CountUp({ value }: Readonly<{ value: string }>) {
   const [display, setDisplay] = useState(value);
   const ref = useRef<HTMLSpanElement>(null);
   const reduceMotion = useReducedMotion();
@@ -57,7 +57,7 @@ interface HeroStatsProps {
 }
 
 /** Understated stats row under the hero actions (desktop - mobile has its own grid). */
-export function HeroStats({ stats, className }: HeroStatsProps) {
+export function HeroStats({ stats, className }: Readonly<HeroStatsProps>) {
   if (!stats?.length) return null;
 
   return (

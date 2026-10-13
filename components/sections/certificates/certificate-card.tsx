@@ -26,7 +26,7 @@ const STATUS_STYLES: Record<CertificateStatus, { label: string; className: strin
   },
 };
 
-function CopyCredentialId({ id }: { id: string }) {
+function CopyCredentialId({ id }: Readonly<{ id: string }>) {
   const { copied, copy } = useCopyToClipboard();
 
   return (
@@ -49,7 +49,7 @@ function CopyCredentialId({ id }: { id: string }) {
   );
 }
 
-export function CertificateCard({ certificate }: CertificateCardProps) {
+export function CertificateCard({ certificate }: Readonly<CertificateCardProps>) {
   const status = getCertificateStatus(certificate);
   const { label: statusLabel, className: statusClass } = STATUS_STYLES[status];
   const issued = formatCertDate(certificate.issueDate);

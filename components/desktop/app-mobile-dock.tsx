@@ -19,7 +19,7 @@ const MOBILE_LABELS: Record<string, string> = {
   contact: "Talk",
 };
 
-export function AppMobileDock({ items, activeId, onSelect }: AppMobileDockProps) {
+export function AppMobileDock({ items, activeId, onSelect }: Readonly<AppMobileDockProps>) {
   return (
     <nav
       aria-label="Mobile Navigation Dock"

@@ -7,7 +7,7 @@ interface FloatingBadgeProps {
   className?: string;
 }
 
-export function FloatingBadge({ icon: Icon, label, className }: FloatingBadgeProps) {
+export function FloatingBadge({ icon: Icon, label, className }: Readonly<FloatingBadgeProps>) {
   return (
     <div
       className={cn(

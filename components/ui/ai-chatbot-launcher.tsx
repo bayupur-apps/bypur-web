@@ -20,7 +20,7 @@ export function AIChatbotLauncher({
   showChat = true,
   onOpen,
   onScrollTop,
-}: AIChatbotLauncherProps) {
+}: Readonly<AIChatbotLauncherProps>) {
   return (
     <div className="fixed bottom-[calc(1rem+env(safe-area-inset-bottom))] right-4 z-50 flex flex-col items-end gap-2.5 md:bottom-6 md:right-6">
       <AnimatePresence>

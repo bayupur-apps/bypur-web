@@ -38,7 +38,7 @@ const METHOD_COLORS: Record<ProjectEndpoint["method"], { badge: string; text: st
   },
 };
 
-export function ProjectApiConsole({ endpoints }: ProjectApiConsoleProps) {
+export function ProjectApiConsole({ endpoints }: Readonly<ProjectApiConsoleProps>) {
   const [selectedIdx, setSelectedIdx] = useState(0);
   const { copied, copy } = useCopyToClipboard();
 

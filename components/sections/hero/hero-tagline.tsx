@@ -5,7 +5,7 @@ interface HeroTaglineProps {
   highlight?: string;
 }
 
-export function HeroTagline({ tagline, highlight }: HeroTaglineProps) {
+export function HeroTagline({ tagline, highlight }: Readonly<HeroTaglineProps>) {
   if (!highlight) return tagline;
 
   const parts = tagline.split(new RegExp(`(${escapeRegExp(highlight)})`, "i"));

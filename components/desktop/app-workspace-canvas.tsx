@@ -12,7 +12,7 @@ interface AppWorkspaceCanvasProps {
   activeView: string;
 }
 
-export function AppWorkspaceCanvas({ activeView }: AppWorkspaceCanvasProps) {
+export function AppWorkspaceCanvas({ activeView }: Readonly<AppWorkspaceCanvasProps>) {
   return (
     <main
       id="main-content"

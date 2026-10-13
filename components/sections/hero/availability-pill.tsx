@@ -5,7 +5,7 @@ interface AvailabilityPillProps {
   className?: string;
 }
 
-export function AvailabilityPill({ label, className }: AvailabilityPillProps) {
+export function AvailabilityPill({ label, className }: Readonly<AvailabilityPillProps>) {
   return (
     <span
       className={cn(

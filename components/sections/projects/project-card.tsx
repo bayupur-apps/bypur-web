@@ -12,7 +12,7 @@ interface ProjectCardProps {
 
 const VISIBLE_TECH = 3;
 
-export function ProjectCard({ project, index, onOpenSpecs }: ProjectCardProps) {
+export function ProjectCard({ project, index, onOpenSpecs }: Readonly<ProjectCardProps>) {
   const systemCode = `SYS-${String(index + 1).padStart(2, "0")}`;
   const highlight = project.architectureHighlights?.[0];
   const extraTech = project.techStack.length - VISIBLE_TECH;

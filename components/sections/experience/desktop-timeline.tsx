@@ -21,7 +21,7 @@ export function DesktopTimeline({
   experiences,
   selectedId,
   onSelect,
-}: DesktopTimelineProps) {
+}: Readonly<DesktopTimelineProps>) {
   const tabsRef = useRef<(HTMLButtonElement | null)[]>([]);
 
   const handleKeyDown = (

@@ -7,7 +7,7 @@ interface AvatarSectionProps {
   mobileStats: MobileStat[];
 }
 
-export function AvatarSection({ profileData, mobileStats }: AvatarSectionProps) {
+export function AvatarSection({ profileData, mobileStats }: Readonly<AvatarSectionProps>) {
   return (
     // CSS-only entrance so the avatar (often the LCP image) isn't held back
     // until framer-motion hydrates.

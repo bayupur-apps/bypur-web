@@ -15,7 +15,7 @@ interface ProjectSpecTabsProps {
 
 type TabKey = "overview" | "api" | "tech";
 
-export function ProjectSpecTabs({ project }: ProjectSpecTabsProps) {
+export function ProjectSpecTabs({ project }: Readonly<ProjectSpecTabsProps>) {
   const [activeTab, setActiveTab] = useState<TabKey>("overview");
 
   const tabs: { key: TabKey; label: string; icon: typeof Server; count?: number }[] = [

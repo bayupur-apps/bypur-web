@@ -29,10 +29,10 @@ interface SkillBentoMatrixProps {
 function SkillIconRenderer({
   skill,
   className,
-}: {
+}: Readonly<{
   skill: Skill;
   className?: string;
-}) {
+}>) {
   if (skill.icon) {
     return (
       <div className={cn("relative h-3.5 w-3.5 shrink-0", className)}>
@@ -91,7 +91,7 @@ const isServerArchSkill = (s: Skill) =>
   (s.category === "backend" && !isDataInfraSkill(s)) ||
   ["clean code", "system design"].includes(s.name.toLowerCase());
 
-export function SkillBentoMatrix({ skills }: SkillBentoMatrixProps) {
+export function SkillBentoMatrix({ skills }: Readonly<SkillBentoMatrixProps>) {
   const { projects } = usePortfolio();
   const [selectedSkill, setSelectedSkill] = useState<string | null>("Next.js");
 

@@ -30,7 +30,7 @@ const options: { id: Treatment; name: string; description: string }[] = [
   },
 ];
 
-function PhotoPreview({ treatment, theme }: PhotoPreviewProps) {
+function PhotoPreview({ treatment, theme }: Readonly<PhotoPreviewProps>) {
   const isDark = theme === "dark";
   const photoClassName =
     treatment === "circle"

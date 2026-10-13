@@ -29,7 +29,7 @@ interface ContentSectionProps {
 export function ContentSection({
   profileData,
   tagline,
-}: ContentSectionProps) {
+}: Readonly<ContentSectionProps>) {
   const shortBio = getShortBio(profileData.bio);
 
   return (

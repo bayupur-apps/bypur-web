@@ -31,7 +31,7 @@ interface ParallaxLayerProps {
 }
 
 /** Shifts its children with the pointer by `depth` px. */
-export function ParallaxLayer({ x, y, depth, children }: ParallaxLayerProps) {
+export function ParallaxLayer({ x, y, depth, children }: Readonly<ParallaxLayerProps>) {
   const tx = useTransform(x, (v) => v * depth);
   const ty = useTransform(y, (v) => v * depth);
   return <motion.div style={{ x: tx, y: ty }}>{children}</motion.div>;
@@ -52,7 +52,7 @@ const BADGES: BadgeSpec[] = [
   { position: "bottom-2 -right-8 lg:-right-12 animate-float-slow", depth: 10, quadrant: "bottom-right" },
 ];
 
-function DiagonalConnector({ quadrant }: { quadrant: ConnectorQuadrant }) {
+function DiagonalConnector({ quadrant }: Readonly<{ quadrant: ConnectorQuadrant }>) {
   if (quadrant === "top-left") {
     return (
       <svg
@@ -142,7 +142,7 @@ interface FloatingBadgesProps {
   y: MotionValue<number>;
 }
 
-export function FloatingBadges({ highlights, x, y }: FloatingBadgesProps) {
+export function FloatingBadges({ highlights, x, y }: Readonly<FloatingBadgesProps>) {
   if (!highlights || highlights.length === 0) return null;
 
   return (

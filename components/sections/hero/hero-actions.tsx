@@ -13,7 +13,7 @@ interface HeroActionsProps {
 const PROFESSIONAL_SOCIALS = new Set(["GitHub", "LinkedIn"]);
 
 /** The configured hero CTAs, optional CV download, and GitHub/LinkedIn links. */
-export function HeroActions({ profileData, className }: HeroActionsProps) {
+export function HeroActions({ profileData, className }: Readonly<HeroActionsProps>) {
   const primary = profileData.cta?.primary;
   const secondary = profileData.cta?.secondary;
   const showCv = profileData.isCvVisible !== false && Boolean(profileData.resumeUrl);

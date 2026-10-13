@@ -24,7 +24,7 @@ export function Button({
   size = "md",
   className,
   disabled = false,
-}: ButtonProps) {
+}: Readonly<ButtonProps>) {
   const baseStyles =
     "inline-flex items-center justify-center gap-1.5 rounded-lg font-medium transition-all disabled:opacity-50 disabled:cursor-not-allowed";
 

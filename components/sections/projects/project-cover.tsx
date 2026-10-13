@@ -12,7 +12,7 @@ const PALETTES = [
   "from-accent/20 via-secondary/20 to-secondary/35 dark:from-accent/40 dark:via-transparent dark:to-secondary/25",
 ];
 
-function Glyph({ icon }: { icon: SkillIcon }) {
+function Glyph({ icon }: Readonly<{ icon: SkillIcon }>) {
   if (icon.kind === "lucide") {
     const Icon = icon.icon;
     return <Icon size={22} strokeWidth={1.75} aria-hidden="true" />;
@@ -25,7 +25,7 @@ function Glyph({ icon }: { icon: SkillIcon }) {
 }
 
 /** Stand-in cover built from the project's own stack when there's no screenshot. */
-function GeneratedCover({ project }: { project: Project }) {
+function GeneratedCover({ project }: Readonly<{ project: Project }>) {
   const logos = project.techStack
     .map((tech) => ({ tech, icon: findSkillIcon(tech) }))
     .filter((t): t is { tech: string; icon: SkillIcon } => Boolean(t.icon))
@@ -70,7 +70,7 @@ function GeneratedCover({ project }: { project: Project }) {
   );
 }
 
-export function ProjectCover({ project }: { project: Project }) {
+export function ProjectCover({ project }: Readonly<{ project: Project }>) {
   if (hasRealImage(project.imageUrl)) {
     return (
       <Image

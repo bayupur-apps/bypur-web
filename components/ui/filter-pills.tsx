@@ -14,7 +14,7 @@ interface FilterPillsProps<T extends string> {
   className?: string;
 }
 
-export function FilterPills<T extends string>({ options, value, onChange, ariaLabel, className }: FilterPillsProps<T>) {
+export function FilterPills<T extends string>({ options, value, onChange, ariaLabel, className }: Readonly<FilterPillsProps<T>>) {
   return (
     <div
       className={cn(

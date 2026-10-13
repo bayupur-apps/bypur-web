@@ -173,7 +173,7 @@ export function renderMessageContent(content: string) {
   return nodes;
 }
 
-export function AIChatbot({ enabled = true }: { enabled?: boolean }) {
+export function AIChatbot({ enabled = true }: Readonly<{ enabled?: boolean }>) {
   const [isOpen, setIsOpen] = useState(false);
   const [messages, setMessages] = useState<Message[]>([WELCOME_MESSAGE]);
   const [input, setInput] = useState("");

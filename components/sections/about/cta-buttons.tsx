@@ -9,7 +9,7 @@ interface CTAButtonsProps {
   isCvVisible?: boolean;
 }
 
-export function CTAButtons({ cta, secondaryText, resumeUrl, isCvVisible = true }: CTAButtonsProps) {
+export function CTAButtons({ cta, secondaryText, resumeUrl, isCvVisible = true }: Readonly<CTAButtonsProps>) {
   // Hero already leads with "view my work"; after the story, the natural
   // next step is to start a conversation.
   const primary = cta?.secondary ?? cta?.primary;

@@ -12,7 +12,7 @@ interface DesktopAvatarProps {
 
 const SPRING = { stiffness: 120, damping: 20, mass: 0.4 };
 
-export function DesktopAvatar({ profileData }: DesktopAvatarProps) {
+export function DesktopAvatar({ profileData }: Readonly<DesktopAvatarProps>) {
   const reduceMotion = useReducedMotion();
 
   // Pointer position relative to the avatar box, normalised to -0.5..0.5.

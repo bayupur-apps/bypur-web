@@ -7,7 +7,7 @@ interface TechChipProps {
 }
 
 /** Tech chip with logo and monospace label for Neumorphic Tech Blueprint. */
-export function TechChip({ name, className }: TechChipProps) {
+export function TechChip({ name, className }: Readonly<TechChipProps>) {
   const icon = findSkillIcon(name);
 
   return (

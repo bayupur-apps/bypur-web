@@ -16,7 +16,7 @@ const sizeMap: Record<PortraitSize, { width: string; sizes: string }> = {
   lg: { width: "w-72 sm:w-80 xl:w-[21.5rem]", sizes: "(max-width: 1280px) 320px, 344px" },
 };
 
-export function HeroPortrait({ src, alt, size = "lg", priority = false, className }: HeroPortraitProps) {
+export function HeroPortrait({ src, alt, size = "lg", priority = false, className }: Readonly<HeroPortraitProps>) {
   const { width, sizes } = sizeMap[size];
 
   return (

@@ -22,7 +22,7 @@ export function companyInitials(company: string) {
     .join("");
 }
 
-export function ExperienceDetail({ experience }: ExperienceDetailProps) {
+export function ExperienceDetail({ experience }: Readonly<ExperienceDetailProps>) {
   const duration = formatDuration(experience.period);
 
   return (

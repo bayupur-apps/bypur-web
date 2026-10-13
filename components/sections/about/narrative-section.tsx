@@ -5,7 +5,7 @@ interface NarrativeSectionProps {
   profileData: Profile;
 }
 
-export function NarrativeSection({ profileData }: NarrativeSectionProps) {
+export function NarrativeSection({ profileData }: Readonly<NarrativeSectionProps>) {
   // Dedicated About copy when the CMS provides it; otherwise the full bio
   // (Hero only shows its first two sentences, so this isn't a repeat).
   const story = profileData.about?.description || profileData.bio;

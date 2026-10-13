@@ -12,7 +12,7 @@ interface MobileHeroProps {
   tagline: string;
 }
 
-export function MobileHero({ profileData, tagline }: MobileHeroProps) {
+export function MobileHero({ profileData, tagline }: Readonly<MobileHeroProps>) {
   return (
     <div className="flex flex-col items-center text-center gap-3 sm:gap-4 py-1 select-none animate-fade-in max-w-md mx-auto">
       {/* 00: Engineering Status Indicator */}

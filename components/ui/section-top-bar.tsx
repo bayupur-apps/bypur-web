@@ -17,7 +17,7 @@ export function SectionTopBar({
   subtitle,
   secondaryBadge,
   className,
-}: SectionTopBarProps) {
+}: Readonly<SectionTopBarProps>) {
   return (
     <div
       className={cn(

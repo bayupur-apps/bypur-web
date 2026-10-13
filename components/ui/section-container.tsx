@@ -17,7 +17,7 @@ export function SectionContainer({
   innerClassName,
   variant = "default",
   background = "default",
-}: SectionContainerProps) {
+}: Readonly<SectionContainerProps>) {
   const variantStyles = {
     default: "w-full py-2 sm:py-4",
     hero: "w-full flex flex-col justify-center py-2 sm:py-4",

@@ -14,7 +14,7 @@ interface MobileTimelineProps {
 
 const COLLAPSED_BULLETS = 3;
 
-function MobileExperienceCard({ exp }: { exp: Experience }) {
+function MobileExperienceCard({ exp }: Readonly<{ exp: Experience }>) {
   const [expanded, setExpanded] = useState(false);
   const duration = formatDuration(exp.period);
   const bullets = expanded ? exp.description : exp.description.slice(0, COLLAPSED_BULLETS);
@@ -102,7 +102,7 @@ function MobileExperienceCard({ exp }: { exp: Experience }) {
   );
 }
 
-export function MobileTimeline({ experiences }: MobileTimelineProps) {
+export function MobileTimeline({ experiences }: Readonly<MobileTimelineProps>) {
   return (
     <ol className="relative mx-auto mt-2.5 max-w-2xl lg:hidden pl-5 border-l-2 border-border/80 ml-2.5 space-y-3.5">
       {experiences.map((exp, i) => (

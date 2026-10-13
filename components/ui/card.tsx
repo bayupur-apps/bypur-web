@@ -7,7 +7,7 @@ interface CardProps {
   className?: string;
 }
 
-export function Card({ children, variant = "default", className }: CardProps) {
+export function Card({ children, variant = "default", className }: Readonly<CardProps>) {
   const variants = {
     default: "rounded-xl border border-border glass p-5",
     interactive:

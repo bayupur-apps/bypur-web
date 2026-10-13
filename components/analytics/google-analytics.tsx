@@ -6,7 +6,7 @@ interface GoogleAnalyticsProps {
   gaId?: string;
 }
 
-export function GoogleAnalytics({ gaId }: GoogleAnalyticsProps) {
+export function GoogleAnalytics({ gaId }: Readonly<GoogleAnalyticsProps>) {
   if (!gaId) return null;
 
   return (

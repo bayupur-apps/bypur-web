@@ -11,7 +11,7 @@ if (typeof window !== "undefined" && process.env.NODE_ENV === "development") {
   };
 }
 
-export function ThemeProvider({ children }: { children: ReactNode }) {
+export function ThemeProvider({ children }: Readonly<{ children: ReactNode }>) {
   return (
     <NextThemesProvider 
       attribute="class" 

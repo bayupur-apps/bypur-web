@@ -16,7 +16,7 @@ const ICON_MAP: Record<string, LucideIcon> = {
   "ti-world": Globe,
 };
 
-export function MobileStatsGrid({ stats }: MobileStatsGridProps) {
+export function MobileStatsGrid({ stats }: Readonly<MobileStatsGridProps>) {
   return (
     <div className="grid grid-cols-2 gap-2">
       {stats.map((stat) => {

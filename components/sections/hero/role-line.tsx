@@ -10,7 +10,7 @@ interface RoleLineProps {
   className?: string;
 }
 
-export function RoleLine({ profileData, className }: RoleLineProps) {
+export function RoleLine({ profileData, className }: Readonly<RoleLineProps>) {
   const roles = profileData.roles ?? [];
   const [roleIndex, setRoleIndex] = useState(0);
   const prefersReducedMotion = useReducedMotion();

@@ -8,7 +8,7 @@ interface SectionHeaderProps {
   className?: string;
 }
 
-export function SectionHeader({ label, title, description, className }: SectionHeaderProps) {
+export function SectionHeader({ label, title, description, className }: Readonly<SectionHeaderProps>) {
   return (
     <div className={cn("", className)}>
       <span className="mono-label">{label}</span>
