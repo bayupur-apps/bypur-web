@@ -104,6 +104,8 @@ export default async function RootLayout({
     },
   };
 
+  const gaMeasurementId = env.gaMeasurementId || settingsMap.ga_measurement_id || "";
+
   return (
     <html
       lang="en"
@@ -111,7 +113,7 @@ export default async function RootLayout({
       className={`${fontPlusJakartaSans.variable} ${fontJetBrainsMono.variable} h-full antialiased`}
     >
       <body className="min-h-full flex flex-col">
-        <GoogleAnalytics gaId={env.gaMeasurementId} />
+        {gaMeasurementId ? <GoogleAnalytics gaId={gaMeasurementId} /> : null}
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{

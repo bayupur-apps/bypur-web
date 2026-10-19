@@ -1,6 +1,4 @@
-"use client";
-
-import Script from "next/script";
+import { GoogleAnalytics as NextGoogleAnalytics } from "@next/third-parties/google";
 
 interface GoogleAnalyticsProps {
   gaId?: string;
@@ -9,22 +7,5 @@ interface GoogleAnalyticsProps {
 export function GoogleAnalytics({ gaId }: Readonly<GoogleAnalyticsProps>) {
   if (!gaId) return null;
 
-  return (
-    <>
-      <Script
-        src={`https://www.googletagmanager.com/gtag/js?id=${gaId}`}
-        strategy="afterInteractive"
-      />
-      <Script id="google-analytics" strategy="afterInteractive">
-        {`
-          window.dataLayer = window.dataLayer || [];
-          function gtag(){dataLayer.push(arguments);}
-          gtag('js', new Date());
-          gtag('config', '${gaId}', {
-            page_path: window.location.pathname,
-          });
-        `}
-      </Script>
-    </>
-  );
+  return <NextGoogleAnalytics gaId={gaId} />;
 }
