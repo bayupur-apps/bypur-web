@@ -6,8 +6,13 @@ import { AvailabilityPill } from "@/components/ui/availability-pill";
 import type { Profile } from "@/lib/types";
 
 const getShortBio = (bio: string) => {
+  if (!bio) return "";
   const sentences = bio.match(/[^.!?]+[.!?]+/g);
-  return sentences?.slice(0, 2).join(" ").trim() || bio;
+  if (!sentences || sentences.length <= 2) return bio;
+
+  const firstSentence = sentences[0].trim();
+  const limit = firstSentence.length < 25 ? 3 : 2;
+  return sentences.slice(0, limit).join(" ").trim();
 };
 
 // Entrance runs as a pure CSS animation (no JS), staggered per row. The
