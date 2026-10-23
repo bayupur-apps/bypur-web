@@ -1,6 +1,6 @@
 "use client";
 
-import { ArrowUpRight, Code2, Lock, Maximize2, Sparkles } from "lucide-react";
+import { ArrowUpRight, Code2, Lock, Maximize2, Sparkles, Images } from "lucide-react";
 import type { Project } from "@/lib/types";
 import { ProjectCover } from "./project-cover";
 
@@ -16,6 +16,7 @@ export function ProjectCard({ project, index, onOpenSpecs }: Readonly<ProjectCar
   const systemCode = `SYS-${String(index + 1).padStart(2, "0")}`;
   const highlight = project.architectureHighlights?.[0];
   const extraTech = project.techStack.length - VISIBLE_TECH;
+  const photoCount = (project.images ?? project.gallery)?.length ?? (project.imageUrl ? 1 : 0);
 
   return (
     <article className="group relative flex h-full flex-col overflow-hidden rounded-xl border border-border/70 bg-bg-card transition-all duration-200 hover:-translate-y-0.5 hover:border-accent/40 hover:shadow-sm">
@@ -37,6 +38,12 @@ export function ProjectCard({ project, index, onOpenSpecs }: Readonly<ProjectCar
           {project.endpoints && project.endpoints.length > 0 && (
             <span className="hidden sm:inline-flex rounded-md border border-border/50 bg-bg/90 px-2 py-0.5 font-mono text-[9px] text-text-3 backdrop-blur-xs">
               {project.endpoints.length} EP
+            </span>
+          )}
+          {photoCount > 1 && (
+            <span className="hidden sm:inline-flex items-center gap-1 rounded-md border border-border/50 bg-bg/90 px-2 py-0.5 font-mono text-[9px] text-text-3 backdrop-blur-xs">
+              <Images size={9} aria-hidden="true" />
+              {photoCount} Photos
             </span>
           )}
         </div>

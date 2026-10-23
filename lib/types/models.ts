@@ -15,6 +15,8 @@ export interface Project {
   content?: string;
   techStack: string[];
   imageUrl?: string;
+  images?: string[];
+  gallery?: string[];
   liveUrl?: string;
   repoUrl?: string;
   featured?: boolean;

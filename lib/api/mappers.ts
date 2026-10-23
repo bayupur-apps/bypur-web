@@ -91,6 +91,8 @@ export interface BackendProject {
   content?: string | null;
   techStack: string; // JSON array string, e.g. '["Go","React"]'
   image?: string | null;
+  images?: string[] | string | null;
+  gallery?: string[] | string | null;
   url?: string | null;
   github?: string | null;
   featured: boolean;
@@ -277,13 +279,55 @@ export function mapCertificate(c: BackendCertificate): Certificate {
 }
 
 export function mapProject(p: BackendProject): Project {
+  // Parse multiple gallery images if provided as array, JSON string, or comma-separated
+  let images: string[] = [];
+  const rawList = p.images ?? p.gallery;
+  if (Array.isArray(rawList)) {
+    images = rawList.filter(Boolean);
+  } else if (typeof rawList === "string" && rawList.trim()) {
+    const trimmed = rawList.trim();
+    if (trimmed.startsWith("[")) {
+      try {
+        const parsed = JSON.parse(trimmed);
+        if (Array.isArray(parsed)) {
+          images = parsed.map(String).filter(Boolean);
+        }
+      } catch {
+        images = [trimmed];
+      }
+    } else {
+      images = trimmed.split(",").map((s) => s.trim()).filter(Boolean);
+    }
+  }
+
+  // If images empty but p.image is a JSON array string, parse that
+  if (images.length === 0 && p.image) {
+    const rawImg = p.image.trim();
+    if (rawImg.startsWith("[")) {
+      try {
+        const parsed = JSON.parse(rawImg);
+        if (Array.isArray(parsed)) {
+          images = parsed.map(String).filter(Boolean);
+        }
+      } catch {
+        images = [rawImg];
+      }
+    } else {
+      images = [rawImg];
+    }
+  }
+
+  const primaryImage = images[0] || (p.image ?? undefined);
+
   return {
     id: p.id,
     title: p.title,
     description: p.description,
     content: p.content ?? undefined,
     techStack: parseJsonStringArray(p.techStack),
-    imageUrl: p.image ?? undefined,
+    imageUrl: primaryImage,
+    images: images.length > 0 ? images : undefined,
+    gallery: images.length > 0 ? images : undefined,
     liveUrl: p.url ?? undefined,
     repoUrl: p.github ?? undefined,
     featured: p.featured,
