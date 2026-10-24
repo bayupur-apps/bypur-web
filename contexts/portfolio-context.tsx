@@ -17,6 +17,7 @@ export interface PortfolioData {
   experiences: Experience[];
   projects: Project[];
   certificates: Certificate[];
+  settings?: Record<string, string>;
 }
 
 interface PortfolioContextType extends PortfolioData {

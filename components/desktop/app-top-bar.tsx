@@ -6,8 +6,19 @@ import { usePortfolio } from "@/contexts/portfolio-context";
 import { Mail, ArrowUpRight } from "lucide-react";
 
 export function AppTopBar() {
-  const { profile } = usePortfolio();
+  const { profile, settings } = usePortfolio();
   const [time, setTime] = useState<string>("");
+
+  const displayName = settings?.site_name || profile.name || "Bayu Purnomo";
+  const displayTagline = settings?.site_tagline || profile.title;
+  const displayEmail = settings?.owner_email || profile.email;
+  const initials = displayName
+    .split(" ")
+    .map((w) => w[0])
+    .filter(Boolean)
+    .slice(0, 2)
+    .join("")
+    .toUpperCase() || "BP";
 
   useEffect(() => {
     const updateTime = () => {
@@ -31,15 +42,15 @@ export function AppTopBar() {
         {/* LEFT: Brand Identity Monogram & Title */}
         <div className="flex min-w-0 items-center gap-2 sm:gap-3">
           <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-accent text-accent-fg font-bold text-xs tracking-wider shadow-xs">
-            BP
+            {initials}
           </div>
           <div className="flex min-w-0 flex-col">
             <span className="truncate text-xs font-bold tracking-tight text-text-1">
-              {profile.name || "Bayu Purnomo"}
+              {displayName}
             </span>
-            {profile.title && (
-              <span className="max-w-[180px] truncate text-[11px] text-text-3">
-                {profile.title}
+            {displayTagline && (
+              <span className="max-w-[200px] truncate text-[11px] text-text-3">
+                {displayTagline}
               </span>
             )}
           </div>
@@ -54,9 +65,9 @@ export function AppTopBar() {
             </div>
           )}
 
-          {profile.email && (
+          {displayEmail && (
             <a
-              href={`mailto:${profile.email}`}
+              href={`mailto:${displayEmail}`}
               className="inline-flex items-center gap-1.5 rounded-lg border border-border/70 bg-bg-subtle/50 px-3 py-1.5 text-xs font-medium text-text-2 transition-all hover:border-accent/40 hover:text-accent hover:-translate-y-0.5"
             >
               <Mail size={13} className="text-accent" />

@@ -33,8 +33,16 @@ const PROJECT_TYPES = [
 ];
 
 export default function ContactSection() {
-  const { profile: profileData } = usePortfolio();
+  const { profile: profileData, settings } = usePortfolio();
   const { copied, copy } = useCopyToClipboard();
+
+  const effectiveEmail = settings?.owner_email || profileData.email;
+  const effectiveWhatsapp = settings?.social_whatsapp || profileData.socials.whatsapp;
+  const effectiveGithub = settings?.social_github || profileData.socials.github;
+  const effectiveLinkedin = settings?.social_linkedin || profileData.socials.linkedin;
+  const effectiveInstagram = settings?.social_instagram || profileData.socials.instagram;
+  const effectiveTwitter = settings?.social_twitter || profileData.socials.twitter;
+  const effectiveYoutube = settings?.social_youtube;
 
   const [time, setTime] = useState<string>("");
   useEffect(() => {
@@ -111,7 +119,7 @@ export default function ContactSection() {
       setErrorMessage(
         err instanceof Error && err.message
           ? err.message
-          : `Direct transmission failed. Please email ${profileData.email} directly.`
+          : `Direct transmission failed. Please email ${effectiveEmail} directly.`
       );
     }
   }
@@ -397,16 +405,16 @@ export default function ContactSection() {
                       Email Direct (Primary)
                     </span>
                     <a
-                      href={`mailto:${profileData.email}`}
+                      href={`mailto:${effectiveEmail}`}
                       className="block truncate text-xs font-semibold text-text-1 group-hover:text-accent transition-colors"
                     >
-                      {profileData.email}
+                      {effectiveEmail}
                     </a>
                   </div>
                 </div>
                 <button
                   type="button"
-                  onClick={() => copy(profileData.email)}
+                  onClick={() => copy(effectiveEmail)}
                   aria-label={copied ? "Copied" : "Copy email address"}
                   className="flex h-7 w-7 shrink-0 items-center justify-center rounded-lg text-text-3 transition-colors hover:text-text-1 hover:bg-bg-card active:scale-95 cursor-pointer"
                 >
@@ -415,7 +423,7 @@ export default function ContactSection() {
               </div>
 
               {/* WhatsApp Hotline */}
-              {profileData.socials.whatsapp && (
+              {effectiveWhatsapp && (
                 <div className="group flex items-center justify-between gap-2 rounded-lg border border-border/50 bg-bg-subtle/40 p-2.5 transition-all duration-150 hover:border-accent/40">
                   <div className="flex items-center gap-2.5 min-w-0">
                     <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-bg-card text-success border border-border/40">
@@ -426,12 +434,16 @@ export default function ContactSection() {
                         Instant WhatsApp
                       </span>
                       <span className="block truncate text-xs font-semibold text-text-1">
-                        {profileData.phone || "+62 881 2785 635"}
+                        {effectiveWhatsapp}
                       </span>
                     </div>
                   </div>
                   <a
-                    href={profileData.socials.whatsapp}
+                    href={
+                      effectiveWhatsapp.startsWith("http")
+                        ? effectiveWhatsapp
+                        : `https://wa.me/${effectiveWhatsapp.replace(/\D/g, "")}`
+                    }
                     target="_blank"
                     rel="noopener noreferrer"
                     aria-label="Chat on WhatsApp"
@@ -467,9 +479,9 @@ export default function ContactSection() {
           {/* Developer Networks Footer */}
           <div className="pt-2 border-t border-border/50 flex flex-col gap-2">
             <div className="grid grid-cols-2 gap-1.5">
-              {profileData.socials.github && (
+              {effectiveGithub && (
                 <a
-                  href={normalizeExternalUrl(profileData.socials.github)}
+                  href={normalizeExternalUrl(effectiveGithub)}
                   target="_blank"
                   rel="noopener noreferrer"
                   aria-label="GitHub Profile"
@@ -485,9 +497,9 @@ export default function ContactSection() {
                 </a>
               )}
 
-              {profileData.socials.linkedin && (
+              {effectiveLinkedin && (
                 <a
-                  href={normalizeExternalUrl(profileData.socials.linkedin)}
+                  href={normalizeExternalUrl(effectiveLinkedin)}
                   target="_blank"
                   rel="noopener noreferrer"
                   aria-label="LinkedIn Profile"
@@ -498,6 +510,60 @@ export default function ContactSection() {
                       <path d={SOCIAL_SVG_PATHS.linkedin} />
                     </svg>
                     <span>LinkedIn</span>
+                  </div>
+                  <ArrowUpRight size={12} className="text-text-3" />
+                </a>
+              )}
+
+              {effectiveInstagram && (
+                <a
+                  href={normalizeExternalUrl(effectiveInstagram)}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  aria-label="Instagram Profile"
+                  className="flex items-center justify-between gap-1.5 rounded-lg border border-border/50 bg-bg-subtle/40 px-3 py-1.5 text-xs font-semibold text-text-2 transition-all hover:text-text-1 hover:border-accent/40 active:scale-95"
+                >
+                  <div className="flex items-center gap-1.5">
+                    <svg viewBox="0 0 24 24" fill="currentColor" className="h-3.5 w-3.5 text-accent">
+                      <path d={SOCIAL_SVG_PATHS.instagram} />
+                    </svg>
+                    <span>Instagram</span>
+                  </div>
+                  <ArrowUpRight size={12} className="text-text-3" />
+                </a>
+              )}
+
+              {effectiveTwitter && (
+                <a
+                  href={normalizeExternalUrl(effectiveTwitter)}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  aria-label="Twitter Profile"
+                  className="flex items-center justify-between gap-1.5 rounded-lg border border-border/50 bg-bg-subtle/40 px-3 py-1.5 text-xs font-semibold text-text-2 transition-all hover:text-text-1 hover:border-accent/40 active:scale-95"
+                >
+                  <div className="flex items-center gap-1.5">
+                    <svg viewBox="0 0 24 24" fill="currentColor" className="h-3.5 w-3.5 text-accent">
+                      <path d={SOCIAL_SVG_PATHS.twitter} />
+                    </svg>
+                    <span>Twitter/X</span>
+                  </div>
+                  <ArrowUpRight size={12} className="text-text-3" />
+                </a>
+              )}
+
+              {effectiveYoutube && (
+                <a
+                  href={normalizeExternalUrl(effectiveYoutube)}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  aria-label="YouTube Channel"
+                  className="flex items-center justify-between gap-1.5 rounded-lg border border-border/50 bg-bg-subtle/40 px-3 py-1.5 text-xs font-semibold text-text-2 transition-all hover:text-text-1 hover:border-accent/40 active:scale-95"
+                >
+                  <div className="flex items-center gap-1.5">
+                    <svg viewBox="0 0 24 24" fill="currentColor" className="h-3.5 w-3.5 text-accent">
+                      <path d={SOCIAL_SVG_PATHS.youtube} />
+                    </svg>
+                    <span>YouTube</span>
                   </div>
                   <ArrowUpRight size={12} className="text-text-3" />
                 </a>

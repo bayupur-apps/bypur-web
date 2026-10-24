@@ -21,13 +21,25 @@ const siteUrl = "https://bypur.my.id";
 const ogImage = "/opengraph-image";
 
 export async function generateMetadata(): Promise<Metadata> {
-  const profile = await getProfile();
-  const siteTitle = `${profile.name} - ${profile.title}`;
+  const [profile, settingsMap] = await Promise.all([
+    getProfile(),
+    getSettingsMap(),
+  ]);
+
+  const siteTitle = settingsMap.seo_meta_title || `${profile.name} - ${profile.title}`;
+  const siteDescription = settingsMap.seo_meta_description || profile.bio;
+  const siteKeywords = settingsMap.seo_meta_keywords
+    ? settingsMap.seo_meta_keywords.split(",").map((k) => k.trim()).filter(Boolean)
+    : [profile.name, profile.title, ...(profile.roles || []), "Portfolio"];
+  const ogImageUrl = settingsMap.seo_og_image || ogImage;
+  const enableIndexing = settingsMap.seo_enable_indexing !== "false";
+  const gscToken = settingsMap.seo_gsc_token || undefined;
+  const siteName = settingsMap.site_name || `${profile.name} Portfolio`;
 
   return {
     title: siteTitle,
-    description: profile.bio,
-    keywords: [profile.name, profile.title, ...(profile.roles || []), "Portfolio"],
+    description: siteDescription,
+    keywords: siteKeywords,
     authors: [{ name: profile.name }],
     creator: profile.name,
     publisher: profile.name,
@@ -35,16 +47,17 @@ export async function generateMetadata(): Promise<Metadata> {
     alternates: {
       canonical: "/",
     },
+    verification: gscToken ? { google: gscToken } : undefined,
     openGraph: {
       type: "profile",
-      locale: "en_US",
+      locale: settingsMap.default_language === "en" ? "en_US" : "id_ID",
       url: siteUrl,
       title: siteTitle,
-      description: profile.bio,
-      siteName: `${profile.name} Portfolio`,
+      description: siteDescription,
+      siteName: siteName,
       images: [
         {
-          url: ogImage,
+          url: ogImageUrl,
           width: 1200,
           height: 630,
           alt: siteTitle,
@@ -54,13 +67,13 @@ export async function generateMetadata(): Promise<Metadata> {
     twitter: {
       card: "summary_large_image",
       title: siteTitle,
-      description: profile.bio,
-      creator: profile.socials.twitter ? `@${profile.socials.twitter.split("/").pop()}` : undefined,
-      images: [ogImage],
+      description: siteDescription,
+      creator: profile.socials.twitter || settingsMap.social_twitter ? `@${(settingsMap.social_twitter || profile.socials.twitter || "").split("/").pop()}` : undefined,
+      images: [ogImageUrl],
     },
     robots: {
-      index: true,
-      follow: true,
+      index: enableIndexing,
+      follow: enableIndexing,
     },
   };
 }
@@ -82,33 +95,38 @@ export default async function RootLayout({
   const jsonLd = {
     "@context": "https://schema.org",
     "@type": "ProfilePage",
-    name: `${profile.name} - ${profile.title}`,
+    name: settingsMap.site_name || `${profile.name} - ${profile.title}`,
     url: siteUrl,
     mainEntity: {
       "@type": "Person",
       name: profile.name,
-      jobTitle: profile.title,
+      jobTitle: settingsMap.site_tagline || profile.title,
       url: siteUrl,
       image: profile.avatar,
-      email: profile.email,
-      telephone: profile.phone || undefined,
+      email: settingsMap.owner_email || profile.email,
+      telephone: profile.phone || settingsMap.social_whatsapp || undefined,
       address: {
         "@type": "PostalAddress",
         addressCountry: "ID",
         addressLocality: profile.location,
       },
-      sameAs: [profile.socials.github, profile.socials.linkedin, profile.socials.instagram].filter(
-        Boolean
-      ),
+      sameAs: [
+        settingsMap.social_github || profile.socials.github,
+        settingsMap.social_linkedin || profile.socials.linkedin,
+        settingsMap.social_instagram || profile.socials.instagram,
+        settingsMap.social_twitter || profile.socials.twitter,
+        settingsMap.social_youtube,
+      ].filter(Boolean) as string[],
       knowsAbout: skills.map((s) => s.name),
     },
   };
 
   const gaMeasurementId = env.gaMeasurementId || settingsMap.ga_measurement_id || "";
+  const lang = settingsMap.default_language || "id";
 
   return (
     <html
-      lang="en"
+      lang={lang}
       suppressHydrationWarning
       className={`${fontPlusJakartaSans.variable} ${fontJetBrainsMono.variable} h-full antialiased`}
     >

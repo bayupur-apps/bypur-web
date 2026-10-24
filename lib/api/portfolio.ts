@@ -126,13 +126,14 @@ function withDerivedHeroStats(
 
 /** Get all portfolio data (parallel fetch) */
 export async function getAllPortfolioData() {
-  const [profile, services, skills, experiences, projects, certificates] = await Promise.all([
+  const [profile, services, skills, experiences, projects, certificates, settings] = await Promise.all([
     getProfile(),
     getServices(),
     getSkills(),
     getExperiences(),
     getProjects(),
     getCertificates(),
+    getSettingsMap(),
   ]);
 
   const resolvedProfile =
@@ -140,7 +141,7 @@ export async function getAllPortfolioData() {
       ? withDerivedHeroStats(profile, skills, experiences, projects)
       : profile;
 
-  return { profile: resolvedProfile, services, skills, experiences, projects, certificates };
+  return { profile: resolvedProfile, services, skills, experiences, projects, certificates, settings };
 }
 
 export async function sendChatMessage(messages: { role: string; content: string }[]): Promise<string> {

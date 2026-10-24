@@ -5,14 +5,26 @@ import { SOCIAL_SVG_PATHS } from "@/lib/config/constants";
 import { normalizeExternalUrl } from "@/lib/helpers";
 
 export function AppStatusBar() {
-  const { profile } = usePortfolio();
+  const { profile, settings } = usePortfolio();
   const socials = profile.socials || {};
 
+  const effectiveGithub = settings?.social_github || socials.github;
+  const effectiveLinkedin = settings?.social_linkedin || socials.linkedin;
+  const effectiveWhatsapp = settings?.social_whatsapp || socials.whatsapp;
+  const effectiveInstagram = settings?.social_instagram || socials.instagram;
+  const effectiveTwitter = settings?.social_twitter || socials.twitter;
+  const effectiveYoutube = settings?.social_youtube;
+
   const socialLinks: { key: keyof typeof SOCIAL_SVG_PATHS; label: string; href: string }[] = [
-    ...(socials.github ? [{ key: "github" as const, label: "GitHub", href: normalizeExternalUrl(socials.github) }] : []),
-    ...(socials.linkedin ? [{ key: "linkedin" as const, label: "LinkedIn", href: normalizeExternalUrl(socials.linkedin) }] : []),
-    ...(socials.whatsapp ? [{ key: "whatsapp" as const, label: "WhatsApp", href: normalizeExternalUrl(socials.whatsapp) }] : []),
+    ...(effectiveGithub ? [{ key: "github" as const, label: "GitHub", href: normalizeExternalUrl(effectiveGithub) }] : []),
+    ...(effectiveLinkedin ? [{ key: "linkedin" as const, label: "LinkedIn", href: normalizeExternalUrl(effectiveLinkedin) }] : []),
+    ...(effectiveWhatsapp ? [{ key: "whatsapp" as const, label: "WhatsApp", href: normalizeExternalUrl(effectiveWhatsapp) }] : []),
+    ...(effectiveInstagram ? [{ key: "instagram" as const, label: "Instagram", href: normalizeExternalUrl(effectiveInstagram) }] : []),
+    ...(effectiveTwitter ? [{ key: "twitter" as const, label: "Twitter", href: normalizeExternalUrl(effectiveTwitter) }] : []),
+    ...(effectiveYoutube ? [{ key: "youtube" as const, label: "YouTube", href: normalizeExternalUrl(effectiveYoutube) }] : []),
   ];
+
+  const displayName = settings?.site_name || profile.name || "Bayu Purnomo";
 
   return (
     <div className="relative z-30 hidden md:block w-full shrink-0 pb-2 pt-1">
@@ -20,7 +32,7 @@ export function AppStatusBar() {
         {/* LEFT: Copyright & Tech Stack */}
         <div className="flex items-center gap-2.5">
           <span className="font-medium text-text-2 text-[11px]">
-            &copy; {new Date().getFullYear()} {profile.name || "Bayu Purnomo"}
+            &copy; {new Date().getFullYear()} {displayName}
           </span>
           <span className="text-border">/</span>
           <span className="text-[11px] text-text-3">

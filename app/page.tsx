@@ -10,11 +10,17 @@ export default async function Home() {
     getSettingsMap(),
   ]);
 
-  const isMaintenance = settingsMap.site_maintenance_mode === "true";
+  const effectiveSettings = initialData.settings && Object.keys(initialData.settings).length > 0
+    ? initialData.settings
+    : settingsMap;
+
+  const isMaintenance = effectiveSettings.site_maintenance_mode === "true";
 
   if (isMaintenance) {
-    return <MaintenancePage profile={initialData.profile} settingsMap={settingsMap} />;
+    return <MaintenancePage profile={initialData.profile} settingsMap={effectiveSettings} />;
   }
+
+  initialData.settings = effectiveSettings;
 
   return <PortfolioPage initialData={initialData} />;
 }
