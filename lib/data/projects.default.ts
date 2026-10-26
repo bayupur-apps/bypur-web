@@ -9,17 +9,6 @@ export const projectsDefault: Project[] = [
     id: "waos",
     title: "WAOS: WhatsApp Automation Service",
     featured: true,
-    imageUrl: "/images/projects/waos-1.jpg",
-    images: [
-      "/images/projects/waos-1.jpg",
-      "/images/projects/waos-2.jpg",
-      "/images/projects/waos-3.jpg",
-    ],
-    gallery: [
-      "/images/projects/waos-1.jpg",
-      "/images/projects/waos-2.jpg",
-      "/images/projects/waos-3.jpg",
-    ],
     description:
       "Core workflow orchestration engine for an enterprise WhatsApp automation platform, covering routing, forms, approvals, and notifications.",
     content:
@@ -67,15 +56,6 @@ export const projectsDefault: Project[] = [
     id: "personal-portfolio-cms",
     title: "Personal Portfolio CMS: by.pur_",
     featured: true,
-    imageUrl: "/images/projects/cms-1.jpg",
-    images: [
-      "/images/projects/cms-1.jpg",
-      "/images/projects/cms-2.jpg",
-    ],
-    gallery: [
-      "/images/projects/cms-1.jpg",
-      "/images/projects/cms-2.jpg",
-    ],
     description:
       "Go REST API and PostgreSQL backend for the public portfolio and CMS administration console. React and TypeScript dashboard manages content, and the Next.js site presents the portfolio.",
     content:
