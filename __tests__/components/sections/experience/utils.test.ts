@@ -1,5 +1,11 @@
 // Unit Tests for Experience Section Utils
-import { calculateYearsExp, formatDuration } from "@/components/sections/experience/utils";
+import {
+  calculateYearsExp,
+  formatDuration,
+  isFreelance,
+  companyInitials,
+  getChronologicalExperiences,
+} from "@/components/sections/experience/utils";
 import type { Experience } from "@/lib/types";
 
 describe("Experience Section Utils", () => {
@@ -97,5 +103,43 @@ describe("formatDuration", () => {
   it("returns an empty string for unparsable periods", () => {
     expect(formatDuration("Sometime", now)).toBe("");
     expect(formatDuration("Q1 2024 - Q2 2024", now)).toBe("");
+  });
+});
+
+describe("isFreelance", () => {
+  it("detects freelance keywords in company name", () => {
+    expect(isFreelance("Freelance Web Developer")).toBe(true);
+    expect(isFreelance("Self-Employed")).toBe(true);
+    expect(isFreelance("Independent Consultant")).toBe(true);
+  });
+
+  it("detects freelance keywords in role name", () => {
+    expect(isFreelance("Client Projects", "Freelance Fullstack Engineer")).toBe(true);
+  });
+
+  it("returns false for regular company names", () => {
+    expect(isFreelance("Google", "Software Engineer")).toBe(false);
+    expect(isFreelance("PT Ethos Kreatif Indonesia", "Tech Lead")).toBe(false);
+  });
+});
+
+describe("companyInitials", () => {
+  it("strips common prefixes and produces two-letter monogram", () => {
+    expect(companyInitials("PT Ethos Kreatif Indonesia")).toBe("EK");
+    expect(companyInitials("CV Digital Mandiri")).toBe("DM");
+    expect(companyInitials("Google")).toBe("G");
+    expect(companyInitials("Meta Platforms Inc")).toBe("MP");
+  });
+});
+
+describe("getChronologicalExperiences", () => {
+  it("orders experiences from earliest past to latest/current", () => {
+    const raw: Partial<Experience>[] = [
+      { id: "1", period: "May 2024 - Present", isCurrent: true },
+      { id: "2", period: "Sep 2021 - Nov 2021", isCurrent: false },
+      { id: "3", period: "Jan 2022 - Present", isCurrent: false },
+    ];
+    const sorted = getChronologicalExperiences(raw as Experience[]);
+    expect(sorted.map((s) => s.id)).toEqual(["2", "3", "1"]);
   });
 });

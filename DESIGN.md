@@ -138,8 +138,8 @@ Setiap view memiliki komposisi tata letak dan interaksi yang berbeda secara visu
 - **Visual Composition**: System Registry & Selector Rail (`SYS-01` s/d `SYS-06`) di kiri; Live Architecture Blueprint stage, real problem statement, architectural highlights, dan interactive interface endpoint console (`GET`, `POST`, `WS`) di kanan.
 
 ### 04. Experience & Career Logs (`ExperienceView`)
-- **Layout Model**: Zero-Gravity Orbital Timeline Conduit & Floating Station Stage.
-- **Visual Composition**: Vertical glowing technical cyan conduit line dengan orbital station markers dan status beacon di kiri; 3D perspective floating station card dengan levitating staggered responsibilities dan tech constellation di kanan.
+- **Layout Model**: Vertical Chrono-Spine & Precision Engineering Dossier Console.
+- **Visual Composition**: Unboxed vertical timeline conduit dengan minimalist station dot nodes, active focal spring ring, and reverse-chronological progression di kiri; Asymmetric Engineering Dossier di kanan membagi identity avatar, employment metadata, and production tech matrix di sub-kolom kiri, serta indexed mission deliverables dengan natural content-driven height di sub-kolom kanan.
 
 ### 05. Verified Credentials (`CertificatesView`)
 - **Layout Model**: Compact Verification Credential Grid.

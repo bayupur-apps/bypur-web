@@ -1,5 +1,5 @@
 import { profileDataDefault } from "@/lib/data/profile.default";
-import { mapProfile, type BackendProfile } from "@/lib/api/mappers";
+import { mapProfile, mapExperience, type BackendProfile, type BackendExperience } from "@/lib/api/mappers";
 
 describe("mapProfile hero fields", () => {
   const backendProfile: BackendProfile = {
@@ -48,3 +48,36 @@ describe("mapProfile hero fields", () => {
     expect(profile.isAvailable).toBe(false);
   });
 });
+
+describe("mapExperience companyLogo", () => {
+  const baseBeExperience: BackendExperience = {
+    id: "exp-1",
+    company: "Ethos",
+    role: "Fullstack Engineer",
+    description: '["Built systems"]',
+    startDate: "2024-01-01",
+    isCurrently: true,
+  };
+
+  it("maps camelCase companyLogo correctly", () => {
+    const exp = mapExperience({
+      ...baseBeExperience,
+      companyLogo: "https://r2.bypur.my.id/logo.png",
+    });
+    expect(exp.companyLogo).toBe("https://r2.bypur.my.id/logo.png");
+  });
+
+  it("maps snake_case company_logo correctly", () => {
+    const exp = mapExperience({
+      ...baseBeExperience,
+      company_logo: "https://r2.bypur.my.id/snake_logo.png",
+    });
+    expect(exp.companyLogo).toBe("https://r2.bypur.my.id/snake_logo.png");
+  });
+
+  it("handles missing company logo gracefully", () => {
+    const exp = mapExperience(baseBeExperience);
+    expect(exp.companyLogo).toBeUndefined();
+  });
+});
+

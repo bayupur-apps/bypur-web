@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useMemo } from "react";
-import { Orbit, Compass } from "lucide-react";
+import { Briefcase } from "lucide-react";
 import { SectionContainer } from "@/components/ui/section-container";
 import { SectionTopBar } from "@/components/ui/section-top-bar";
 import { DesktopTimeline } from "./experience/desktop-timeline";
@@ -42,20 +42,16 @@ export default function ExperienceSection() {
     >
       {/* Top Header Row: Career Timeline */}
       <SectionTopBar
-        icon={Orbit}
+        icon={Briefcase}
         title={experienceConfig.title || "Career Experience & Timeline"}
-        subtitle={
-          <span className="inline-flex items-center gap-1">
-            <Compass size={11} className="text-accent" /> FULL STACK TIMELINE
-          </span>
-        }
-        badge={`${experiences.length} ROLES`}
-        className="mb-2"
+        subtitle="// TRACK RECORD & CONTRIBUTIONS"
+        badge={`${experiences.length} ${experiences.length === 1 ? "ROLE" : "ROLES"}`}
+        className="mb-3"
       />
 
-      {/* Desktop: Orbital timeline + Station detail panel (Height matched with skills matrix) */}
-      <div className="hidden lg:grid lg:grid-cols-12 gap-3.5 items-stretch lg:h-[450px] xl:h-[470px]">
-        <div className="lg:col-span-5 flex flex-col h-full min-h-0">
+      {/* Desktop: Vertical Timeline on Left + Detail Card on Right with Fixed Viewport Height */}
+      <div className="hidden lg:grid lg:grid-cols-12 gap-5 items-stretch lg:h-[455px] xl:h-[475px] w-full">
+        <div className="lg:col-span-4 xl:col-span-4 flex flex-col h-full min-h-0">
           <DesktopTimeline
             experiences={experiences}
             selectedId={activeSelectedId}
@@ -63,7 +59,7 @@ export default function ExperienceSection() {
           />
         </div>
 
-        <div className="lg:col-span-7 flex flex-col h-full min-h-0">
+        <div className="lg:col-span-8 xl:col-span-8 flex flex-col h-full min-h-0">
           <ExperienceDetail experience={selected} />
         </div>
       </div>

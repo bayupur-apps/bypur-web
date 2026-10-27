@@ -82,6 +82,8 @@ export interface BackendExperience {
   startDate: string;
   endDate?: string | null;
   isCurrently: boolean;
+  companyLogo?: string | null;
+  company_logo?: string | null;
 }
 
 export interface BackendProject {
@@ -261,6 +263,7 @@ export function mapExperience(e: BackendExperience): Experience {
     isCurrent: e.isCurrently,
     description: parseJsonStringArray(e.description),
     techStack: e.techStack ? parseJsonStringArray(e.techStack) : undefined,
+    companyLogo: e.companyLogo ?? e.company_logo ?? undefined,
   };
 }
 

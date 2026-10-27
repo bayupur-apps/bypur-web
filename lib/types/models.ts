@@ -42,6 +42,7 @@ export interface Experience {
   isCurrent?: boolean;
   description: string[];
   techStack?: string[];
+  companyLogo?: string;
 }
 
 export interface Service {
