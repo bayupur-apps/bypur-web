@@ -65,16 +65,14 @@ export function AppTopBar() {
             </div>
           )}
 
-          {displayEmail && (
-            <a
-              href={`mailto:${displayEmail}`}
-              className="inline-flex items-center gap-1.5 rounded-lg border border-border/70 bg-bg-subtle/50 px-3 py-1.5 text-xs font-medium text-text-2 transition-all hover:border-accent/40 hover:text-accent hover:-translate-y-0.5"
-            >
-              <Mail size={13} className="text-accent" />
-              <span className="hidden sm:inline">Get in Touch</span>
-              <ArrowUpRight size={12} className="text-text-3" />
-            </a>
-          )}
+          <a
+            href="#contact"
+            className="inline-flex items-center gap-1.5 rounded-lg border border-border/70 bg-bg-subtle/50 px-3 py-1.5 text-xs font-medium text-text-2 transition-all hover:border-accent/40 hover:text-accent hover:-translate-y-0.5"
+          >
+            <Mail size={13} className="text-accent" />
+            <span className="hidden sm:inline">Get in Touch</span>
+            <ArrowUpRight size={12} className="text-text-3" />
+          </a>
 
           <div className="h-4 w-px bg-border/70 hidden sm:block" />
 

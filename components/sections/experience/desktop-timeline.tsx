@@ -141,14 +141,14 @@ export function DesktopTimeline({
                 <div className="flex items-center justify-between gap-1.5">
                   <span
                     className={cn(
-                      "font-mono text-xs transition-colors",
+                      "font-mono text-[11px] transition-colors",
                       active ? "text-accent font-semibold" : "text-text-3 group-hover:text-text-2"
                     )}
                   >
                     {exp.period}
                   </span>
                   {exp.isCurrent ? (
-                    <span className="inline-flex items-center gap-1.5 rounded-md border border-accent/30 bg-accent/10 px-2 py-0.5 font-mono text-[11px] font-semibold text-accent shrink-0">
+                    <span className="inline-flex items-center gap-1 rounded-md border border-accent/30 bg-accent/10 px-1.5 py-0.2 font-mono text-[9.5px] font-semibold text-accent shrink-0">
                       <span className="h-1.5 w-1.5 rounded-full bg-accent" />
                       Current
                     </span>
@@ -158,7 +158,7 @@ export function DesktopTimeline({
                 {/* Role Title */}
                 <p
                   className={cn(
-                    "mt-1 text-sm font-bold leading-snug line-clamp-2 transition-colors",
+                    "mt-0.5 text-xs sm:text-[12.5px] font-bold leading-snug line-clamp-2 transition-colors",
                     active ? "text-text-1" : "text-text-2 group-hover:text-text-1"
                   )}
                 >
@@ -166,17 +166,17 @@ export function DesktopTimeline({
                 </p>
 
                 {/* Company Name & Duration */}
-                <div className="mt-1 flex items-baseline justify-between gap-2 font-mono text-xs text-text-3">
+                <div className="mt-0.5 flex items-baseline justify-between gap-2 font-mono text-[11px] text-text-3">
                   <span className="truncate font-medium text-text-2">
                     {exp.company}
                     {freelance && (
-                      <span className="ml-1.5 rounded bg-accent/15 px-1.5 py-0.2 font-mono text-[10px] font-bold text-accent">
+                      <span className="ml-1.5 rounded bg-accent/15 px-1 py-0.2 font-mono text-[9px] font-bold text-accent">
                         FL
                       </span>
                     )}
                   </span>
                   {duration && (
-                    <span className="shrink-0 text-[11px] text-text-3">
+                    <span className="shrink-0 text-[10px] text-text-3">
                       {duration}
                     </span>
                   )}
