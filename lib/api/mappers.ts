@@ -336,3 +336,4 @@ export function mapProject(p: BackendProject): Project {
     featured: p.featured,
   };
 }
+

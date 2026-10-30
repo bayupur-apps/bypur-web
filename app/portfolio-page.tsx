@@ -47,13 +47,18 @@ function PortfolioDesktopShell() {
     const onHashChange = () => {
       const hash = window.location.hash;
       if (hash && HASH_TO_VIEW_MAP[hash]) {
-        setActiveView(HASH_TO_VIEW_MAP[hash]);
+        const targetView = HASH_TO_VIEW_MAP[hash];
+        if (targetView === "certificates" && !hasCertificates) {
+          setActiveView("bio");
+          return;
+        }
+        setActiveView(targetView);
       }
     };
     onHashChange();
     window.addEventListener("hashchange", onHashChange);
     return () => window.removeEventListener("hashchange", onHashChange);
-  }, []);
+  }, [hasCertificates]);
 
   const handleSelectView = (viewId: string) => {
     setActiveView(viewId);
