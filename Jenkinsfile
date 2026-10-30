@@ -1,42 +1,55 @@
-// Jenkins Pipeline untuk Portfolio - Simple CI/CD
-// Build, Test, dan Deploy ke Docker
+// Jenkins Pipeline untuk bypur-app (Web Frontend)
+// Optimized for Low-Resource VPS (1 vCPU / 2 GB RAM)
+// SonarQube skipped to save memory & CPU
 
 pipeline {
   agent any
 
+  options {
+    // Keep only last 5 builds to preserve VPS disk space
+    buildDiscarder(logRotator(numToKeepStr: '5'))
+    disableConcurrentBuilds()
+    timeout(time: 20, unit: 'MINUTES')
+  }
+
   tools {
-    nodejs 'NodeJS-20'  // Configure in Jenkins: Manage Jenkins > Tools > NodeJS
+    nodejs 'NodeJS-20'
   }
 
   environment {
-    PRODUCTION_SERVER_IP = "${env.PRODUCTION_SERVER_IP}"
-    SONAR_HOST_URL       = "${env.SONAR_HOST_URL}"
+    NODE_OPTIONS = '--max-old-space-size=1024'
+    NEXT_TELEMETRY_DISABLED = '1'
   }
 
   stages {
-    // 1. Get Source Code
+    // 1. Source Code Checkout
     stage('Checkout') {
       steps {
         checkout scm
-        echo 'Source code checked out'
+        echo 'Source code checked out successfully'
       }
     }
 
+    // 2. Prepare Environment File
     stage('Prepare Env') {
       steps {
         script {
-          withCredentials([file(credentialsId: 'portfolio-fe-env', variable: 'ENV_SECRET')]) {
-            def secretContent = readFile(file: ENV_SECRET)
-            writeFile file: '.env', text: secretContent
-            writeFile file: '.env.production', text: secretContent
+          try {
+            withCredentials([file(credentialsId: 'portfolio-fe-env', variable: 'ENV_SECRET')]) {
+              def secretContent = readFile(file: ENV_SECRET)
+              writeFile file: '.env', text: secretContent
+              writeFile file: '.env.production', text: secretContent
+              echo 'Production env file prepared from Jenkins credentials'
+            }
+          } catch (Exception e) {
+            echo 'portfolio-fe-env credential not found or skipped, using fallback .env if present'
           }
         }
-        echo 'Production env file prepared from secret file'
       }
     }
 
-    // 2. Setup Dependencies
-    stage('Setup') {
+    // 3. Install Dependencies
+    stage('Setup Dependencies') {
       steps {
         sh '''
           npm install -g pnpm@10.32.1
@@ -46,123 +59,90 @@ pipeline {
       }
     }
 
-    // 3. Code Quality Check
+    // 4. Code Quality Check (Lint)
     stage('Lint') {
       steps {
         sh 'pnpm lint'
-        echo 'Lint passed'
+        echo 'Lint checks passed'
       }
     }
 
-    // 4. Test Pyramid - Unit & Integration (70% + 20%)
-    stage('Unit & Integration Tests') {
+    // 5. Unit Tests
+    stage('Unit Tests') {
       steps {
         sh 'pnpm run test:ci:no-e2e'
-        echo 'Unit & Integration tests passed'
+        echo 'Unit tests passed'
       }
     }
 
-    // 5. SonarQube Analysis
-    stage('SonarQube Analysis') {
-      steps {
-        script {
-          withCredentials([string(credentialsId: 'sonarqube-token', variable: 'SONAR_TOKEN')]) {
-            sh 'pnpm exec sonar-scanner -Dsonar.token=${SONAR_TOKEN} -Dsonar.host.url=${SONAR_HOST_URL}'
-          }
-          echo 'SonarQube analysis completed'
-        }
-      }
-    }
-
-    // 6. Quality Gate Check
-    stage('Quality Gate') {
-      steps {
-        script {
-          timeout(time: 5, unit: 'MINUTES') {
-            // Tunggu hasil quality gate dari SonarQube
-            withCredentials([string(credentialsId: 'sonarqube-token', variable: 'SONAR_TOKEN')]) {
-              def qg = sh(
-                script: """
-                  curl -s -u ${SONAR_TOKEN}: \
-                    '${SONAR_HOST_URL}/api/qualitygates/project_status?projectKey=bypur-portfolio' \
-                    | grep -o '"status":"[^"]*"' | head -n 1 | cut -d'"' -f4
-                """,
-                returnStdout: true
-              ).trim()
-              
-              echo "Quality Gate Status: ${qg}"
-              
-              if (qg != 'OK') {
-                error "Quality Gate failed! Check SonarQube dashboard: ${SONAR_HOST_URL}/dashboard?id=bypur-portfolio"
-              }
-              
-              echo 'Quality Gate passed'
-            }
-          }
-        }
-      }
-    }
-
-    // 7. Build Application
-    stage('Build') {
-      steps {
-        sh 'pnpm build'
-        echo 'Build completed'
-      }
-    }
-
-    // 8. Build Docker Image
+    // 6. Build Docker Image (Next.js multi-stage build inside Docker)
     stage('Build Docker Image') {
       steps {
         script {
           sh '''
-            # Build Docker image
-            docker build -t bypur-portfolio:latest .
-            echo "Docker image built successfully"
+            docker build -t bypur-web:latest .
+            echo "Docker image bypur-web:latest built successfully"
           '''
         }
       }
     }
 
-    // 9. Deploy to Docker Container
+    // 7. Deploy to Docker Container
     stage('Deploy') {
       steps {
         script {
           sh '''
-            # Stop dan hapus container lama jika ada
-            docker stop bypur-portfolio || true
-            docker rm bypur-portfolio || true
+            # Stop dan hapus container lama
+            docker stop bypur-web bypur-portfolio 2>/dev/null || true
+            docker rm -f bypur-web bypur-portfolio 2>/dev/null || true
             
-            # Jalankan container baru dengan MEMORY LIMIT menggunakan --env-file
-            docker run -d \
-              --name bypur-portfolio \
-              --memory="512m" \
-              --cpus="0.5" \
-              --restart=unless-stopped \
-              -p 3000:3000 \
-              --env-file .env \
-              bypur-portfolio:latest
+            # Pastikan docker network bypur_network tersedia
+            docker network create bypur_network 2>/dev/null || true
             
-            # Tunggu container start
+            # Jalankan container baru dengan resource limit hemat RAM (512MB)
+            if [ -f .env ]; then
+              docker run -d \
+                --name bypur-web \
+                --network bypur_network \
+                --memory="512m" \
+                --cpus="0.5" \
+                --restart=unless-stopped \
+                -p 3000:3000 \
+                --env-file .env \
+                bypur-web:latest
+            else
+              docker run -d \
+                --name bypur-web \
+                --network bypur_network \
+                --memory="512m" \
+                --cpus="0.5" \
+                --restart=unless-stopped \
+                -p 3000:3000 \
+                bypur-web:latest
+            fi
+            
+            # Tunggu dan verifikasi health check
             sleep 5
-            
-            # Health check
             curl -f http://localhost:3000 || exit 1
             
-            echo "Deployment berhasil! Container running on port 3000"
+            echo "Deployment bypur-web berhasil! Berjalan di port 3000"
           '''
         }
       }
     }
   }
 
-  // Post-build Actions
+  // Post-build Actions: Bersihkan disk workspace dan dangling docker images
   post {
+    always {
+      sh 'docker image prune -f || true'
+      deleteDir()
+    }
     success {
-      echo 'Pipeline completed successfully!'
+      echo 'Pipeline bypur-web selesai dengan sukses!'
     }
     failure {
-      echo 'Pipeline failed! Check the logs above.'
+      echo 'Pipeline bypur-web gagal! Silakan periksa log di atas.'
     }
   }
 }
