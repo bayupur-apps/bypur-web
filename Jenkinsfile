@@ -35,14 +35,23 @@ pipeline {
       steps {
         script {
           try {
-            withCredentials([file(credentialsId: 'portfolio-fe-env', variable: 'ENV_SECRET')]) {
+            withCredentials([file(credentialsId: 'bypur-web-env', variable: 'ENV_SECRET')]) {
               def secretContent = readFile(file: ENV_SECRET)
               writeFile file: '.env', text: secretContent
               writeFile file: '.env.production', text: secretContent
-              echo 'Production env file prepared from Jenkins credentials'
+              echo 'Production env file prepared from bypur-web-env credential'
             }
-          } catch (Exception e) {
-            echo 'portfolio-fe-env credential not found or skipped, using fallback .env if present'
+          } catch (Exception e1) {
+            try {
+              withCredentials([file(credentialsId: 'portfolio-fe-env', variable: 'ENV_SECRET')]) {
+                def secretContent = readFile(file: ENV_SECRET)
+                writeFile file: '.env', text: secretContent
+                writeFile file: '.env.production', text: secretContent
+                echo 'Production env file prepared from legacy portfolio-fe-env credential'
+              }
+            } catch (Exception e2) {
+              echo 'bypur-web-env credential not found or skipped, using fallback .env if present'
+            }
           }
         }
       }
