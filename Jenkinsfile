@@ -17,25 +17,16 @@ pipeline {
   }
 
   environment {
-    APP_URL                 = 'https://bypur.my.id'
     NODE_OPTIONS            = '--max-old-space-size=1024'
     NEXT_TELEMETRY_DISABLED = '1'
-    COMMIT_HASH             = ''
-    COMMIT_AUTHOR           = ''
-    COMMIT_MSG              = ''
   }
 
   stages {
-    // 1. Source Code Checkout & Commit Metadata
+    // 1. Source Code Checkout
     stage('Checkout') {
       steps {
         checkout scm
-        script {
-          env.COMMIT_HASH = sh(script: 'git rev-parse --short HEAD', returnStdout: true).trim()
-          env.COMMIT_AUTHOR = sh(script: 'git log -1 --pretty=%an', returnStdout: true).trim()
-          env.COMMIT_MSG = sh(script: "git log -1 --pretty=%s | sed 's/&/\\&amp;/g; s/</\\&lt;/g; s/>/\\&gt;/g'", returnStdout: true).trim()
-        }
-        echo "Checked out commit ${env.COMMIT_HASH} by ${env.COMMIT_AUTHOR}: ${env.COMMIT_MSG}"
+        echo 'Source code checked out successfully'
       }
     }
 
@@ -158,70 +149,13 @@ pipeline {
     }
   }
 
-  // Post-build Actions: Notifikasi Telegram informatif dan pembersihan disk
+  // Post-build Actions: Notifikasi Telegram terpusat & pembersihan disk
   post {
     success {
-      script {
-        try {
-          withCredentials([string(credentialsId: 'telegram-bot-token', variable: 'BOT_TOKEN'),
-                           string(credentialsId: 'telegram-chat-id', variable: 'CHAT_ID')]) {
-            sh '''
-              MESSAGE=$(cat << EOF
-🚀 <b>CI/CD DEPLOYMENT SUCCESS</b>
-━━━━━━━━━━━━━━━━━━
-📦 <b>Project:</b> <code>${JOB_NAME}</code>
-🔖 <b>Build:</b> #${BUILD_NUMBER}
-🌿 <b>Branch:</b> <code>main</code>
-👤 <b>Author:</b> ${COMMIT_AUTHOR}
-💬 <b>Commit:</b> ${COMMIT_MSG} (<code>${COMMIT_HASH}</code>)
-🌐 <b>Live URL:</b> ${APP_URL}
-🔍 <b>Logs:</b> <a href="${BUILD_URL}console">View Console Output</a>
-⏱ <b>Status:</b> Container Healthy & Active ✅
-━━━━━━━━━━━━━━━━━━
-EOF
-)
-              curl -s -X POST "https://api.telegram.org/bot${BOT_TOKEN}/sendMessage" \
-                --data-urlencode "chat_id=${CHAT_ID}" \
-                --data-urlencode "parse_mode=HTML" \
-                --data-urlencode "disable_web_page_preview=true" \
-                --data-urlencode "text=${MESSAGE}" > /dev/null || true
-            '''
-          }
-        } catch (Exception e) {
-          echo "Notifikasi Telegram dilewati (credentials belum dikonfigurasi di Jenkins)"
-        }
-      }
+      sh 'command -v jenkins-notify >/dev/null 2>&1 && jenkins-notify SUCCESS || true'
     }
     failure {
-      script {
-        try {
-          withCredentials([string(credentialsId: 'telegram-bot-token', variable: 'BOT_TOKEN'),
-                           string(credentialsId: 'telegram-chat-id', variable: 'CHAT_ID')]) {
-            sh '''
-              MESSAGE=$(cat << EOF
-🚨 <b>CI/CD DEPLOYMENT FAILED</b>
-━━━━━━━━━━━━━━━━━━
-📦 <b>Project:</b> <code>${JOB_NAME}</code>
-🔖 <b>Build:</b> #${BUILD_NUMBER}
-🌿 <b>Branch:</b> <code>main</code>
-👤 <b>Author:</b> ${COMMIT_AUTHOR}
-💬 <b>Commit:</b> ${COMMIT_MSG} (<code>${COMMIT_HASH}</code>)
-🔍 <b>Error Logs:</b> <a href="${BUILD_URL}console">Inspect Build Error</a>
-⚠️ <b>Status:</b> Build or Test Step Failed ❌
-━━━━━━━━━━━━━━━━━━
-EOF
-)
-              curl -s -X POST "https://api.telegram.org/bot${BOT_TOKEN}/sendMessage" \
-                --data-urlencode "chat_id=${CHAT_ID}" \
-                --data-urlencode "parse_mode=HTML" \
-                --data-urlencode "disable_web_page_preview=true" \
-                --data-urlencode "text=${MESSAGE}" > /dev/null || true
-            '''
-          }
-        } catch (Exception e) {
-          echo "Notifikasi Telegram dilewati (credentials belum dikonfigurasi di Jenkins)"
-        }
-      }
+      sh 'command -v jenkins-notify >/dev/null 2>&1 && jenkins-notify FAILED || true'
     }
     cleanup {
       sh 'docker image prune -f || true'
