@@ -1,13 +1,13 @@
 // Jenkins Pipeline untuk bypur-app (Web Frontend)
 // Optimized for Low-Resource VPS (1 vCPU / 2 GB RAM)
-// SonarQube skipped to save memory & CPU
+// Fast Build: Host pnpm build standalone -> Instant lightweight runner Docker packaging
 
 pipeline {
   agent any
 
   options {
-    // Keep only last 5 builds to preserve VPS disk space
-    buildDiscarder(logRotator(numToKeepStr: '5'))
+    // Simpan hanya 3 build terakhir untuk menghemat disk VPS
+    buildDiscarder(logRotator(numToKeepStr: '3'))
     disableConcurrentBuilds()
     timeout(time: 20, unit: 'MINUTES')
   }
@@ -57,12 +57,12 @@ pipeline {
       }
     }
 
-    // 3. Install Dependencies
+    // 3. Install Dependencies (Gunakan cache pnpm lokal)
     stage('Setup Dependencies') {
       steps {
         sh '''
-          npm install -g pnpm@10.32.1
-          pnpm install --frozen-lockfile
+          command -v pnpm >/dev/null 2>&1 || npm install -g pnpm@10.32.1
+          pnpm install --frozen-lockfile --prefer-offline
         '''
         echo 'Dependencies installed'
       }
@@ -84,7 +84,15 @@ pipeline {
       }
     }
 
-    // 6. Build Docker Image (Next.js multi-stage build inside Docker)
+    // 6. Build Application (Next.js Standalone Build di Host)
+    stage('Build Application') {
+      steps {
+        sh 'pnpm build'
+        echo 'Next.js standalone build completed successfully'
+      }
+    }
+
+    // 7. Build Docker Image (Instant build: hanya copy artefak standalone ke Alpine Runner)
     stage('Build Docker Image') {
       steps {
         script {
@@ -96,7 +104,7 @@ pipeline {
       }
     }
 
-    // 7. Deploy to Docker Container
+    // 8. Deploy to Docker Container
     stage('Deploy') {
       steps {
         script {
@@ -141,17 +149,45 @@ pipeline {
     }
   }
 
-  // Post-build Actions: Bersihkan disk workspace dan dangling docker images
+  // Post-build Actions: Bersihkan disk workspace dan kirim notifikasi Telegram
   post {
     always {
       sh 'docker image prune -f || true'
       deleteDir()
     }
     success {
-      echo 'Pipeline bypur-web selesai dengan sukses!'
+      script {
+        try {
+          withCredentials([string(credentialsId: 'telegram-bot-token', variable: 'BOT_TOKEN'),
+                           string(credentialsId: 'telegram-chat-id', variable: 'CHAT_ID')]) {
+            sh '''
+              curl -s -X POST "https://api.telegram.org/bot${BOT_TOKEN}/sendMessage" \
+                -d "chat_id=${CHAT_ID}" \
+                -d "parse_mode=HTML" \
+                -d "text=🚀 <b>Deploy Berhasil!</b>%0A<b>Aplikasi:</b> ${JOB_NAME}%0A<b>Build:</b> #${BUILD_NUMBER}%0A<b>Status:</b> SUCCESS ✅" > /dev/null || true
+            '''
+          }
+        } catch (Exception e) {
+          echo "Notifikasi Telegram dilewati (credentials belum dikonfigurasi di Jenkins)"
+        }
+      }
     }
     failure {
-      echo 'Pipeline bypur-web gagal! Silakan periksa log di atas.'
+      script {
+        try {
+          withCredentials([string(credentialsId: 'telegram-bot-token', variable: 'BOT_TOKEN'),
+                           string(credentialsId: 'telegram-chat-id', variable: 'CHAT_ID')]) {
+            sh '''
+              curl -s -X POST "https://api.telegram.org/bot${BOT_TOKEN}/sendMessage" \
+                -d "chat_id=${CHAT_ID}" \
+                -d "parse_mode=HTML" \
+                -d "text=🚨 <b>Deploy Gagal!</b>%0A<b>Aplikasi:</b> ${JOB_NAME}%0A<b>Build:</b> #${BUILD_NUMBER}%0A<b>Status:</b> FAILED ❌" > /dev/null || true
+            '''
+          }
+        } catch (Exception e) {
+          echo "Notifikasi Telegram dilewati (credentials belum dikonfigurasi di Jenkins)"
+        }
+      }
     }
   }
 }
