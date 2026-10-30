@@ -11,7 +11,6 @@ export function AppTopBar() {
 
   const displayName = settings?.site_name || profile.name || "Bayu Purnomo";
   const displayTagline = settings?.site_tagline || profile.title;
-  const displayEmail = settings?.owner_email || profile.email;
   const initials = displayName
     .split(" ")
     .map((w) => w[0])
@@ -67,7 +66,7 @@ export function AppTopBar() {
 
           <a
             href="#contact"
-            className="inline-flex items-center gap-1.5 rounded-lg border border-border/70 bg-bg-subtle/50 px-3 py-1.5 text-xs font-medium text-text-2 transition-all hover:border-accent/40 hover:text-accent hover:-translate-y-0.5"
+            className="inline-flex min-h-10 sm:min-h-0 items-center gap-1.5 rounded-lg border border-border/70 bg-bg-subtle/50 px-3 py-2 sm:py-1.5 text-xs font-medium text-text-2 transition-all hover:border-accent/40 hover:text-accent hover:-translate-y-0.5 active:scale-95"
           >
             <Mail size={13} className="text-accent" />
             <span className="hidden sm:inline">Get in Touch</span>

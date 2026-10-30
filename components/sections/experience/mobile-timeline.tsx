@@ -34,7 +34,7 @@ function MobileExperienceCard({ exp }: Readonly<{ exp: Experience }>) {
             className="rounded-lg border border-border/80 shadow-xs"
           />
           <div className="min-w-0">
-            <h3 className="text-xs sm:text-sm font-bold leading-snug text-text-1 truncate">
+            <h3 className="text-xs sm:text-sm font-bold leading-snug text-text-1 line-clamp-2">
               {exp.role}
             </h3>
             <div className="flex items-center gap-1.5 truncate mt-0.5">
@@ -134,14 +134,14 @@ function MobileExperienceCard({ exp }: Readonly<{ exp: Experience }>) {
 
 export function MobileTimeline({ experiences }: Readonly<MobileTimelineProps>) {
   return (
-    <ol className="relative mx-auto mt-2 max-w-2xl lg:hidden pl-5 border-l-2 border-border/70 ml-2 space-y-3.5">
+    <ol className="relative mx-auto mt-2 max-w-2xl lg:hidden pl-4 sm:pl-5 border-l-2 border-border/70 ml-4 sm:ml-5 space-y-3.5">
       {experiences.map((exp, i) => (
         <li key={exp.id} className="relative">
           {/* Station Node Marker on Timeline Spine */}
           <span
             aria-hidden="true"
             className={cn(
-              "absolute -left-[27px] top-4.5 rounded-full ring-4 ring-bg transition-all",
+              "absolute -left-[23px] sm:-left-[27px] top-4.5 rounded-full ring-4 ring-bg transition-all",
               exp.isCurrent
                 ? "h-3 w-3 bg-accent shadow-[0_0_8px_rgba(245,158,11,0.6)]"
                 : "h-2.5 w-2.5 bg-border/90 border border-bg-card"

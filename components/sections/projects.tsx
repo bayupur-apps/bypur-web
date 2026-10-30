@@ -1,7 +1,12 @@
 "use client";
 
 import { useState, useMemo, useEffect, useCallback } from "react";
-import { FolderGit2, RotateCcw, ChevronLeft, ChevronRight } from "lucide-react";
+import {
+  FolderGit2,
+  RotateCcw,
+  ChevronLeft,
+  ChevronRight,
+} from "lucide-react";
 import { motion, AnimatePresence, type Variants } from "framer-motion";
 import { ProjectCard } from "./projects/project-card";
 import { ProjectDetailModal } from "./projects/project-detail-modal";
@@ -22,44 +27,36 @@ interface AnimationMeta {
 }
 
 const containerVariants: Variants = {
-  initial: {
-    opacity: 1,
-  },
+  initial: { opacity: 1 },
   enter: {
     opacity: 1,
     transition: {
-      staggerChildren: 0.04,
-      delayChildren: 0.01,
+      staggerChildren: 0.05,
+      delayChildren: 0.02,
     },
   },
   exit: ({ type, direction }: AnimationMeta) => ({
     opacity: 0,
-    x: type === "slide" ? (direction > 0 ? -24 : 24) : 0,
+    x: type === "slide" ? (direction > 0 ? -20 : 20) : 0,
     y: type === "filter" ? -4 : 0,
     scale: type === "filter" ? 0.99 : 1,
-    transition: {
-      duration: 0.12,
-      ease: [0.4, 0, 1, 1] as const,
-    },
+    transition: { duration: 0.12, ease: [0.4, 0, 1, 1] as const },
   }),
 };
 
 const cardVariants: Variants = {
   initial: ({ type, direction }: AnimationMeta) => ({
     opacity: 0,
-    x: type === "slide" ? (direction > 0 ? 30 : -30) : 0,
-    y: type === "filter" ? 10 : 0,
-    scale: type === "filter" ? 0.985 : 1,
+    x: type === "slide" ? (direction > 0 ? 24 : -24) : 0,
+    y: type === "filter" ? 8 : 0,
+    scale: type === "filter" ? 0.99 : 1,
   }),
   enter: {
     opacity: 1,
     x: 0,
     y: 0,
     scale: 1,
-    transition: {
-      duration: 0.26,
-      ease: [0.16, 1, 0.3, 1] as const,
-    },
+    transition: { duration: 0.24, ease: [0.16, 1, 0.3, 1] as const },
   },
 };
 
@@ -98,6 +95,11 @@ export default function ProjectsSection() {
   const totalPages = Math.max(1, Math.ceil(filtered.length / CARDS_PER_PAGE));
   const safePage = Math.min(currentPage, totalPages - 1);
 
+  const visibleProjects = useMemo(() => {
+    const start = safePage * CARDS_PER_PAGE;
+    return filtered.slice(start, start + CARDS_PER_PAGE);
+  }, [filtered, safePage]);
+
   const handleFilterChange = (tag: string) => {
     setTransitionType("filter");
     setFilter(tag);
@@ -112,8 +114,8 @@ export default function ProjectsSection() {
 
   // Keyboard navigation for carousel slides
   useEffect(() => {
+    if (modalProject) return;
     const handleKeyDown = (e: KeyboardEvent) => {
-      if (modalProject) return;
       const target = e.target as HTMLElement | null;
       if (
         target?.tagName === "INPUT" ||
@@ -134,11 +136,6 @@ export default function ProjectsSection() {
     return () => window.removeEventListener("keydown", handleKeyDown);
   }, [safePage, totalPages, modalProject, handlePageChange]);
 
-  const visibleProjects = useMemo(() => {
-    const start = safePage * CARDS_PER_PAGE;
-    return filtered.slice(start, start + CARDS_PER_PAGE);
-  }, [filtered, safePage]);
-
   const projectsConfig = profileData.projects || {};
 
   if (projects.length === 0) {
@@ -158,49 +155,49 @@ export default function ProjectsSection() {
       {/* Top Console Bar */}
       <SectionTopBar
         icon={FolderGit2}
-        title={projectsConfig.title || "Featured Projects & Systems Studio"}
-        subtitle="// PRODUCTION SHOWCASE & ARCHITECTURE"
-        badge={`${filtered.length} SYSTEMS`}
+        title={projectsConfig.title || "Production Systems & Architecture"}
+        subtitle="// CODEBASE & LIVE DEPLOYMENTS"
+        badge={`${filtered.length} PRODUCTION SYSTEMS`}
         secondaryBadge={activeFilter !== "All" ? `${projects.length} TOTAL` : undefined}
         className="mb-2"
       />
 
       {/* Filter Toolbar: Pinned horizontal scrollable tags */}
-      <div className="relative max-w-full overflow-hidden mb-2.5">
+      <div className="relative max-w-full overflow-hidden mb-3">
         <div
           role="group"
           aria-label="Filter projects by technology"
           className="-mx-1 flex items-center gap-1.5 overflow-x-auto px-1 py-0.5 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden [mask-image:linear-gradient(to_right,transparent,black_6px,black_calc(100%-6px),transparent)] sm:[mask-image:none]"
         >
-            {tags.map((tag) => {
-              const active = activeFilter === tag;
-              return (
-                <button
-                  key={tag}
-                  type="button"
-                  onClick={() => handleFilterChange(tag)}
-                  aria-pressed={active}
-                  className={cn(
-                    "inline-flex min-h-11 sm:min-h-[28px] shrink-0 items-center gap-1.5 whitespace-nowrap rounded-md px-3 font-mono text-[10.5px] font-semibold transition-all duration-150 active:scale-95",
-                    active
-                      ? "bg-accent text-accent-fg shadow-xs"
-                      : "border border-border/60 bg-bg-card/50 text-text-2 hover:border-accent/40 hover:text-text-1"
-                  )}
-                >
-                  {tag}
-                  {typeof counts[tag] === "number" && (
-                    <span className={active ? "text-accent-fg/80" : "text-text-3"}>
-                      {counts[tag]}
-                    </span>
-                  )}
-                </button>
-              );
-            })}
-          </div>
+          {tags.map((tag) => {
+            const active = activeFilter === tag;
+            return (
+              <button
+                key={tag}
+                type="button"
+                onClick={() => handleFilterChange(tag)}
+                aria-pressed={active}
+                className={cn(
+                  "inline-flex min-h-11 sm:min-h-[28px] shrink-0 items-center gap-1.5 whitespace-nowrap rounded-md px-3 font-mono text-[10.5px] font-semibold transition-all duration-150 active:scale-95 cursor-pointer",
+                  active
+                    ? "bg-accent text-accent-fg shadow-xs"
+                    : "border border-border/60 bg-bg-card/50 text-text-2 hover:border-accent/40 hover:text-text-1"
+                )}
+              >
+                {tag}
+                {typeof counts[tag] === "number" && (
+                  <span className={active ? "text-accent-fg/80" : "text-text-3"}>
+                    {counts[tag]}
+                  </span>
+                )}
+              </button>
+            );
+          })}
+        </div>
       </div>
 
-      {/* 3-Card Stage: Display cards with smooth slide carousel and touch-swipe support on mobile */}
-      <div className="relative min-h-[340px] flex flex-col justify-center overflow-hidden">
+      {/* Single-Stage Showcase Grid: 3 Clean, Airy Cards with Smooth Transition */}
+      <div className="relative min-h-[350px] sm:min-h-[365px] flex flex-col justify-center overflow-hidden">
         <AnimatePresence mode="wait" custom={animationMeta}>
           {filtered.length === 0 ? (
             <motion.div
@@ -221,7 +218,7 @@ export default function ProjectsSection() {
               <button
                 type="button"
                 onClick={() => handleFilterChange("All")}
-                className="inline-flex min-h-11 sm:min-h-9 items-center gap-1.5 rounded-lg border border-border/70 bg-bg-subtle/50 px-3 text-xs font-semibold text-accent transition-all hover:border-accent/40 active:scale-95"
+                className="inline-flex min-h-11 sm:min-h-9 items-center gap-1.5 rounded-lg border border-border/70 bg-bg-subtle/50 px-3 text-xs font-semibold text-accent transition-all hover:border-accent/40 active:scale-95 cursor-pointer"
               >
                 <RotateCcw size={12} />
                 Reset Filter
@@ -245,7 +242,7 @@ export default function ProjectsSection() {
                   handlePageChange(safePage - 1, -1);
                 }
               }}
-              className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-2.5 sm:gap-3.5 touch-pan-y"
+              className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-3.5 touch-pan-y"
             >
               {visibleProjects.map((project, idx) => (
                 <motion.div
@@ -268,7 +265,7 @@ export default function ProjectsSection() {
 
       {/* Slide Navigation Dock: Prev / Next, Dot Indicators, Telemetry Counter */}
       {filtered.length > 0 && (
-        <div className="flex items-center justify-between border-t border-border/50 pt-2.5 mt-2.5">
+        <div className="flex items-center justify-between border-t border-border/50 pt-3 mt-3">
           {/* Left: Telemetry range */}
           <div className="flex items-center gap-1.5 font-mono text-[10px] text-text-3">
             <span className="hidden sm:inline-block">SYS:</span>
@@ -298,7 +295,7 @@ export default function ProjectsSection() {
                     aria-selected={isActive}
                     aria-label={`Go to slide ${i + 1}`}
                     onClick={() => handlePageChange(i, i > safePage ? 1 : -1)}
-                    className="min-h-11 min-w-[32px] sm:min-h-[28px] sm:min-w-0 px-1 py-2 flex items-center justify-center group focus-visible:outline-none"
+                    className="min-h-11 min-w-[32px] sm:min-h-[28px] sm:min-w-0 px-1 py-2 flex items-center justify-center group focus-visible:outline-none cursor-pointer"
                   >
                     <span
                       className={cn(
@@ -322,7 +319,7 @@ export default function ProjectsSection() {
                 disabled={safePage === 0}
                 onClick={() => handlePageChange(safePage - 1, -1)}
                 aria-label="Previous slide"
-                className="inline-flex min-h-11 sm:min-h-[28px] min-w-11 sm:min-w-[28px] items-center justify-center rounded-md border border-border/60 bg-bg-card/50 text-text-2 transition-all hover:border-accent/40 hover:text-accent disabled:opacity-30 disabled:pointer-events-none active:scale-95"
+                className="inline-flex min-h-11 sm:min-h-[28px] min-w-11 sm:min-w-[28px] items-center justify-center rounded-md border border-border/60 bg-bg-card/50 text-text-2 transition-all hover:border-accent/40 hover:text-accent disabled:opacity-30 disabled:pointer-events-none active:scale-95 cursor-pointer"
               >
                 <ChevronLeft size={14} />
               </button>
@@ -336,7 +333,7 @@ export default function ProjectsSection() {
                 disabled={safePage >= totalPages - 1}
                 onClick={() => handlePageChange(safePage + 1, 1)}
                 aria-label="Next slide"
-                className="inline-flex min-h-11 sm:min-h-[28px] min-w-11 sm:min-w-[28px] items-center justify-center rounded-md border border-border/60 bg-bg-card/50 text-text-2 transition-all hover:border-accent/40 hover:text-accent disabled:opacity-30 disabled:pointer-events-none active:scale-95"
+                className="inline-flex min-h-11 sm:min-h-[28px] min-w-11 sm:min-w-[28px] items-center justify-center rounded-md border border-border/60 bg-bg-card/50 text-text-2 transition-all hover:border-accent/40 hover:text-accent disabled:opacity-30 disabled:pointer-events-none active:scale-95 cursor-pointer"
               >
                 <ChevronRight size={14} />
               </button>

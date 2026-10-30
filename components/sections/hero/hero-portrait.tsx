@@ -9,6 +9,7 @@ interface HeroPortraitProps {
   size?: PortraitSize;
   priority?: boolean;
   className?: string;
+  statusText?: string;
 }
 
 const sizeMap: Record<PortraitSize, { width: string; sizes: string }> = {
@@ -16,7 +17,14 @@ const sizeMap: Record<PortraitSize, { width: string; sizes: string }> = {
   lg: { width: "w-72 sm:w-80 xl:w-[21.5rem]", sizes: "(max-width: 1280px) 320px, 344px" },
 };
 
-export function HeroPortrait({ src, alt, size = "lg", priority = false, className }: Readonly<HeroPortraitProps>) {
+export function HeroPortrait({
+  src,
+  alt,
+  size = "lg",
+  priority = false,
+  className,
+  statusText,
+}: Readonly<HeroPortraitProps>) {
   const { width, sizes } = sizeMap[size];
 
   return (
@@ -68,6 +76,17 @@ export function HeroPortrait({ src, alt, size = "lg", priority = false, classNam
           />
         </div>
       </div>
+
+      {/* Integrated Telemetry Status Pill */}
+      {size === "lg" && statusText && (
+        <div className="absolute -bottom-5 left-1/2 -translate-x-1/2 z-20 flex items-center gap-1.5 rounded-full border border-border/80 bg-bg/95 px-2.5 py-0.5 font-mono text-[9.5px] font-semibold text-text-2 shadow-xs backdrop-blur-xs select-none">
+          <span className="relative flex h-2 w-2">
+            <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-emerald-400 opacity-75" />
+            <span className="relative inline-flex h-2 w-2 rounded-full bg-emerald-500" />
+          </span>
+          <span className="tracking-wide">{statusText}</span>
+        </div>
+      )}
     </div>
   );
 }

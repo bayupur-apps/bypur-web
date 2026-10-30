@@ -49,8 +49,8 @@ export default function ExperienceSection() {
         className="mb-3"
       />
 
-      {/* Desktop: Vertical Timeline on Left + Detail Card on Right with Fixed Viewport Height */}
-      <div className="hidden lg:grid lg:grid-cols-12 gap-5 items-stretch lg:h-[455px] xl:h-[475px] w-full">
+      {/* Desktop: Vertical Station Timeline on Left + SpotlightCard Detail on Right */}
+      <div className="hidden lg:grid lg:grid-cols-12 gap-4 sm:gap-5 items-stretch lg:h-[455px] xl:h-[475px] w-full">
         <div className="lg:col-span-4 xl:col-span-4 flex flex-col h-full min-h-0">
           <DesktopTimeline
             experiences={experiences}
@@ -64,7 +64,7 @@ export default function ExperienceSection() {
         </div>
       </div>
 
-      {/* Mobile: vertical timeline */}
+      {/* Mobile: Vertical station timeline */}
       <div className="lg:hidden">
         <MobileTimeline experiences={experiences} />
       </div>

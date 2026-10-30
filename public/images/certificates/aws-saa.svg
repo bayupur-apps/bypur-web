@@ -1,0 +1,43 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 400" width="100%" height="100%">
+  <defs>
+    <linearGradient id="amberGold" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#FCD34D"/>
+      <stop offset="50%" stop-color="#F59E0B"/>
+      <stop offset="100%" stop-color="#D97706"/>
+    </linearGradient>
+    <radialGradient id="centerGlow" cx="50%" cy="40%" r="50%">
+      <stop offset="0%" stop-color="#F59E0B" stop-opacity="0.25"/>
+      <stop offset="100%" stop-color="#F59E0B" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+
+  <!-- Ambient Badge Glow -->
+  <circle cx="200" cy="180" r="140" fill="url(#centerGlow)"/>
+
+  <!-- Outer Emblem Hexagon Ring -->
+  <polygon points="200,45 315,110 315,245 200,310 85,245 85,110" fill="#181B26" stroke="url(#amberGold)" stroke-width="3.5" stroke-linejoin="round"/>
+  <polygon points="200,55 305,115 305,240 200,300 95,240 95,115" fill="none" stroke="rgba(245,158,11,0.35)" stroke-width="1"/>
+
+  <!-- AWS Cube Icon -->
+  <g transform="translate(145, 110) scale(0.9)">
+    <!-- Isometric Top -->
+    <polygon points="60,10 110,38 60,66 10,38" fill="url(#amberGold)"/>
+    <!-- Isometric Left -->
+    <polygon points="10,38 60,66 60,120 10,92" fill="#D97706"/>
+    <!-- Isometric Right -->
+    <polygon points="110,38 60,66 60,120 110,92" fill="#FBBF24"/>
+    <!-- Inner Circuit Detail -->
+    <line x1="60" y1="20" x2="60" y2="40" stroke="#181B26" stroke-width="2"/>
+    <line x1="30" y1="50" x2="50" y2="50" stroke="#181B26" stroke-width="2"/>
+  </g>
+
+  <!-- Badge Typography -->
+  <text x="200" y="255" font-family="system-ui, -apple-system, sans-serif" font-size="13" font-weight="800" fill="#FBBF24" text-anchor="middle" letter-spacing="2">AWS CERTIFIED</text>
+  <text x="200" y="275" font-family="system-ui, -apple-system, sans-serif" font-size="11" font-weight="600" fill="#E2E8F0" text-anchor="middle" letter-spacing="0.5">SOLUTIONS ARCHITECT</text>
+  <text x="200" y="291" font-family="monospace" font-size="9" font-weight="700" fill="#94A3B8" text-anchor="middle" letter-spacing="1.5">ASSOCIATE</text>
+
+  <!-- Bottom Verification Pill -->
+  <rect x="120" y="340" width="160" height="26" rx="13" fill="#181B26" stroke="rgba(245,158,11,0.5)" stroke-width="1.2"/>
+  <circle cx="135" cy="353" r="3.5" fill="#10B981"/>
+  <text x="205" y="357" font-family="monospace" font-size="9" font-weight="600" fill="#F8FAFC" text-anchor="middle" letter-spacing="1">VERIFIED ACCREDITED</text>
+</svg>

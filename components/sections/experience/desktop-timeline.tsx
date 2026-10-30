@@ -106,12 +106,25 @@ export function DesktopTimeline({
               onClick={() => onSelect(exp.id)}
               onKeyDown={(e) => handleKeyDown(e, i)}
               className={cn(
-                "group relative flex items-start gap-3 rounded-xl p-3 text-left transition-colors duration-150 cursor-pointer min-h-[44px] shrink-0 focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-accent",
+                "group relative flex items-start gap-3 rounded-xl p-3 text-left transition-colors duration-150 cursor-pointer min-h-[44px] shrink-0 focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-accent border",
                 active
-                  ? "border border-accent/40 bg-accent/10 shadow-xs"
-                  : "border border-border/40 bg-bg-card/40 hover:border-border/80 hover:bg-bg-card/80"
+                  ? "border-accent/40 shadow-xs"
+                  : "border-border/40 bg-bg-card/40 hover:border-border/80 hover:bg-bg-card/80"
               )}
             >
+              {/* Gliding Active Background Pill */}
+              {active && (
+                <motion.div
+                  layoutId="activeExperienceCard"
+                  className="absolute inset-0 rounded-xl bg-accent/10 border border-accent/40 shadow-xs pointer-events-none"
+                  transition={
+                    shouldReduceMotion
+                      ? { duration: 0 }
+                      : { type: "spring", stiffness: 400, damping: 30 }
+                  }
+                />
+              )}
+
               {/* Milestone Node on the Vertical Spine */}
               <div className="relative z-10 mt-1 flex h-4 w-4 shrink-0 items-center justify-center">
                 {active ? (
@@ -121,7 +134,7 @@ export function DesktopTimeline({
                     transition={
                       shouldReduceMotion
                         ? { duration: 0 }
-                        : { type: "spring", stiffness: 380, damping: 28 }
+                        : { type: "spring", stiffness: 400, damping: 30 }
                     }
                   />
                 ) : null}

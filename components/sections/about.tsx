@@ -38,7 +38,7 @@ export default function AboutSection() {
           <SectionHeader
             label="Services"
             title="What I do"
-            description="Services and expertise I offer - from the first API to production deployment."
+            description="Services and expertise I offer: from initial API design to production deployment."
             className="mx-auto mb-10 max-w-xl text-center"
           />
         </FadeUp>

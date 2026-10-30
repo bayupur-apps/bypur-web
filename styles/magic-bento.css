@@ -1,0 +1,207 @@
+.magic-bento {
+  --mb-spring: cubic-bezier(0.34, 1.4, 0.64, 1);
+  position: relative;
+  box-sizing: border-box;
+  display: grid;
+  grid-auto-flow: row dense;
+  width: 100%;
+  color: var(--mb-ink);
+  font-feature-settings: 'tnum' 0;
+  -webkit-tap-highlight-color: transparent;
+
+  /* Theme tokens - Light Mode by default */
+  --mb-glow-rgb: 180, 83, 9;
+  --mb-accent-rgb: 180, 83, 9;
+  --mb-accent-ink: #ffffff;
+  --mb-surface: linear-gradient(180deg, #ffffff 0%, #f6f7f9 100%);
+  --mb-edge: rgba(15, 23, 42, 0.08);
+  --mb-highlight: rgba(255, 255, 255, 0.95);
+  --mb-shadow: 0 10px 25px -12px rgba(100, 116, 139, 0.15);
+  --mb-tile: linear-gradient(180deg, #ffffff 0%, #f4f5f7 100%);
+  --mb-tile-edge: rgba(15, 23, 42, 0.08);
+  --mb-tile-highlight: rgba(255, 255, 255, 1);
+  --mb-tile-shadow: 0 4px 10px -5px rgba(15, 23, 42, 0.12);
+  --mb-well: rgba(15, 23, 42, 0.03);
+  --mb-well-edge: rgba(15, 23, 42, 0.06);
+  --mb-ink: #0f172a;
+  --mb-muted: #526075;
+  --mb-faint: rgba(15, 23, 42, 0.2);
+  --mb-line: rgba(15, 23, 42, 0.08);
+  --mb-secondary: #64748b;
+  --mb-secondary-ink: #ffffff;
+  --mb-cursor-stroke: #ffffff;
+  --mb-ring: #ffffff;
+  --mb-focus: rgba(180, 83, 9, 0.5);
+  --mb-glow-alpha: 0.55;
+  --mb-spot-alpha: 0.045;
+}
+
+/* Theme tokens - Dark Mode (Tokyo Studio: Warm Solar Amber & Basalt Carbon) */
+:root[class~="dark"] .magic-bento,
+.dark .magic-bento,
+.magic-bento[data-theme="dark"] {
+  --mb-glow-rgb: 245, 158, 11;
+  --mb-accent-rgb: 245, 158, 11;
+  --mb-accent-ink: #0c0d10;
+  --mb-surface: linear-gradient(180deg, #161822 0%, #11131a 100%);
+  --mb-edge: rgba(255, 255, 255, 0.08);
+  --mb-highlight: rgba(245, 158, 11, 0.12);
+  --mb-shadow: 0 16px 36px -18px rgba(0, 0, 0, 0.85), 0 4px 12px -6px rgba(0, 0, 0, 0.5);
+  --mb-tile: linear-gradient(180deg, #1c1f29 0%, #12141a 100%);
+  --mb-tile-edge: rgba(255, 255, 255, 0.07);
+  --mb-tile-highlight: rgba(245, 158, 11, 0.15);
+  --mb-tile-shadow: 0 4px 12px -4px rgba(0, 0, 0, 0.7);
+  --mb-well: rgba(255, 255, 255, 0.03);
+  --mb-well-edge: rgba(255, 255, 255, 0.06);
+  --mb-ink: #f8fafc;
+  --mb-muted: #8b95a5;
+  --mb-faint: rgba(244, 244, 245, 0.25);
+  --mb-line: rgba(255, 255, 255, 0.08);
+  --mb-secondary: #94a3b8;
+  --mb-secondary-ink: #0c0d10;
+  --mb-cursor-stroke: rgba(12, 13, 16, 0.9);
+  --mb-ring: rgba(12, 13, 16, 0.85);
+  --mb-focus: rgba(245, 158, 11, 0.6);
+  --mb-glow-alpha: 0.85;
+  --mb-spot-alpha: 0.07;
+}
+
+@media (max-width: 639px) {
+  .magic-bento {
+    grid-template-columns: 1fr !important;
+    grid-template-rows: auto !important;
+  }
+  .magic-bento__cell {
+    grid-column: span 1 !important;
+    grid-row: auto !important;
+  }
+}
+
+.magic-bento__cell {
+  position: relative;
+  min-width: 0;
+  min-height: 0;
+  --mb-delay: 0ms;
+}
+
+.magic-bento[data-intro] .magic-bento__cell {
+  opacity: 0;
+  transform: translate3d(0, 16px, 0) scale(0.97);
+}
+
+.magic-bento[data-intro] .magic-bento__cell[data-state='in'] {
+  opacity: 1;
+  transform: none;
+  transition:
+    opacity 420ms cubic-bezier(0.22, 1, 0.36, 1) var(--mb-delay),
+    transform 760ms var(--mb-spring) var(--mb-delay);
+}
+
+.magic-bento__card {
+  position: relative;
+  box-sizing: border-box;
+  display: flex;
+  width: 100%;
+  height: 100%;
+  flex-direction: column;
+  overflow: hidden;
+  border-radius: var(--mb-radius, 14px);
+  background: var(--mb-surface);
+  box-shadow: var(--mb-shadow);
+  color: var(--mb-ink);
+  text-decoration: none;
+  isolation: isolate;
+  outline: none;
+  transform: perspective(900px) translate3d(var(--mb-tx, 0px), var(--mb-ty, 0px), 0) rotateX(var(--mb-rx, 0deg))
+    rotateY(var(--mb-ry, 0deg)) scale(var(--mb-press, 1));
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+.magic-bento__card[data-clickable] {
+  cursor: pointer;
+}
+
+.magic-bento__card:focus-visible {
+  box-shadow:
+    var(--mb-shadow),
+    0 0 0 2px var(--mb-focus);
+}
+
+.magic-bento__light {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  border-radius: inherit;
+  background: radial-gradient(
+    var(--mb-spot-size, 300px) circle at var(--mb-x, -999px) var(--mb-y, -999px),
+    rgba(var(--mb-glow-rgb), calc(var(--mb-spot-alpha) * var(--mb-hot, 0) * 1)) 0%,
+    rgba(var(--mb-glow-rgb), calc(var(--mb-spot-alpha) * var(--mb-hot, 0) * 0.97)) 15%,
+    rgba(var(--mb-glow-rgb), calc(var(--mb-spot-alpha) * var(--mb-hot, 0) * 0.84)) 30%,
+    rgba(var(--mb-glow-rgb), calc(var(--mb-spot-alpha) * var(--mb-hot, 0) * 0.59)) 45%,
+    rgba(var(--mb-glow-rgb), calc(var(--mb-spot-alpha) * var(--mb-hot, 0) * 0.32)) 60%,
+    rgba(var(--mb-glow-rgb), calc(var(--mb-spot-alpha) * var(--mb-hot, 0) * 0.1)) 75%,
+    rgba(var(--mb-glow-rgb), 0) 100%
+  );
+  pointer-events: none;
+}
+
+.magic-bento__rim {
+  position: absolute;
+  inset: 0;
+  z-index: 3;
+  border-radius: inherit;
+  box-shadow:
+    inset 0 0 0 1px var(--mb-edge),
+    inset 0 1px 0 var(--mb-highlight);
+  pointer-events: none;
+}
+
+.magic-bento__border {
+  position: absolute;
+  inset: 0;
+  z-index: 4;
+  box-sizing: border-box;
+  padding: 1px;
+  border-radius: inherit;
+  background:
+    radial-gradient(
+      var(--mb-border-size, 225px) circle at var(--mb-x, -999px) var(--mb-y, -999px),
+      rgba(var(--mb-glow-rgb), calc(var(--mb-glow-alpha) * var(--mb-near, 0) * 1)) 0%,
+      rgba(var(--mb-glow-rgb), calc(var(--mb-glow-alpha) * var(--mb-near, 0) * 0.97)) 15%,
+      rgba(var(--mb-glow-rgb), calc(var(--mb-glow-alpha) * var(--mb-near, 0) * 0.84)) 30%,
+      rgba(var(--mb-glow-rgb), calc(var(--mb-glow-alpha) * var(--mb-near, 0) * 0.59)) 45%,
+      rgba(var(--mb-glow-rgb), calc(var(--mb-glow-alpha) * var(--mb-near, 0) * 0.32)) 60%,
+      rgba(var(--mb-glow-rgb), calc(var(--mb-glow-alpha) * var(--mb-near, 0) * 0.1)) 75%,
+      rgba(var(--mb-glow-rgb), 0) 100%
+    ),
+    radial-gradient(
+      circle at var(--mb-wx, -999px) var(--mb-wy, -999px),
+      rgba(var(--mb-glow-rgb), 0) calc(var(--mb-wr, 0px) - 110px),
+      rgba(var(--mb-glow-rgb), calc(var(--mb-glow-alpha) * var(--mb-wa, 0) * 0.1)) calc(var(--mb-wr, 0px) - 80px),
+      rgba(var(--mb-glow-rgb), calc(var(--mb-glow-alpha) * var(--mb-wa, 0) * 0.32)) calc(var(--mb-wr, 0px) - 52px),
+      rgba(var(--mb-glow-rgb), calc(var(--mb-glow-alpha) * var(--mb-wa, 0) * 0.68)) calc(var(--mb-wr, 0px) - 28px),
+      rgba(var(--mb-glow-rgb), calc(var(--mb-glow-alpha) * var(--mb-wa, 0) * 0.94)) calc(var(--mb-wr, 0px) - 10px),
+      rgba(var(--mb-glow-rgb), calc(var(--mb-glow-alpha) * var(--mb-wa, 0))) calc(var(--mb-wr, 0px) - 3px),
+      rgba(var(--mb-glow-rgb), 0) var(--mb-wr, 0px)
+    );
+  -webkit-mask:
+    linear-gradient(#000 0 0) content-box,
+    linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+  mask:
+    linear-gradient(#000 0 0) content-box exclude,
+    linear-gradient(#000 0 0);
+  pointer-events: none;
+}
+
+.magic-bento__content {
+  position: relative;
+  z-index: 2;
+  box-sizing: border-box;
+  display: flex;
+  min-height: 0;
+  flex: 1;
+  flex-direction: column;
+  padding: var(--mb-pad, 12px);
+}

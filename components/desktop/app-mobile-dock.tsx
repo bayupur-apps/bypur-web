@@ -23,7 +23,7 @@ export function AppMobileDock({ items, activeId, onSelect }: Readonly<AppMobileD
   return (
     <nav
       aria-label="Mobile Navigation Dock"
-      className="fixed bottom-3 left-1/2 -translate-x-1/2 z-50 flex md:hidden items-center gap-1 rounded-full border border-border/80 bg-bg-card/95 p-1.5 shadow-xl backdrop-blur-xl max-w-[calc(100vw-20px)]"
+      className="fixed bottom-[calc(0.75rem+env(safe-area-inset-bottom,0px))] left-1/2 -translate-x-1/2 z-50 flex md:hidden items-center gap-1 rounded-full border border-border/80 bg-bg-card/95 p-1.5 shadow-xl backdrop-blur-xl max-w-[calc(100vw-20px)]"
     >
       {items.map((item) => {
         const isActive = activeId === item.id;

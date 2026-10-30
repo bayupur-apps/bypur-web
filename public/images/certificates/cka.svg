@@ -1,0 +1,44 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 400" width="100%" height="100%">
+  <defs>
+    <linearGradient id="k8sBlue" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#326CE5"/>
+      <stop offset="100%" stop-color="#2557B8"/>
+    </linearGradient>
+    <radialGradient id="ckaGlow" cx="50%" cy="40%" r="50%">
+      <stop offset="0%" stop-color="#326CE5" stop-opacity="0.25"/>
+      <stop offset="100%" stop-color="#326CE5" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+
+  <!-- Ambient Badge Glow -->
+  <circle cx="200" cy="180" r="140" fill="url(#ckaGlow)"/>
+
+  <!-- Badge Circle Ring -->
+  <circle cx="200" cy="170" r="110" fill="#151A28" stroke="url(#k8sBlue)" stroke-width="3.5"/>
+  <circle cx="200" cy="170" r="98" fill="none" stroke="rgba(245,158,11,0.3)" stroke-width="1"/>
+
+  <!-- Kubernetes Wheel Logo -->
+  <g transform="translate(150, 118)">
+    <!-- Wheel Hub -->
+    <circle cx="50" cy="50" r="24" fill="#326CE5"/>
+    <circle cx="50" cy="50" r="14" fill="#151A28"/>
+    <!-- 7 Spokes -->
+    <line x1="50" y1="50" x2="50" y2="10" stroke="#326CE5" stroke-width="5" stroke-linecap="round"/>
+    <line x1="50" y1="50" x2="85" y2="24" stroke="#326CE5" stroke-width="5" stroke-linecap="round"/>
+    <line x1="50" y1="50" x2="90" y2="65" stroke="#326CE5" stroke-width="5" stroke-linecap="round"/>
+    <line x1="50" y1="50" x2="68" y2="89" stroke="#326CE5" stroke-width="5" stroke-linecap="round"/>
+    <line x1="50" y1="50" x2="32" y2="89" stroke="#326CE5" stroke-width="5" stroke-linecap="round"/>
+    <line x1="50" y1="50" x2="10" y2="65" stroke="#326CE5" stroke-width="5" stroke-linecap="round"/>
+    <line x1="50" y1="50" x2="15" y2="24" stroke="#326CE5" stroke-width="5" stroke-linecap="round"/>
+  </g>
+
+  <!-- Typography -->
+  <text x="200" y="250" font-family="system-ui, -apple-system, sans-serif" font-size="12" font-weight="800" fill="#60A5FA" text-anchor="middle" letter-spacing="2">LINUX FOUNDATION &amp; CNCF</text>
+  <text x="200" y="270" font-family="system-ui, -apple-system, sans-serif" font-size="11" font-weight="600" fill="#F8FAFC" text-anchor="middle">CERTIFIED KUBERNETES ADMIN</text>
+  <text x="200" y="286" font-family="monospace" font-size="9" font-weight="700" fill="#93C5FD" text-anchor="middle" letter-spacing="1">CKA CLUSTER ARCHITECTURE</text>
+
+  <!-- Bottom Verification Pill -->
+  <rect x="120" y="340" width="160" height="26" rx="13" fill="#151A28" stroke="rgba(50,108,229,0.4)" stroke-width="1.2"/>
+  <circle cx="135" cy="353" r="3.5" fill="#10B981"/>
+  <text x="205" y="357" font-family="monospace" font-size="9" font-weight="600" fill="#F8FAFC" text-anchor="middle" letter-spacing="1">VERIFIED ACCREDITED</text>
+</svg>

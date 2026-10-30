@@ -14,13 +14,11 @@ import { servicesDefault } from "@/lib/data/services.default";
 import { skillsDefault } from "@/lib/data/skills.default";
 import type { Certificate, Experience, Profile, Project, Service, Skill } from "@/lib/types";
 import {
-  mapCertificate,
   mapExperience,
   mapOffering,
   mapProfile,
   mapProject,
   mapSkill,
-  type BackendCertificate,
   type BackendExperience,
   type BackendOffering,
   type BackendProfile,
@@ -65,10 +63,9 @@ export async function getProjects(): Promise<Project[]> {
   return projects ? projects.map(mapProject) : projectsDefault;
 }
 
-/** Get Certificates - fallback to static data (empty by default) if API unavailable */
+/** Get Certificates - returns local curated credentials directly without calling backend API */
 export async function getCertificates(): Promise<Certificate[]> {
-  const certificates = await fetchFromAPI<BackendCertificate[] | null>("/certificates", null);
-  return certificates ? certificates.map(mapCertificate) : certificatesDefault;
+  return certificatesDefault;
 }
 
 /**

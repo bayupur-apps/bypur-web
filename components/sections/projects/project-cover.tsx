@@ -3,28 +3,28 @@ import { findSkillIcon, type SkillIcon } from "@/lib/config/skill-icons";
 import { cn } from "@/lib/helpers";
 import type { Project } from "@/lib/types";
 import { hasRealImage, pickCoverPalette } from "./utils";
+import { Network } from "lucide-react";
 
-// Spelled out in full so Tailwind can detect them.
 const PALETTES = [
-  "from-secondary/35 via-secondary/10 to-tertiary/30 dark:from-secondary/25 dark:via-transparent dark:to-tertiary/30",
-  "from-tertiary/30 via-secondary/15 to-secondary/30 dark:from-tertiary/30 dark:via-transparent dark:to-secondary/25",
-  "from-secondary/30 via-accent/10 to-tertiary/25 dark:from-secondary/20 dark:via-accent/20 dark:to-tertiary/30",
-  "from-accent/20 via-secondary/20 to-secondary/35 dark:from-accent/40 dark:via-transparent dark:to-secondary/25",
+  "from-secondary/35 via-secondary/10 to-tertiary/30 dark:from-[#181B26] dark:via-[#12141D] dark:to-[#0D0F15]",
+  "from-tertiary/30 via-secondary/15 to-secondary/30 dark:from-[#1A1826] dark:via-[#12141D] dark:to-[#0D0F15]",
+  "from-secondary/30 via-accent/10 to-tertiary/25 dark:from-[#191C28] dark:via-[#131520] dark:to-[#0D0F15]",
+  "from-accent/20 via-secondary/20 to-secondary/35 dark:from-[#1E1A26] dark:via-[#14121A] dark:to-[#0D0F15]",
 ];
 
 function Glyph({ icon }: Readonly<{ icon: SkillIcon }>) {
   if (icon.kind === "lucide") {
     const Icon = icon.icon;
-    return <Icon size={22} strokeWidth={1.75} aria-hidden="true" />;
+    return <Icon size={20} strokeWidth={1.75} aria-hidden="true" />;
   }
   return (
-    <svg viewBox="0 0 24 24" fill="currentColor" className="h-5.5 w-5.5" aria-hidden="true">
+    <svg viewBox="0 0 24 24" fill="currentColor" className="h-5 w-5" aria-hidden="true">
       <path d={icon.path} />
     </svg>
   );
 }
 
-/** Stand-in cover built from the project's own stack when there's no screenshot. */
+/** Interactive Architecture HUD cover built from the project's tech stack and architecture metrics. */
 function GeneratedCover({ project }: Readonly<{ project: Project }>) {
   const logos = project.techStack
     .map((tech) => ({ tech, icon: findSkillIcon(tech) }))
@@ -39,32 +39,54 @@ function GeneratedCover({ project }: Readonly<{ project: Project }>) {
     .map((w) => w[0].toUpperCase())
     .join("");
 
+  const archType =
+    project.architectureHighlights?.[0] ??
+    (project.endpoints && project.endpoints.length > 0 ? "REST API Service" : "Fullstack Architecture");
+
   return (
     <div
       aria-hidden="true"
-      className={cn("relative h-full w-full overflow-hidden bg-linear-to-br", PALETTES[pickCoverPalette(project.title, PALETTES.length)])}
+      className={cn(
+        "relative h-full w-full overflow-hidden bg-gradient-to-br transition-all duration-300",
+        PALETTES[pickCoverPalette(project.title, PALETTES.length)]
+      )}
     >
-      {/* Faint grid, faded out towards the edges */}
-      <div className="absolute inset-0 bg-[linear-gradient(to_right,var(--border)_1px,transparent_1px),linear-gradient(to_bottom,var(--border)_1px,transparent_1px)] bg-size-[28px_28px] opacity-60 mask-[radial-gradient(ellipse_at_center,black_30%,transparent_75%)]" />
+      {/* Blueprint Grid Texture */}
+      <div className="absolute inset-0 bg-[linear-gradient(to_right,var(--border)_1px,transparent_1px),linear-gradient(to_bottom,var(--border)_1px,transparent_1px)] bg-[size:24px_24px] opacity-40 dark:opacity-50 [mask-image:radial-gradient(ellipse_at_center,black_40%,transparent_80%)]" />
 
-      <div className="absolute inset-0 flex items-center justify-center gap-3 transition-transform duration-500 group-hover:scale-105">
+      {/* Ambient Focal Glow */}
+      <div className="pointer-events-none absolute -top-8 left-1/2 -translate-x-1/2 h-32 w-48 rounded-full bg-accent/10 dark:bg-accent/15 blur-2xl" />
+
+      {/* Tech Stack Pods */}
+      <div className="absolute inset-0 flex items-center justify-center gap-3 transition-transform duration-300 group-hover:scale-105">
         {logos.length > 0 ? (
           logos.map(({ tech, icon }, i) => (
-            <span
+            <div
               key={tech}
               className={cn(
-                "flex h-13 w-13 items-center justify-center rounded-xl border border-border/70 glass-strong text-text-1 shadow-md dark:border-white/10",
-                i === 1 && "-translate-y-2"
+                "flex flex-col items-center gap-1 transition-transform duration-300",
+                i === 1 && "-translate-y-1.5"
               )}
             >
-              <Glyph icon={icon} />
-            </span>
+              <span className="flex h-12 w-12 items-center justify-center rounded-xl border border-border/80 bg-bg-card/90 dark:bg-[#151824]/90 backdrop-blur-xs text-text-1 shadow-md dark:border-white/10 group-hover:border-accent/50 group-hover:shadow-accent/10 transition-colors">
+                <Glyph icon={icon} />
+              </span>
+              <span className="font-mono text-[8px] font-semibold text-text-3 opacity-0 group-hover:opacity-100 transition-opacity">
+                {tech}
+              </span>
+            </div>
           ))
         ) : (
-          <span className="flex h-16 w-16 items-center justify-center rounded-xl border border-border/70 glass-strong text-xl font-bold text-text-1 shadow-md dark:border-white/10">
+          <span className="flex h-14 w-14 items-center justify-center rounded-xl border border-border/80 bg-bg-card/90 dark:bg-[#151824]/90 backdrop-blur-xs text-lg font-bold text-text-1 shadow-md dark:border-white/10">
             {initials}
           </span>
         )}
+      </div>
+
+      {/* Bottom Right HUD Archetype Pill */}
+      <div className="absolute right-2.5 bottom-2.5 z-10 hidden sm:flex items-center gap-1 px-2 py-0.5 rounded-md border border-border/60 bg-bg-card/85 dark:bg-[#0D0F15]/90 backdrop-blur-xs font-mono text-[8.5px] text-text-3 shadow-2xs">
+        <Network size={9} className="text-accent" />
+        <span className="truncate max-w-[150px]">{archType}</span>
       </div>
     </div>
   );

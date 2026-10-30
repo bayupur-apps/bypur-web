@@ -6,6 +6,7 @@ import { AppIslandDock, BASE_DOCK_ITEMS, type DockItem } from "@/components/desk
 import { AppMobileDock } from "@/components/desktop/app-mobile-dock";
 import { AppStatusBar } from "@/components/desktop/app-status-bar";
 import { AppWorkspaceCanvas } from "@/components/desktop/app-workspace-canvas";
+import { AppCanvasDecorations } from "@/components/desktop/app-canvas-decorations";
 import { PortfolioProvider, usePortfolio } from "@/contexts/portfolio-context";
 import type { PortfolioData } from "@/contexts/portfolio-context";
 
@@ -64,6 +65,9 @@ function PortfolioDesktopShell() {
 
   return (
     <div className="relative flex h-[100dvh] w-full flex-col justify-between overflow-hidden bg-bg text-text-1 select-none">
+      {/* Architectural Background Decorations (Micro-Noise & Solar Amber Studio Wash) */}
+      <AppCanvasDecorations />
+
       {/* Floating Left Island Dock */}
       <AppIslandDock
         items={dockItems}

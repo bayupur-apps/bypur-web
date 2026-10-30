@@ -1,0 +1,34 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 400" width="100%" height="100%">
+  <defs>
+    <linearGradient id="metaBlue" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0668E1"/>
+      <stop offset="100%" stop-color="#0081FB"/>
+    </linearGradient>
+    <radialGradient id="metaGlow" cx="50%" cy="40%" r="50%">
+      <stop offset="0%" stop-color="#0081FB" stop-opacity="0.25"/>
+      <stop offset="100%" stop-color="#0081FB" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+
+  <!-- Ambient Badge Glow -->
+  <circle cx="200" cy="180" r="140" fill="url(#metaGlow)"/>
+
+  <!-- Badge Circle Ring -->
+  <circle cx="200" cy="170" r="110" fill="#151926" stroke="url(#metaBlue)" stroke-width="3.5"/>
+  <circle cx="200" cy="170" r="98" fill="none" stroke="rgba(245,158,11,0.3)" stroke-width="1"/>
+
+  <!-- Meta Infinity Loop Graphic -->
+  <g transform="translate(135, 128)">
+    <path d="M65,30 C50,15 35,15 22,25 C8,35 5,55 18,68 C30,80 48,78 65,58 C82,78 100,80 112,68 C125,55 122,35 108,25 C95,15 80,15 65,30 Z" fill="none" stroke="url(#metaBlue)" stroke-width="12" stroke-linecap="round" stroke-linejoin="round"/>
+  </g>
+
+  <!-- Typography -->
+  <text x="200" y="248" font-family="system-ui, -apple-system, sans-serif" font-size="13" font-weight="800" fill="#38BDF8" text-anchor="middle" letter-spacing="2">META CERTIFIED</text>
+  <text x="200" y="268" font-family="system-ui, -apple-system, sans-serif" font-size="11" font-weight="600" fill="#F8FAFC" text-anchor="middle">FRONT-END DEVELOPER</text>
+  <text x="200" y="284" font-family="monospace" font-size="9" font-weight="700" fill="#94A3B8" text-anchor="middle" letter-spacing="1">PROFESSIONAL ACCREDITATION</text>
+
+  <!-- Bottom Verification Pill -->
+  <rect x="120" y="340" width="160" height="26" rx="13" fill="#151926" stroke="rgba(0,129,251,0.4)" stroke-width="1.2"/>
+  <circle cx="135" cy="353" r="3.5" fill="#10B981"/>
+  <text x="205" y="357" font-family="monospace" font-size="9" font-weight="600" fill="#F8FAFC" text-anchor="middle" letter-spacing="1">LIFETIME VALIDITY</text>
+</svg>

@@ -19,6 +19,7 @@ import {
 } from "lucide-react";
 import { useState, type FormEvent, useEffect } from "react";
 import { SectionContainer } from "@/components/ui/section-container";
+import { SectionTopBar } from "@/components/ui/section-top-bar";
 import { usePortfolio } from "@/contexts/portfolio-context";
 import { SOCIAL_SVG_PATHS } from "@/lib/config/constants";
 import { normalizeExternalUrl } from "@/lib/helpers";
@@ -129,30 +130,14 @@ export default function ContactSection() {
   return (
     <SectionContainer id="contact" background="default" className="py-0 sm:py-0">
       {/* Top Header Bar */}
-      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2 border-b border-border/50 pb-2 mb-3">
-        <div className="flex items-center justify-between sm:justify-start gap-2 w-full sm:w-auto min-w-0">
-          <div className="flex items-center gap-2 min-w-0">
-            <div className="flex h-5 w-5 shrink-0 items-center justify-center rounded-[5px] bg-accent/10 text-accent ring-1 ring-accent/20">
-              <MessageSquare size={12} />
-            </div>
-            <h2 className="text-xs sm:text-sm font-bold tracking-tight text-text-1 truncate">
-              {contactConfig.title || "Communication Hub & Direct Dispatch"}
-            </h2>
-          </div>
-          <span className="shrink-0 rounded-[4px] bg-accent/10 px-2 py-0.5 text-[9.5px] font-bold text-accent font-mono">
-            FAST RESPONSE
-          </span>
-        </div>
-
-        {profileData.location && (
-          <div className="hidden items-center gap-1.5 rounded-md border border-border/60 bg-bg-card px-2.5 py-0.5 font-mono text-[10px] text-text-3 sm:inline-flex">
-            <span>{profileData.location}</span>
-            <span className="font-semibold text-accent">
-              {time ? `${time} WIB` : "--:--"}
-            </span>
-          </div>
-        )}
-      </div>
+      <SectionTopBar
+        icon={MessageSquare}
+        title={contactConfig.title || "Communication Hub & Direct Dispatch"}
+        subtitle="// INBOX & COLLABORATION"
+        badge="FAST RESPONSE"
+        secondaryBadge={profileData.location ? `${profileData.location} · ${time ? `${time} WIB` : "--:--"}` : undefined}
+        className="mb-3"
+      />
 
       {/* Split-Stage Console: 7 cols Dispatch + 5 cols Comms */}
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-3 lg:h-[370px] xl:h-[375px] items-stretch">
@@ -257,7 +242,7 @@ export default function ContactSection() {
                       return (
                         <label
                           key={type}
-                          className={`group relative flex items-center justify-center gap-1.5 cursor-pointer rounded-md px-2.5 py-1 text-[10px] font-medium transition-all duration-150 select-none ${
+                          className={`group relative flex items-center justify-center gap-1.5 cursor-pointer rounded-md min-h-[44px] sm:min-h-[30px] px-2.5 py-2 sm:py-1 text-xs sm:text-[10px] font-medium transition-all duration-150 select-none ${
                             isSelected
                               ? "bg-accent text-accent-fg font-semibold shadow-xs"
                               : "border border-border/60 bg-bg-card/50 text-text-2 hover:border-accent/40 hover:text-text-1"
@@ -298,7 +283,7 @@ export default function ContactSection() {
                         if (status !== "idle") setStatus("idle");
                       }}
                       placeholder="e.g. Alex Pratama"
-                      className="w-full rounded-md border border-border/70 bg-bg-subtle/50 px-3 py-1.5 text-xs text-text-1 outline-none transition duration-150 placeholder:text-text-3/60 focus:border-accent focus:bg-bg-card focus:ring-1 focus:ring-accent"
+                      className="w-full rounded-md border border-border/70 bg-bg-subtle/50 px-3 py-2 sm:py-1.5 text-xs text-text-1 outline-none transition duration-150 placeholder:text-text-3/60 focus:border-accent focus:bg-bg-card focus:ring-1 focus:ring-accent"
                     />
                   </div>
                   <div>
@@ -317,7 +302,7 @@ export default function ContactSection() {
                         if (status !== "idle") setStatus("idle");
                       }}
                       placeholder="alex@company.com"
-                      className="w-full rounded-md border border-border/70 bg-bg-subtle/50 px-3 py-1.5 text-xs text-text-1 outline-none transition duration-150 placeholder:text-text-3/60 focus:border-accent focus:bg-bg-card focus:ring-1 focus:ring-accent"
+                      className="w-full rounded-md border border-border/70 bg-bg-subtle/50 px-3 py-2 sm:py-1.5 text-xs text-text-1 outline-none transition duration-150 placeholder:text-text-3/60 focus:border-accent focus:bg-bg-card focus:ring-1 focus:ring-accent"
                     />
                   </div>
                 </div>
@@ -355,7 +340,7 @@ export default function ContactSection() {
                 <button
                   type="submit"
                   disabled={status === "submitting"}
-                  className="group flex w-full items-center justify-center gap-1.5 rounded-lg bg-accent px-4 py-2 text-xs font-semibold text-accent-fg shadow-xs transition-all duration-150 hover:bg-accent-hover active:scale-98 disabled:cursor-not-allowed disabled:opacity-60 cursor-pointer"
+                  className="group flex w-full min-h-[44px] sm:min-h-[38px] items-center justify-center gap-1.5 rounded-lg bg-accent px-4 py-2.5 sm:py-2 text-xs sm:text-sm font-semibold text-accent-fg shadow-xs transition-all duration-150 hover:bg-accent-hover active:scale-98 disabled:cursor-not-allowed disabled:opacity-60 cursor-pointer"
                 >
                   <Send size={11} className="transition-transform duration-150 group-hover:translate-x-0.5" />
                   <span>{status === "submitting" ? "Transmitting..." : "Send Message"}</span>
@@ -405,7 +390,7 @@ export default function ContactSection() {
                       Email Direct (Primary)
                     </span>
                     <a
-                      href={`mailto:${effectiveEmail}`}
+                      href={`mailto:${effectiveEmail}?subject=${encodeURIComponent("Inquiry: Career / Project Opportunity")}`}
                       className="block truncate text-xs font-semibold text-text-1 group-hover:text-accent transition-colors"
                     >
                       {effectiveEmail}
@@ -416,7 +401,7 @@ export default function ContactSection() {
                   type="button"
                   onClick={() => copy(effectiveEmail)}
                   aria-label={copied ? "Copied" : "Copy email address"}
-                  className="flex h-7 w-7 shrink-0 items-center justify-center rounded-lg text-text-3 transition-colors hover:text-text-1 hover:bg-bg-card active:scale-95 cursor-pointer"
+                  className="flex h-8 w-8 sm:h-7 sm:w-7 shrink-0 items-center justify-center rounded-lg text-text-3 transition-colors hover:text-text-1 hover:bg-bg-card active:scale-95 cursor-pointer"
                 >
                   {copied ? <Check size={12} className="text-success" /> : <Copy size={12} />}
                 </button>
@@ -442,12 +427,12 @@ export default function ContactSection() {
                     href={
                       effectiveWhatsapp.startsWith("http")
                         ? effectiveWhatsapp
-                        : `https://wa.me/${effectiveWhatsapp.replace(/\D/g, "")}`
+                        : `https://wa.me/${effectiveWhatsapp.replace(/\D/g, "")}?text=${encodeURIComponent("Halo Bayu, saya tertarik mendiskusikan peluang kerja / proyek bersama Anda.")}`
                     }
                     target="_blank"
                     rel="noopener noreferrer"
                     aria-label="Chat on WhatsApp"
-                    className="flex h-7 w-7 shrink-0 items-center justify-center rounded-lg text-text-3 transition-colors hover:text-success hover:bg-bg-card active:scale-95"
+                    className="flex h-8 w-8 sm:h-7 sm:w-7 shrink-0 items-center justify-center rounded-lg text-text-3 transition-colors hover:text-success hover:bg-bg-card active:scale-95"
                   >
                     <ArrowUpRight size={13} />
                   </a>
@@ -485,7 +470,7 @@ export default function ContactSection() {
                   target="_blank"
                   rel="noopener noreferrer"
                   aria-label="GitHub Profile"
-                  className="flex items-center justify-between gap-1.5 rounded-lg border border-border/50 bg-bg-subtle/40 px-3 py-1.5 text-xs font-semibold text-text-2 transition-all hover:text-text-1 hover:border-accent/40 active:scale-95"
+                  className="flex items-center justify-between gap-1.5 rounded-lg border border-border/50 bg-bg-subtle/40 px-3 min-h-[44px] sm:min-h-[34px] py-2 sm:py-1.5 text-xs font-semibold text-text-2 transition-all hover:text-text-1 hover:border-accent/40 active:scale-95"
                 >
                   <div className="flex items-center gap-1.5">
                     <svg viewBox="0 0 24 24" fill="currentColor" className="h-3.5 w-3.5 text-accent">
@@ -503,7 +488,7 @@ export default function ContactSection() {
                   target="_blank"
                   rel="noopener noreferrer"
                   aria-label="LinkedIn Profile"
-                  className="flex items-center justify-between gap-1.5 rounded-lg border border-border/50 bg-bg-subtle/40 px-3 py-1.5 text-xs font-semibold text-text-2 transition-all hover:text-text-1 hover:border-accent/40 active:scale-95"
+                  className="flex items-center justify-between gap-1.5 rounded-lg border border-border/50 bg-bg-subtle/40 px-3 min-h-[44px] sm:min-h-[34px] py-2 sm:py-1.5 text-xs font-semibold text-text-2 transition-all hover:text-text-1 hover:border-accent/40 active:scale-95"
                 >
                   <div className="flex items-center gap-1.5">
                     <svg viewBox="0 0 24 24" fill="currentColor" className="h-3.5 w-3.5 text-accent">
@@ -521,7 +506,7 @@ export default function ContactSection() {
                   target="_blank"
                   rel="noopener noreferrer"
                   aria-label="Instagram Profile"
-                  className="flex items-center justify-between gap-1.5 rounded-lg border border-border/50 bg-bg-subtle/40 px-3 py-1.5 text-xs font-semibold text-text-2 transition-all hover:text-text-1 hover:border-accent/40 active:scale-95"
+                  className="flex items-center justify-between gap-1.5 rounded-lg border border-border/50 bg-bg-subtle/40 px-3 min-h-[44px] sm:min-h-[34px] py-2 sm:py-1.5 text-xs font-semibold text-text-2 transition-all hover:text-text-1 hover:border-accent/40 active:scale-95"
                 >
                   <div className="flex items-center gap-1.5">
                     <svg viewBox="0 0 24 24" fill="currentColor" className="h-3.5 w-3.5 text-accent">
@@ -539,7 +524,7 @@ export default function ContactSection() {
                   target="_blank"
                   rel="noopener noreferrer"
                   aria-label="Twitter Profile"
-                  className="flex items-center justify-between gap-1.5 rounded-lg border border-border/50 bg-bg-subtle/40 px-3 py-1.5 text-xs font-semibold text-text-2 transition-all hover:text-text-1 hover:border-accent/40 active:scale-95"
+                  className="flex items-center justify-between gap-1.5 rounded-lg border border-border/50 bg-bg-subtle/40 px-3 min-h-[44px] sm:min-h-[34px] py-2 sm:py-1.5 text-xs font-semibold text-text-2 transition-all hover:text-text-1 hover:border-accent/40 active:scale-95"
                 >
                   <div className="flex items-center gap-1.5">
                     <svg viewBox="0 0 24 24" fill="currentColor" className="h-3.5 w-3.5 text-accent">
@@ -557,7 +542,7 @@ export default function ContactSection() {
                   target="_blank"
                   rel="noopener noreferrer"
                   aria-label="YouTube Channel"
-                  className="flex items-center justify-between gap-1.5 rounded-lg border border-border/50 bg-bg-subtle/40 px-3 py-1.5 text-xs font-semibold text-text-2 transition-all hover:text-text-1 hover:border-accent/40 active:scale-95"
+                  className="flex items-center justify-between gap-1.5 rounded-lg border border-border/50 bg-bg-subtle/40 px-3 min-h-[44px] sm:min-h-[34px] py-2 sm:py-1.5 text-xs font-semibold text-text-2 transition-all hover:text-text-1 hover:border-accent/40 active:scale-95"
                 >
                   <div className="flex items-center gap-1.5">
                     <svg viewBox="0 0 24 24" fill="currentColor" className="h-3.5 w-3.5 text-accent">

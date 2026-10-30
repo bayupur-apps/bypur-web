@@ -70,10 +70,10 @@ export const profileDataDefault: Profile = {
 
   skills: {
     label: "Skills",
-    title: "Tools I use to build applications.",
-    titleHighlight: "build applications.",
+    title: "Technical Architecture & Matrix",
+    titleHighlight: "Technical Architecture",
     description:
-      "Languages, databases, and tools used across backend systems and full-stack applications.",
+      "Languages, databases, frameworks, and infrastructure tools across backend and full-stack systems.",
 
     cta: {
       label: "Projects",
@@ -101,11 +101,11 @@ export const profileDataDefault: Profile = {
 
   experience: {
     label: "Experience",
-    title: "Building real systems through practice.",
-    titleHighlight: "real systems.",
+    title: "Career Experience & Timeline",
+    titleHighlight: "Career Experience",
 
     description:
-      "Enterprise applications, backend systems, and internal workflows.",
+      "Enterprise applications, backend systems, and production engineering workflows.",
 
     stats: {
       yearsExp: "2+",
@@ -119,29 +119,29 @@ export const profileDataDefault: Profile = {
 
   projects: {
     label: "Projects",
-    title: "Selected projects from my CV.",
-    titleHighlight: "I've worked on.",
+    title: "Production Systems & Architecture",
+    titleHighlight: "Production Systems",
 
     description:
-      "Workflow automation, portfolio systems, and order management work.",
+      "Enterprise software architectures, backend workflows, and live deployments.",
   },
 
   certificates: {
     label: "Certificates",
-    title: "Credentials that back it up.",
-    titleHighlight: "back it up.",
+    title: "Professional Credentials & Licenses",
+    titleHighlight: "Professional Credentials",
 
     description:
-      "Certifications earned along the way to validate hands-on skills.",
+      "Verified industry accreditations validating hands-on engineering competencies.",
   },
 
   contact: {
     label: "Contact",
-    title: "Let's work together.",
-    titleHighlight: "together.",
+    title: "Communication Hub & Direct Dispatch",
+    titleHighlight: "Communication Hub",
 
     description:
-      "Contact me about backend systems, full-stack applications, or API work.",
+      "Get in touch for backend architecture, full-stack systems, or role inquiries.",
 
     info: [
       {

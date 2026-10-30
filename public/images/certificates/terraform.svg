@@ -1,0 +1,41 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 400" width="100%" height="100%">
+  <defs>
+    <linearGradient id="tfPurple" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#9333EA"/>
+      <stop offset="100%" stop-color="#6366F1"/>
+    </linearGradient>
+    <radialGradient id="tfGlow" cx="50%" cy="40%" r="50%">
+      <stop offset="0%" stop-color="#8B5CF6" stop-opacity="0.25"/>
+      <stop offset="100%" stop-color="#8B5CF6" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+
+  <!-- Ambient Badge Glow -->
+  <circle cx="200" cy="180" r="140" fill="url(#tfGlow)"/>
+
+  <!-- Terraform Hexagon -->
+  <polygon points="200,45 315,100 315,230 200,315 85,230 85,100" fill="#181726" stroke="url(#tfPurple)" stroke-width="3.5" stroke-linejoin="round"/>
+  <polygon points="200,56 303,106 303,222 200,298 97,222 97,106" fill="none" stroke="rgba(245,158,11,0.3)" stroke-width="1"/>
+
+  <!-- Terraform Blocks Logo -->
+  <g transform="translate(155, 105)">
+    <!-- Top-left -->
+    <polygon points="20,5 45,18 45,45 20,32" fill="#A855F7"/>
+    <!-- Top-right -->
+    <polygon points="50,20 75,7 75,34 50,47" fill="#8B5CF6"/>
+    <!-- Bottom-left -->
+    <polygon points="20,36 45,49 45,76 20,63" fill="#7C3AED"/>
+    <!-- Center block -->
+    <polygon points="50,51 75,38 75,65 50,78" fill="#6366F1"/>
+  </g>
+
+  <!-- Typography -->
+  <text x="200" y="250" font-family="system-ui, -apple-system, sans-serif" font-size="12" font-weight="800" fill="#C084FC" text-anchor="middle" letter-spacing="2">HASHICORP CERTIFIED</text>
+  <text x="200" y="270" font-family="system-ui, -apple-system, sans-serif" font-size="11" font-weight="600" fill="#F8FAFC" text-anchor="middle">TERRAFORM ASSOCIATE</text>
+  <text x="200" y="286" font-family="monospace" font-size="9" font-weight="700" fill="#F59E0B" text-anchor="middle" letter-spacing="1.5">INFRASTRUCTURE AS CODE</text>
+
+  <!-- Bottom Verification Pill -->
+  <rect x="120" y="340" width="160" height="26" rx="13" fill="#181726" stroke="rgba(147,51,234,0.4)" stroke-width="1.2"/>
+  <circle cx="135" cy="353" r="3.5" fill="#10B981"/>
+  <text x="205" y="357" font-family="monospace" font-size="9" font-weight="600" fill="#F8FAFC" text-anchor="middle" letter-spacing="1">VERIFIED ACCREDITED</text>
+</svg>

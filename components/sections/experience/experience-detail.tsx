@@ -13,6 +13,7 @@ import type { Experience } from "@/lib/types";
 import { detailPanelId, tabId } from "./desktop-timeline";
 import { formatDuration, isFreelance } from "./utils";
 import { CompanyAvatar } from "./company-avatar";
+import { SpotlightCard } from "@/components/ui/spotlight-card";
 
 export { companyInitials } from "./utils";
 
@@ -26,21 +27,25 @@ export function ExperienceDetail({ experience }: Readonly<ExperienceDetailProps>
 
   return (
     <FadeUp delay={0.1} className="w-full h-full min-h-0 flex flex-col">
-      <article
-        id={detailPanelId}
-        role="tabpanel"
-        aria-labelledby={tabId(experience.id)}
+      <SpotlightCard
+        as="article"
         className="relative rounded-2xl border border-border/70 bg-bg-card shadow-xs transition-colors flex flex-col h-full min-h-0 overflow-hidden"
       >
-        <AnimatePresence mode="wait">
-          <motion.div
-            key={experience.id}
-            initial={{ opacity: 0, y: 6 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -6 }}
-            transition={{ duration: 0.18, ease: [0.16, 1, 0.3, 1] }}
-            className="flex flex-col h-full min-h-0 overflow-hidden"
-          >
+        <div
+          id={detailPanelId}
+          role="tabpanel"
+          aria-labelledby={tabId(experience.id)}
+          className="flex flex-col h-full min-h-0 overflow-hidden"
+        >
+          <AnimatePresence mode="wait">
+            <motion.div
+              key={experience.id}
+              initial={{ opacity: 0, y: 6 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -6 }}
+              transition={{ duration: 0.18, ease: [0.16, 1, 0.3, 1] }}
+              className="flex flex-col h-full min-h-0 overflow-hidden"
+            >
             {/* Pinned Detail Header */}
             <header className="p-4 sm:p-5 pb-3 border-b border-border/50 shrink-0 bg-bg-card/90">
               <div className="flex flex-col sm:flex-row sm:items-start justify-between gap-2.5">
@@ -166,7 +171,8 @@ export function ExperienceDetail({ experience }: Readonly<ExperienceDetailProps>
             </div>
           </motion.div>
         </AnimatePresence>
-      </article>
+        </div>
+      </SpotlightCard>
     </FadeUp>
   );
 }

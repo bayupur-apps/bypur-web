@@ -5,4 +5,6 @@ export { HeroActions } from "./hero-actions";
 export { MobileStatsGrid } from "./mobile-stats";
 export { DesktopAvatar } from "./desktop-avatar";
 export { FloatingBadges } from "./floating-badges";
+export { ProfileCard } from "./profile-card";
+export type { ProfileCardProps } from "./profile-card";
 export { getDefaultMobileStats, mapRolesToIcons } from "./utils";
