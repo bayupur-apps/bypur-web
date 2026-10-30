@@ -15,8 +15,8 @@ __tests__
 *.spec.ts
 *.spec.tsx
 
-# Next.js
-.next
+# Next.js (hanya abaikan cache build, izinkan standalone & static)
+.next/cache
 out
 build
 dist
